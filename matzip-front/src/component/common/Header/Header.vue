@@ -49,7 +49,7 @@ onBeforeUnmount(() => {
 
     <div id="menu-catalog">
       <!-- 메뉴 리스트 -->
-      <ul id="menu" class="menu-items">
+      <!-- <ul id="menu" class="menu-items">
         <li id="mune-post" @click="toggleMenu('post')">
           Post
           <PostMenu v-if="activeMenu === 'post'" class="dropdown post-menu" @click="handleMenuItemClick"/>
@@ -60,7 +60,49 @@ onBeforeUnmount(() => {
         </li>
         <li id="menu-place">
           <a href="#">Place</a></li>
+      </ul> -->
+
+      <ul id="menu" class="menu-items">
+
+        <li class="menu-item">
+          <b-dropdown id="dropdown-menu" variant="light" offset="25" text="Post" class="m-2" no-caret="">
+            <b-dropdown-item>
+              <a href="">1번 게시판</a>
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <a href="">2번 게시판</a>
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <a href="">3번 게시판</a>
+            </b-dropdown-item>
+          </b-dropdown>
+        </li>
+
+        <li class="menu-item">
+          <b-dropdown id="dropdown-menu" variant="light" offset="25" text="List" class="m-2" no-caret="">
+            <b-dropdown-item>
+              <a href="">전체 리스트</a>
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <a href="">나의 리스트</a>
+            </b-dropdown-item>
+          </b-dropdown>
+        </li>
+
+        <li class="menu-item">
+          <b-dropdown id="dropdown-menu" variant="light" offset="25" text="Place" class="m-2" no-caret="">
+            <b-dropdown-item>
+              <a href="">프로필</a>
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <a href="">마이페이지</a>
+            </b-dropdown-item>
+          </b-dropdown>
+        </li>
+
       </ul>
+
+
     </div>
 
 
@@ -68,22 +110,19 @@ onBeforeUnmount(() => {
     <div id="best-tag">1. 인기 태그</div>
 
     <!-- UserIcom -->
-    <div>
+    <!-- <div>
       <i id="menu-user" class="fa-regular fa-user fa-xl" style="color: #ff6f20;" @click="toggleMenu('user')">
         <UserMenu v-if="activeMenu === 'user'" class="dropdown user-menu" @click="handleMenuItemClick"/>
       </i>
-    </div>
-
-    <!-- 드롭다운 컴포넌트 -->
-    <!-- <div v-if="activeMenu === 'post'" class="dropdown post-menu">
-      <post-menu @click="handleMenuItemClick" />
-    </div>
-    <div v-if="activeMenu === 'list'" class="dropdown list-menu">
-      <list-menu @click="handleMenuItemClick" />
-    </div>
-    <div v-if="activeMenu === 'user'" class="dropdown user-menu">
-      <user-menu @click="handleMenuItemClick" />
     </div> -->
+
+    <b-dropdown text="" variant="link" no-caret="">
+      <template>
+        <b-icon icon="person"></b-icon>
+      </template>
+      <b-dropdown-item>액션 1</b-dropdown-item>
+      <b-dropdown-item>액션 2</b-dropdown-item>
+    </b-dropdown>
 
   </nav>
 </template>
@@ -136,7 +175,6 @@ a {
 
 .menu-items > li {
   font-size: 20px;
-  margin-right: 20px;
   cursor: pointer;
 
 }
@@ -153,13 +191,14 @@ a {
   cursor: pointer;
 }
 
-
-
-.dropdown {
-  position: absolute;
-  background-color: white;
-  border: 1px solid #ddd;
-  z-index: 1000; /* 드롭다운이 다른 요소 위에 오도록 설정 */
-  /* 추가적인 스타일을 필요에 따라 조정 */
+#dropdown-menu {
+  color: #ff6f20;
 }
+
+.button-content:hover {
+  color: #ff6f20;
+}
+
+
+
 </style>
