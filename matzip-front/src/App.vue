@@ -1,5 +1,6 @@
 <script setup>
 import Header from "@/component/common/Header/Header.vue";
+import { RouterView } from 'vue-router';
 
 </script>
 
@@ -8,11 +9,13 @@ import Header from "@/component/common/Header/Header.vue";
     <Header/>
   </header>
   <main>
-
+    <RouterView/>
   </main>
   <footer>
+  <hr>
+  <h2>footer</h2>
+</footer>
 
-  </footer>
 </template>
 
 <style scoped>
