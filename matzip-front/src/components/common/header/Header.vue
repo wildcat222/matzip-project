@@ -1,8 +1,5 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import PostMenu from "@/component/common/Header/element/PostMenu.vue";
-import ListMenu from "@/component/common/Header/element/ListMenu.vue";
-import UserMenu from "@/component/common/Header/element/UserMenu.vue";
 
 const activeMenu = ref(null);
 
