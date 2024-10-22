@@ -1,6 +1,12 @@
 <script setup>
-import ElementBox from "@/component/userprofile-view/ElementBox.vue";
+import { ref } from "vue";
+import ElementBox from "@/components/userprofile/ElementBox.vue";
+import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
 
+const followerInfo = ref(false);
+const isVisibleFollowerInfo = () => {
+  followerInfo.value = !followerInfo.value;
+}
 </script>
 
 <template>
@@ -24,20 +30,39 @@ import ElementBox from "@/component/userprofile-view/ElementBox.vue";
 
         <section class="activity-info">
           <div>
-            <span>후기</span>
-            <br>
-            <a href="">123</a><span>개</span>
+            <div>
+              <span>후기</span>
+            </div>
+
+            <div>
+              <span>123</span>
+              <span>개</span>
+            </div>
+          </div>
+
+          <div>
+            <div>
+              <span>팔로잉</span>
+            </div>
+
+            <div>
+              <div @click="isVisibleFollowerInfo" class="followerBtn">(팔로잉 수)</div>
+            </div>
+
           </div>
           <div>
-            <span>팔로잉</span>
-            <br>
-            <a href="">123</a>
+            <div>
+              <span>팔로워</span>
+            </div>
+
+            <div>
+              <div @click="isVisibleFollowerInfo" class="followerBtn">(팔로워 수)</div>
+            </div>
           </div>
-          <div>
-            <span>팔로워</span>
-            <br>
-            <a href="">300</a>
-          </div>
+
+            <FollowerInfo v-if="followerInfo" id="followerInfoBox"/>
+
+
         </section>
 
         <section class="user-menu">
@@ -169,6 +194,17 @@ import ElementBox from "@/component/userprofile-view/ElementBox.vue";
 .list {
   width: 170px;
   height: 170px;
+}
+
+.followerBtn {
+  cursor: pointer;
+}
+
+#followerInfoBox {
+  position: absolute;
+  top: 110px;
+  left: 320px;
+  z-index: 10;
 }
 
 </style>
