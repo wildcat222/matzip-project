@@ -6,7 +6,7 @@ const route = createRouter({
     history: createWebHistory(),
     routes: [
         { path: "/", component: HomeView },
-        { path: "/revuew", component: () => import("@/views/review/Review.vue") },
+        { path: "/review", component: () => import("@/views/review/Review.vue") },
         { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
     ]
 });
