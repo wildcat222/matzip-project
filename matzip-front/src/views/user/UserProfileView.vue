@@ -1,5 +1,7 @@
 <script setup>
 import { ref } from "vue";
+import axios from "axios";
+import { useRoute } from 'vue-router';
 import ElementBox from "@/components/userprofile/ElementBox.vue";
 import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
 
@@ -7,6 +9,20 @@ const followerInfo = ref(false);
 const isVisibleFollowerInfo = () => {
   followerInfo.value = !followerInfo.value;
 }
+
+const route = useRoute();
+const userInfo = ref(null);
+
+// 유저 저 프로필 정보 조회 API 호출
+// const fetchUserInfo = async () => {
+//   try {
+//     const response = await axios.get();
+//     userInfo.value = response.data;
+//   } catch (error) {
+//     console.log('프로필 조회 중 에러가 발생했습니다.');
+//   }
+// }
+
 </script>
 
 <template>
@@ -35,6 +51,7 @@ const isVisibleFollowerInfo = () => {
             </div>
 
             <div>
+              <!--<span>{{ userInfo.value.listCount }}</span> -->
               <span>123</span>
               <span>개</span>
             </div>
@@ -46,7 +63,10 @@ const isVisibleFollowerInfo = () => {
             </div>
 
             <div>
-              <div @click="isVisibleFollowerInfo" class="followerBtn">(팔로잉 수)</div>
+              <div @click="isVisibleFollowerInfo" class="followerBtn">
+                <!-- {{ userInfo.value.folloingCount }} -->
+                <span>123</span>
+              </div>
             </div>
 
           </div>
@@ -56,7 +76,10 @@ const isVisibleFollowerInfo = () => {
             </div>
 
             <div>
-              <div @click="isVisibleFollowerInfo" class="followerBtn">(팔로워 수)</div>
+              <div @click="isVisibleFollowerInfo" class="followerBtn">
+                123
+                <!-- {{ userInfo.value.followerCount }} -->
+              </div>
             </div>
           </div>
 
