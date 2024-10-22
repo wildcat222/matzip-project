@@ -40,7 +40,7 @@ onBeforeUnmount(() => {
   <nav id="matzip-header" class="navbar">
     <!-- 아이콘 및 WebName -->
     <div id="web-main">
-      <img id="matzip-logo" src="@/asserts/matzip-img.png"/>
+      <img id="matzip-logo" src="@/asserts/matzip-logo.png"/>
       <a id="navbar-web-name" href="http://localhost:5173/">
         MatZip
       </a>
