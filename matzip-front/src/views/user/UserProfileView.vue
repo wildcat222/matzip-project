@@ -5,23 +5,113 @@ import { useRoute } from 'vue-router';
 import ElementBox from "@/components/userprofile/ElementBox.vue";
 import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
 
+
 const followerInfo = ref(false);
 const isVisibleFollowerInfo = () => {
   followerInfo.value = !followerInfo.value;
 }
 
 const route = useRoute();
-const userInfo = ref(null);
 
-// 유저 저 프로필 정보 조회 API 호출
-// const fetchUserInfo = async () => {
-//   try {
-//     const response = await axios.get();
-//     userInfo.value = response.data;
-//   } catch (error) {
-//     console.log('프로필 조회 중 에러가 발생했습니다.');
+// ---------------------test 를 위한 로직---------------------------------
+// 임시 토큰 저장
+const authStore = useAuthStore();
+
+import {useAuthStore} from "@/store.js";
+
+const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwiYXV0aCI6WyJ1c2VyIl0sImV4cCI6MTcyOTcxOTUyMH0.VqEI9V6r1kbnXNyycCpnAdZJP2xkgN-n_VZ90QjEx2aUOOzGOUsSvShKftlCQo2hQnRvQHHPhIzgXHMeMYqh8w';
+authStore.login(token);
+
+// 임시 userSeq
+const userSeq = 4
+// ------------------------------------------------------
+
+
+const userInfo = ref(null);
+const activityInfo = ref(null);
+const activityPoint = ref(null);
+const remainingPoint = ref(null);
+const promotionPoint = ref([500, 300, 200, 150, 100, 50]);
+
+// 유저 프로필 정보 조회 API 호출  -> 마지막에 로드 되면서 한번에 받아오게
+const fetchUserInfo = async () => {
+  try {
+    const response = await axios
+        .get(`http://localhost:8000/user/api/v1/user/${userSeq}`,{
+              headers: {
+                Authorization: `Bearer ${authStore.accessToken}`
+              }
+        });
+    userInfo.value = response.data['data2'];
+    activityInfo.value = userInfo.value['activityInfo'];
+    activityPoint.value = activityInfo.value['activityPoint'];
+    function remainCalc() {
+      for (let i = 0; i < promotionPoint.value.length; i++) {
+        if (activityPoint.value >= promotionPoint.value[i]) {
+          if (i - 1 < 0) {
+            remainingPoint.value = 0;
+            break;
+          }
+          remainingPoint.value = promotionPoint.value[i - 1] - activityPoint.value;
+          break;
+        }
+      }
+      remainingPoint.value = promotionPoint.value[promotionPoint.value.length - 1] - activityPoint.value;
+    }
+    remainCalc();
+    // ------------------------------------------------------
+    // userInfo.value = response.data['data2'];
+    // userInfo.value = response.data['data2']['activityInfo'];
+    // console.log(response.data['data2']);
+    // console.log(success.value);
+    // console.log(response.data);
+    // ------------------------------------------------------
+  } catch (error) {
+    // console.log('검색 중 오류 발생:', error);
+    console.log('프로필 조회 중 에러가 발생했습니다.');
+  }
+}
+
+
+// promotionPoint 추후에 테이블에서 값 가져오도록 수정 예정
+// const promotionPoint = ref([500, 300, 200, 150, 100, 50]);
+// // 내 활동 포인트
+// const activityInfo = ref(userInfo.value['activityInfo']);
+// const activityPoint = ref(activityInfo.value['activityPoint']);
+// const remainingPoint = () => {
+//   for (let i = 0; i < promotionPoint.value.length; i++) {
+//     if (activityPoint.value >= promotionPoint.value[i]) {
+//       if (i - 1 < 0) {
+//         remainingPoint.value = 0;
+//         break;
+//       }
+//       remainingPoint.value = promotionPoint.value[i - 1] - activityPoint.value;
+//       break;
+//     }
 //   }
+//   remainingPoint.value = promotionPoint.value[promotionPoint.value.length - 1] - activityPoint.value;
 // }
+
+
+
+// 유저 정보 상세조회 api
+
+
+// 다음 등급까지 남은 포인트
+
+
+// 팔로우 클릭 api
+
+
+// 유저가 작성한 후기 조회(본인, 타인) api
+
+
+// 유저가 작성한 리스트 목록 조회(본인 타인) api
+
+
+// 신고 생성 api
+
+
 
 </script>
 
@@ -30,10 +120,11 @@ const userInfo = ref(null);
   <div class="profile-container">
     <aside class="side-bar">
       <ElementBox id="profile-box" class="side-box">
+
         <section class="level">
-          <span>포인트 : 430</span>
+          <span>포인트 : {{ activityPoint }}</span>
           <br>
-          <span>다음 레벨까지 : 70</span>
+          <span>다음 레벨까지 : {{ remainingPoint }}</span>
         </section>
 
         <section class="user-nickname">
@@ -114,6 +205,14 @@ const userInfo = ref(null);
       <div>
         <span>Gugu</span>
         <span>님의 후기</span>
+        <!--        -->
+        <button @click="fetchUserInfo">api호출</button>
+        <br>
+        <div>{{ userInfo }}</div>
+        <br>
+        <div>{{ activityInfo }}</div>
+
+
       </div>
       <br>
       <br>
