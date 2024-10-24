@@ -1,8 +1,22 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import Logo from '@/components/common/Logo.vue';
 import PostMenu from "@/component/common/Header/element/PostMenu.vue";
 import ListMenu from "@/component/common/Header/element/ListMenu.vue";
 import UserMenu from "@/component/common/Header/element/UserMenu.vue";
+import { useAuthStore } from '@/components/stores/auth.js';
+import {useRouter} from "vue-router";
+
+const authStore = useAuthStore();
+const router = useRouter();
+
+function handleLogin() {
+  router.push('/login');
+}
+
+function handleLogout() {
+  authStore.logout();
+}
 
 const activeMenu = ref(null);
 
@@ -39,12 +53,13 @@ onBeforeUnmount(() => {
 <template>
   <nav id="matzip-header" class="navbar">
     <!-- 아이콘 및 WebName -->
-    <div id="web-main">
-      <img id="matzip-logo" src="@/asserts/matzip-logo.png"/>
-      <a id="navbar-web-name" href="http://localhost:5173/">
-        MatZip
-      </a>
-    </div>
+<!--    <div id="web-main">-->
+<!--      <img id="matzip-logo" src="@/assets/matzip-logo.png"/>-->
+<!--      <a id="navbar-web-name" href="http://localhost:5173/">-->
+<!--        MatZip-->
+<!--      </a>-->
+<!--    </div>-->
+    <Logo/>
 
 
     <div id="menu-catalog">
@@ -124,6 +139,11 @@ onBeforeUnmount(() => {
       <b-dropdown-item>액션 2</b-dropdown-item>
     </b-dropdown>
 
+      <div>
+        <button v-if="!authStore.accessToken" @click="handleLogin">로그인</button>
+        <button v-if="authStore.accessToken" @click="handleLogout">로그아웃</button>
+      </div>
+
   </nav>
 </template>
 
@@ -143,7 +163,7 @@ a {
   background-color: #f8f9fa;   /* 배경색 (선택) */
 }
 
-#web-main {
+/*#web-main {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -158,7 +178,7 @@ a {
   font-size: 25px;
   font-weight: bold;
   color: #ff6f20;
-}
+}*/
 
 
 #menu-catalog {
