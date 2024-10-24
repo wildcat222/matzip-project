@@ -11,7 +11,6 @@ const stateRestaurant = reactive({
 })
 
 const fetchRestaurant = async () => {
-  console.log(`Review.vue에서 get 요청을 시작했어요.`);
   try {
     const response = await axios.get(`http://localhost:8000/back/api/v1/restaurant`, {
       params: {
@@ -26,11 +25,9 @@ const fetchRestaurant = async () => {
   } catch (error) {
     console.error(`음식점 목록 불러오기 실패!`, error);
   }
-  console.log(`Review.vue에서 get 요청을 완료했어요.`);
 }
 
 onMounted(() => {
-  console.log(`Review.vue가 마운트되었어요.`);
   fetchRestaurant();
   });
 </script>
@@ -39,7 +36,6 @@ onMounted(() => {
   <h1>Review - View</h1>
   <div>
     <ReviewMap :restaurants="stateRestaurant.restaurants"/>
-    <span id="raw">{{ stateRestaurant }}</span>
   </div>
 </template>
 
