@@ -6,6 +6,7 @@ import ListAll from '@/views/Lists/ListAll.vue'
 
 const routes = [
     { path: '/', name: 'Home', component: Main, },
+    { path: "/post/create", component: () => import("@/views/post/PostCreate.vue")},
     // 리스트 라우팅
     { path: '/list', name: 'MatzipList', component: Lists },
     // 리스트 서랍 라우팅
