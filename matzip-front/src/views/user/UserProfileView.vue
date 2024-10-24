@@ -199,7 +199,7 @@ onMounted (() => {
             </div>
 
             <div>
-              <div @click="followChange" class="followerBtn">
+              <div @click="isVisibleFollowerInfo" class="followerBtn">
                 <span>{{ followingCount }}</span>
               </div>
             </div>
@@ -211,7 +211,7 @@ onMounted (() => {
             </div>
 
             <div>
-              <div @click="followChange" class="followerBtn">
+              <div @click="isVisibleFollowerInfo" class="followerBtn">
                 <span>{{ followerCount }}</span>
               </div>
             </div>
