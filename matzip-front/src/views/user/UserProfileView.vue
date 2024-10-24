@@ -1,17 +1,14 @@
 <script setup>
-import { ref } from "vue";
+import {ref, onMounted} from "vue";
 import axios from "axios";
 import { useRoute } from 'vue-router';
 import ElementBox from "@/components/userprofile/ElementBox.vue";
 import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
 
 
-const followerInfo = ref(false);
-const isVisibleFollowerInfo = () => {
-  followerInfo.value = !followerInfo.value;
-}
 
-const route = useRoute();
+
+
 
 // ---------------------test 를 위한 로직---------------------------------
 // 임시 토큰 저장
@@ -19,30 +16,47 @@ const authStore = useAuthStore();
 
 import {useAuthStore} from "@/store.js";
 
-const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwiYXV0aCI6WyJ1c2VyIl0sImV4cCI6MTcyOTcxOTUyMH0.VqEI9V6r1kbnXNyycCpnAdZJP2xkgN-n_VZ90QjEx2aUOOzGOUsSvShKftlCQo2hQnRvQHHPhIzgXHMeMYqh8w';
+const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwiYXV0aCI6WyJ1c2VyIl0sImV4cCI6MTcyOTc3NDUwOH0.JGP4oFvPGgIgHFG0bR76JERyg388i5s_hcaOjLQMkDwXyL9Tkg5ro58VFLLjAj3HO7yWIZLKegztLMFE9n2GDQ';
 authStore.login(token);
 
 // 임시 userSeq
 const userSeq = 4
 // ------------------------------------------------------
 
-
 const userInfo = ref(null);
+
 const activityInfo = ref(null);
 const activityPoint = ref(null);
 const remainingPoint = ref(null);
 const promotionPoint = ref([500, 300, 200, 150, 100, 50]);
 
-// 유저 프로필 정보 조회 API 호출  -> 마지막에 로드 되면서 한번에 받아오게
+const infoUserSeq = ref(null);
+
+const activityLevelName = ref(null);
+const userNickName = ref(null);
+
+const reviewCount = ref(null);
+const followingCount = ref(null);
+const followerCount = ref(null);
+const influencer = ref('N');
+
+const followerInfo = ref(false);
+
+// 유저 프로필 정보 조회 API 호출
 const fetchUserInfo = async () => {
   try {
-    const response = await axios
+    const ResUserInfo = await axios
         .get(`http://localhost:8000/user/api/v1/user/${userSeq}`,{
               headers: {
                 Authorization: `Bearer ${authStore.accessToken}`
               }
         });
-    userInfo.value = response.data['data2'];
+    userInfo.value = ResUserInfo.data['data2'];
+
+    // 1. 프로필 조회 대상 판단 (타인, 본인)
+    infoUserSeq.value = userInfo.value['userSeq'];
+
+    // 1. 등급 포인트 계산 o
     activityInfo.value = userInfo.value['activityInfo'];
     activityPoint.value = activityInfo.value['activityPoint'];
     function remainCalc() {
@@ -59,55 +73,84 @@ const fetchUserInfo = async () => {
       remainingPoint.value = promotionPoint.value[promotionPoint.value.length - 1] - activityPoint.value;
     }
     remainCalc();
-    // ------------------------------------------------------
-    // userInfo.value = response.data['data2'];
-    // userInfo.value = response.data['data2']['activityInfo'];
-    // console.log(response.data['data2']);
-    // console.log(success.value);
-    // console.log(response.data);
-    // ------------------------------------------------------
+
+    // 4. 등급, 닉네임 o
+    activityLevelName.value = activityInfo.value['activeLevelName'];
+    userNickName.value = userInfo.value['userNickname'];
+
+    // 3. 후기 및 팔로우,잉 count o
+    reviewCount.value = userInfo.value['reviewCount'];
+    followingCount.value = userInfo.value['followingCount'];
+    followerCount.value = userInfo.value['followerCount'];
+
+    // 4. 인플루언서 확인 뱃지 o
+    influencer.value = activityInfo.value['influencerYn'];
+
+    // 5. 내가 작성한 후기 목록(본인, 타인)
+
+
+    // 6. 내가 작성한 리스트 서랍(본인, 타인)
   } catch (error) {
     // console.log('검색 중 오류 발생:', error);
     console.log('프로필 조회 중 에러가 발생했습니다.');
   }
 }
 
+// 5. 팔로우 등록/취소 버튼 클릭 시 (이벤트)
+const followChange = async () => {
+  try {
+    const currentRoute = useRoute();
 
-// promotionPoint 추후에 테이블에서 값 가져오도록 수정 예정
-// const promotionPoint = ref([500, 300, 200, 150, 100, 50]);
-// // 내 활동 포인트
-// const activityInfo = ref(userInfo.value['activityInfo']);
-// const activityPoint = ref(activityInfo.value['activityPoint']);
-// const remainingPoint = () => {
-//   for (let i = 0; i < promotionPoint.value.length; i++) {
-//     if (activityPoint.value >= promotionPoint.value[i]) {
-//       if (i - 1 < 0) {
-//         remainingPoint.value = 0;
-//         break;
-//       }
-//       remainingPoint.value = promotionPoint.value[i - 1] - activityPoint.value;
-//       break;
-//     }
-//   }
-//   remainingPoint.value = promotionPoint.value[promotionPoint.value.length - 1] - activityPoint.value;
-// }
+    const ResFollow = await axios
+        .post('http://localhost:8000/user/api/v1/follow', {
+          "followingUserSeq": localStorage.getItem('userSeq'),// 로그인 유저
+          "followedUserSeq": currentRoute.params  // 타 유저
+        }, {
+          headers: {
+            Authorization: `Bearer ${authStore.accessToken}`
+          }
+        });
 
+    if(ResFollow.data['code'] === 200) {
 
+    }
 
-// 유저 정보 상세조회 api
+  } catch (error) {
+    console.log('서버와의 통신이 불안정합니다.'); // 수정 예정
+  }
 
+}
 
-// 다음 등급까지 남은 포인트
+function isVisibleFollowerInfo() {
+  followerInfo.value = !followerInfo.value;
 
-
-// 팔로우 클릭 api
-
-
-// 유저가 작성한 후기 조회(본인, 타인) api
+}
 
 
-// 유저가 작성한 리스트 목록 조회(본인 타인) api
 
+
+
+
+onMounted (() => {
+  fetchUserInfo()
+});
+
+
+
+// 마운트 전에 로그인 한 것인지 확인 -> BeforeMount / 맨 나중에
+
+// 1. 프로필 조회
+// 타인, 본인 회원 구분을 위한 본인인지 아닌지 확인 과정 필요 -> 화면 v-if로 구성
+
+// 2. 후기 조회
+// 유저가 작성한 후기 조회(본인, 타인) api -> OnMounted -> userSeq
+
+// 3. 리스트 서랍 조회
+// 유저가 작성한 리스트 목록 조회(본인 타인) api -> OnMounted -> userSeq
+// 본인 리스트 서랍 조회 -> 토큰의 userSeq / 타인 리스트 서랍 조회
+// -> 본인 (리스트 수정, 삭제 api) / 타인 (리스트 신고 api)
+
+// 4. 팔로우 등록/취소 api -> 버튼 클릭 시(이벤트)
 
 // 신고 생성 api
 
@@ -128,7 +171,9 @@ const fetchUserInfo = async () => {
         </section>
 
         <section class="user-nickname">
-          <h3> (등급)Gugu</h3>
+          <i>{{ activityLevelName }}</i><br>
+          <h4> {{ userNickName }}</h4>
+          <span>{{ influencer }}</span>
         </section>
 
         <section class="follow-button">
@@ -143,7 +188,7 @@ const fetchUserInfo = async () => {
 
             <div>
               <!--<span>{{ userInfo.value.listCount }}</span> -->
-              <span>123</span>
+              <span>{{ reviewCount }}</span>
               <span>개</span>
             </div>
           </div>
@@ -155,8 +200,7 @@ const fetchUserInfo = async () => {
 
             <div>
               <div @click="isVisibleFollowerInfo" class="followerBtn">
-                <!-- {{ userInfo.value.folloingCount }} -->
-                <span>123</span>
+                <span>{{ followingCount }}</span>
               </div>
             </div>
 
@@ -167,9 +211,8 @@ const fetchUserInfo = async () => {
             </div>
 
             <div>
-              <div @click="isVisibleFollowerInfo" class="followerBtn">
-                123
-                <!-- {{ userInfo.value.followerCount }} -->
+              <div @click="followChange" class="followerBtn">
+                <span>{{ followerCount }}</span>
               </div>
             </div>
           </div>
@@ -205,14 +248,6 @@ const fetchUserInfo = async () => {
       <div>
         <span>Gugu</span>
         <span>님의 후기</span>
-        <!--        -->
-        <button @click="fetchUserInfo">api호출</button>
-        <br>
-        <div>{{ userInfo }}</div>
-        <br>
-        <div>{{ activityInfo }}</div>
-
-
       </div>
       <br>
       <br>
