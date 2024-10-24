@@ -8,13 +8,11 @@ import { RouterView } from 'vue-router';
 <header>
   <Header/>
 </header>
-<main>
+<section class="flex-shrink-0">
+  <div class="container">
     <RouterView/>
-  </main>
-  <footer>
-  <hr>
-  <h2>footer</h2>
-</footer>
+  </div>
+</section>
 </template>
 
 <style scoped>

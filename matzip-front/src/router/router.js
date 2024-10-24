@@ -1,24 +1,25 @@
-import HomeView from "@/views/home/HomeView.vue"
-
 import { createRouter, createWebHistory } from "vue-router";
+import HomeView from "@/views/home/HomeView.vue"
 import {useAuthStore} from "@/components/stores/auth.js";
 
-const route = createRouter({
+const routes = [
+    { path: "/", component: HomeView },
+    { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
+    { path: "/auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
+    { path: "/auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
+    { path: "/auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
+    { path: "/post/create", component: () => import("@/views/post/PostCreate.vue")},
+    { path: "/review", component: () => import("@/views/review/Review.vue") },
+    { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
+];
+
+const router = createRouter({
     history: createWebHistory(),
-    routes: [
-        { path: "/", component: HomeView },
-        { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
-        { path: "/auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
-        { path: "/auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
-        { path: "/auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
-        { path: "/revuew", component: () => import("@/views/review/Review.vue") },
-        { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
-    ]
+    routes,
 });
 
-
 /* Navigation Guard : beforeEach 가드를 사용하여 라우트 이동 전에 인증 상태를 체크한다. */
-route.beforeEach((to, from, next) => { //라우팅 하려고하는곳, 하기전, 한후
+router.beforeEach((to, from, next) => { //라우팅 하려고하는곳, 하기전, 한후
     const authStore = useAuthStore();
 
     // 인증이 필요한 페이지에 접근할 때
@@ -31,9 +32,9 @@ route.beforeEach((to, from, next) => { //라우팅 하려고하는곳, 하기전
         next({path: `/user/${userSeq}`}); // 마이페이지로 리디렉션
     // } else if(to.path === '/auth/reset-password') {
     //     next({path: '/login'});
-    }else {
+    } else {
         next(); // 나머지 경우는 계속 진행
     }
 });
 
-export default route;
+export default router;
