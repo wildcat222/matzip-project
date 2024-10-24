@@ -2,15 +2,18 @@
   <div class="main-container">
 
     <h1 class="space-text">Space</h1>
+
 <!--     맵 & 인기태그-->
     <div class="main-map">
       <current-map />
       <hot-tag :tags="tags" />
     </div>
+
 <!--  인기 리스트  -->
     <div class="main-list">
       <hot-list :items="hotListItem" />
     </div>
+
 <!--  게시판  -->
     <div class="main-post">
       <home-post :boards="boards" />
@@ -31,7 +34,7 @@ const tags = ref([]);
 const errorMessage = ref(null);
 // 인기 리스트 배열 선언
 const hotListItem = ref([]);
-게시판 배열 선언
+//게시판 배열 선언
 const boards = ref([]);
 
 
@@ -60,19 +63,35 @@ onMounted(async () =>{
 
 
     // 게시판 데이터 가져오기
-      const page=1;
-      const size=2;
-      const boardSeq=1; // 초기값 설정, 나중에 증가 가
+    const page=1;
+    const size=5;
+    const maxBoardSeq = 5; // 최대 게시판 번호 지정
 
-      const postResponse = await axios.get('http://localhost:8000/back/api/v1/boards/${boardSeq}/posts',{
-        params: { page, size }
-      });
+    for (let boardSeq = 1; boardSeq <= maxBoardSeq; boardSeq++){
+      try{
+        const postResponse = await axios.get(`http://localhost:8000/back/api/v1/boards/${boardSeq}/posts`, {
+          params: { page, size }
+        });
 
-      boards.value = postResponse.data.map(post => ({
-        name: post.boardCategoryName,
-        recentPosts: post.postTitle
-      }));
-      console.log(listResponse)
+        // 게시판이 존재하는 경우에만 데이터 추가
+        if (postResponse.data.data2 && postResponse.data.data2.posts) {
+          const recentPosts = postResponse.data.data2.posts.map(post => ({
+            title: post.postTitle,
+            userNickname: post.userNickname,
+            boardCategoryName: post.boardCategoryName
+          }));
+
+          // 해당 boardSeq에 대한 정보 추가
+          boards.value.push({
+            name: recentPosts[0].boardCategoryName,
+            recentPosts: recentPosts
+
+          });
+        }
+      } catch(error){
+        console.log(`Board ${boardSeq} 데이터 가져오기 실패:`, error);
+      }
+    }
   } catch(error){
     console.error('데이터 가져오기 실패:', error);
     errorMessage.value = error.response ? error.response.data.message : error.message; // 에러메세지 저장
