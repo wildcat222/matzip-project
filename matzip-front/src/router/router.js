@@ -8,7 +8,8 @@ const route = createRouter({
         { path: "/", component: HomeView },
         { path: "/revuew", component: () => import("@/views/review/Review.vue") },
         { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
-        { path: "/user/:userSeq", component: () => import("@/views/user/UserProfileView.vue") },
+        { path: "/user/:userSeq", component: () => import("@/views/user/UserProfileView.vue")
+            , meta: { requiresAuth: true } },
     ]
 });
 
