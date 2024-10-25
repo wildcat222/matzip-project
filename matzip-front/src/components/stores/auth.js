@@ -1,7 +1,5 @@
-
-import { ref, onMounted } from 'vue';
 import { defineStore } from 'pinia';
-
+import { ref, onMounted } from 'vue';
 
 export const useAuthStore = defineStore('auth', () => {
     const accessToken = ref(null);
@@ -17,10 +15,9 @@ export const useAuthStore = defineStore('auth', () => {
         }
     });
 
-    function login(token, userSeq) {
+    function login(token) {
         accessToken.value = token;
         localStorage.setItem('accessToken', token); // 토큰을 localStorage에 저장
-        localStorage.setItem('userSeq', userSeq);
         const payload = JSON.parse(atob(token.split('.')[1])); // JWT 토큰의 페이로드 추출
         userRole.value = payload.auth;
     }

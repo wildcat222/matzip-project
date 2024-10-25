@@ -1,11 +1,8 @@
 <script setup>
 import {onMounted, ref} from 'vue';
-import {useRoute, useRouter} from "vue-router";
 import axios from 'axios';
 import SelectComponent from '../../../components/admin/admin-views/user-search/SelectComponent.vue';
-import {useAuthStore} from "@/store/Auth.js";
 
-const authStore = useAuthStore();
 
 const orderBy = ref('');
 const selectedOption = ref('');

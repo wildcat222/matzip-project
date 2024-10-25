@@ -6,11 +6,11 @@
     <div class="container-fluid">
       <div class="row align-items-center">
         <div class="col-auto row align-items-center">
-          <img class="col-auto"  src="@/assets/logo/matzip-logo.png" alt="Logo" style="width: 120px; height: 100px" />
+          <img class="col-auto" src="../../../assets/matzip-logo.png" alt="Logo" style="width: 120px; height: 100px" />
           <h1 class="h4  col-auto" style="font-size: 30px">MatZip</h1>
         </div>
         <h1 class="h4 col-auto me-2" style="font-size: 35px">관리자 페이지</h1>
-        <img class="fixed-icon" src="@/assets/logo/person.png" alt="회원" style="width: 50px; height: 50px"/>
+        <img class="fixed-icon" src="../../../assets/person.png" alt="회원" style="width: 50px; height: 50px"/>
       </div>
     </div>
 

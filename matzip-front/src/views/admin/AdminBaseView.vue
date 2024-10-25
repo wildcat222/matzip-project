@@ -1,7 +1,7 @@
 <script setup>
 
-import AdminHeader from "@/components/admin/common/header/AdminHeader.vue";
-import AdminCommonNav from "@/components/admin/common/nav/AdminCommonNav.vue";
+import AdminHeader from "@/components/admin/common/AdminHeader.vue";
+import AdminCommonNav from "@/components/admin/common/AdminCommonNav.vue";
 </script>
 
 <template>
