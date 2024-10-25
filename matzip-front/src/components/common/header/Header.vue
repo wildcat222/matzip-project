@@ -9,7 +9,7 @@ const router = useRouter();
 const activeMenu = ref(null);
 
 function handleLogin() {
-  router.push('/login');
+  router.push('/user/login');
 }
 
 function handleLogout() {
@@ -59,6 +59,13 @@ onBeforeUnmount(() => {
 
 <template>
   <nav id="matzip-header" class="navbar">
+    <!-- 아이콘 및 WebName -->
+<!--    <div id="web-main">-->
+<!--      <img id="matzip-logo" src="@/assets/matzip-logo.png"/>-->
+<!--      <a id="navbar-web-name" href="http://localhost:5173/">-->
+<!--        MatZip-->
+<!--      </a>-->
+<!--    </div>-->
     <Logo/>
 
 
@@ -139,6 +146,24 @@ a {
   border-bottom: 2px solid #ff6f20;
   background-color: #f8f9fa;   /* 배경색 (선택) */
 }
+
+/*#web-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#matzip-logo {
+  width: 50px;
+  height: 50px;
+}
+
+#navbar-web-name {
+  font-size: 25px;
+  font-weight: bold;
+  color: #ff6f20;
+}*/
+
 
 #menu-catalog {
   margin-left: 30px;
