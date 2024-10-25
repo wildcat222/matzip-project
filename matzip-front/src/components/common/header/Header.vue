@@ -63,19 +63,6 @@ onBeforeUnmount(() => {
 
 
     <div id="menu-catalog">
-      <!-- 메뉴 리스트 -->
-      <!-- <ul id="menu" class="menu-items">
-        <li id="mune-post" @click="toggleMenu('post')">
-          Post
-          <PostMenu v-if="activeMenu === 'post'" class="dropdown post-menu" @click="handleMenuItemClick"/>
-        </li>
-        <li id="menu-list" @click="toggleMenu('list')">
-          <span>List</span>
-          <ListMenu v-if="activeMenu === 'list'" class="dropdown list-menu" @click="handleMenuItemClick"/>
-        </li>
-        <li id="menu-place">
-          <a href="#">Place</a></li>
-      </ul> -->
 
       <ul id="menu" class="menu-items">
 
@@ -123,13 +110,6 @@ onBeforeUnmount(() => {
 
     <!-- 인기 태그 노출 -->
     <div id="best-tag">1. 인기 태그</div>
-
-    <!-- UserIcom -->
-    <!-- <div>
-      <i id="menu-user" class="fa-regular fa-user fa-xl" style="color: #ff6f20;" @click="toggleMenu('user')">
-        <UserMenu v-if="activeMenu === 'user'" class="dropdown user-menu" @click="handleMenuItemClick"/>
-      </i>
-    </div> -->
 
     <b-dropdown text="" variant="link" no-caret="">
       <template>
