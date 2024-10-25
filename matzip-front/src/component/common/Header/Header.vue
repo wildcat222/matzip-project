@@ -1,9 +1,6 @@
 <script setup>
+import {onBeforeUnmount, onMounted} from "vue";
 import { ref, onMounted, onBeforeUnmount } from 'vue';
-import Logo from '@/components/common/Logo.vue';
-import PostMenu from "@/component/common/Header/element/PostMenu.vue";
-import ListMenu from "@/component/common/Header/element/ListMenu.vue";
-import UserMenu from "@/component/common/Header/element/UserMenu.vue";
 import { useAuthStore } from '@/components/stores/auth.js';
 import {useRouter} from "vue-router";
 
@@ -34,10 +31,10 @@ function handleClickOutside(event) {
   if (!isClickInsideDropdown) {
     activeMenu.value = null; // 드롭다운 외부 클릭 시 숨김
   }
-}
 
-function handleMenuItemClick() {
-  activeMenu.value = null; // 메뉴 항목 클릭 시 드롭다운 숨김
+  function handleMenuItemClick() {
+    activeMenu.value = null; // 메뉴 항목 클릭 시 드롭다운 숨김
+  }
 }
 
 onMounted(() => {
@@ -52,13 +49,6 @@ onBeforeUnmount(() => {
 
 <template>
   <nav id="matzip-header" class="navbar">
-    <!-- 아이콘 및 WebName -->
-<!--    <div id="web-main">-->
-<!--      <img id="matzip-logo" src="@/assets/matzip-logo.png"/>-->
-<!--      <a id="navbar-web-name" href="http://localhost:5173/">-->
-<!--        MatZip-->
-<!--      </a>-->
-<!--    </div>-->
     <Logo/>
 
 
@@ -162,24 +152,6 @@ a {
   border-bottom: 2px solid #ff6f20;
   background-color: #f8f9fa;   /* 배경색 (선택) */
 }
-
-/*#web-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#matzip-logo {
-  width: 50px;
-  height: 50px;
-}
-
-#navbar-web-name {
-  font-size: 25px;
-  font-weight: bold;
-  color: #ff6f20;
-}*/
-
 
 #menu-catalog {
   margin-left: 30px;
