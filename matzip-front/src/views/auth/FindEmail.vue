@@ -57,8 +57,14 @@ const token = localStorage.getItem('token');
         </nav>
 
         <div class="find-form">
-          <InputField label="이름" placeholder="이름을 입력하세요." v-model="name" />
-          <InputField label="휴대폰 번호" placeholder="휴대폰 번호를 입력하세요." v-model="phone" />
+          <InputField label="이름"
+                      placeholder="이름을 입력하세요."
+                      @keyup.enter="findEmail"
+                      v-model="name" />
+          <InputField label="휴대폰 번호"
+                      placeholder="휴대폰 번호를 입력하세요."
+                      @keyup.enter="findEmail"
+                      v-model="phone" />
 
           <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 

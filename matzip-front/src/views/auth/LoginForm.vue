@@ -50,8 +50,19 @@ async function handleLogin() {
       <Logo size="150px"/>
       <div class="login-form">
         <div class="login-form-inputs">
-          <InputField label="Email" id="email" placeholder="이메일을 입력하세요" v-model="email" class="left-aligned-label" />
-          <InputField label="Password" id="password" type="password" placeholder="비밀번호를 입력하세요" v-model="password" class="left-aligned-label" />
+          <InputField label="Email"
+                      id="email"
+                      placeholder="이메일을 입력하세요"
+                      v-model="email"
+                      @keyup.enter="handleLogin"
+                      class="left-aligned-label" />
+          <InputField label="Password"
+                      id="password"
+                      type="password"
+                      placeholder="비밀번호를 입력하세요"
+                      v-model="password"
+                      @keyup.enter="handleLogin"
+                      class="left-aligned-label" />
         </div>
 
         <div v-if="errorMessage" class="error-message"  v-html="errorMessage"></div>

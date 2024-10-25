@@ -55,8 +55,14 @@ async function sendPasswordEmail() {
         </nav>
 
         <div class="find-form">
-          <InputField label="이메일" placeholder="가입한 이메일을 입력하세요." v-model="email" />
-          <InputField label="휴대폰 번호" placeholder="휴대폰 번호를 입력하세요." v-model="phone" />
+          <InputField label="이메일"
+                      placeholder="가입한 이메일을 입력하세요."
+                      @keyup.enter="sendPasswordEmail"
+                      v-model="email" />
+          <InputField label="휴대폰 번호"
+                      placeholder="휴대폰 번호를 입력하세요."
+                      @keyup.enter="sendPasswordEmail"
+                      v-model="phone" />
 
           <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 
