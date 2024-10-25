@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/home/HomeView.vue"
 import {useAuthStore} from "@/components/stores/auth.js";
-import ListAll from "@/views/Lists/ListAll.vue";
+import ListAll from "@/views/lists/ListAll.vue";
 
 const routes = [
     { path: "/", component: HomeView },
@@ -14,6 +14,9 @@ const routes = [
     { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
     // 모든리스트 조회 라우팅
     { path: '/listAll', name: 'ListAll', component: ListAll },
+    // 리스트 상세 조회 라우팅
+    { path: "/list/detail/:listSeq", component: () => import("@/views/lists/ListDetail.vue") },
+
 ];
 
 const router = createRouter({
