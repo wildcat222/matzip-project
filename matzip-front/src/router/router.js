@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "@/views/home/HomeView.vue"
 import {useAuthStore} from "@/components/stores/auth.js";
 import UserSearch from "@/views/admin/admin-views/UserSearch.vue";
 import ActivityLevelSearch from "@/views/admin/admin-views/ActivityLevelSearch.vue";
@@ -8,12 +7,12 @@ import UserBase from "@/views/user/UserBase.vue";
 import ListAll from "@/views/Lists/ListAll.vue";
 
 const routes = [
-    { path: "/", component: HomeView },
     { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
     {
         path: "/user",
         component: UserBase,
         children: [
+            { path: "/", component: () => import("@/views/home/HomeView.vue")},
             { path: "auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
             { path: "auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
             { path: "auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
