@@ -46,9 +46,13 @@ const routes = [
                 path: "active-level",
                 component: ActivityLevelSearch
             },
+            {
+                path: "user/:userSeq",
+                component: () => import('@/views/admin/admin-views/UserDetail.vue')
+            },
             // {
-            //     page: "user/:userSeq"
-            //     component: () => import('@/views/admin/admin-views/userDetail')
+            //     path: 'report-search',
+            //     component: () => import('@/views/admin/admin-views/ReportSearch.vue')
             // }
         ]
     }
