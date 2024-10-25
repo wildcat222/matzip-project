@@ -50,8 +50,8 @@ async function sendPasswordEmail() {
       <h1>이메일/비밀번호 찾기</h1>
       <div class="content-wrapper">
         <nav class="tab-menu">
-          <router-link to="/auth/find-email">이메일 찾기</router-link>
-          <router-link to="/auth/find-password" class="active">비밀번호 찾기</router-link>
+          <router-link to="/user/auth/find-email">이메일 찾기</router-link>
+          <router-link to="/user/auth/find-password" class="active">비밀번호 찾기</router-link>
         </nav>
 
         <div class="find-form">

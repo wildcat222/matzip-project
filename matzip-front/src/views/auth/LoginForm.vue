@@ -59,11 +59,11 @@ async function handleLogin() {
         <Button @click="handleLogin" label="로그인" width="100%" height="40px" />
 
         <div class="login-links">
-          <router-link to="/auth/register" class="signup-link">회원가입</router-link>
+          <router-link to="/user/auth/register" class="signup-link">회원가입</router-link>
           <div class="find-links">
-            <router-link to="/auth/find-email">Email 찾기</router-link>
+            <router-link to="/user/auth/find-email">Email 찾기</router-link>
             <span class="separator">|</span>
-            <router-link to="/auth/find-password">Password 찾기</router-link>
+            <router-link to="/user/auth/find-password">Password 찾기</router-link>
           </div>
         </div>
       </div>
