@@ -9,19 +9,18 @@ import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
 
 
 
-
+// import {useAuthStore} from "@/components/stores/auth.js";
+// const authStore = useAuthStore();
 // ---------------------test 를 위한 로직---------------------------------
+
 // 임시 토큰 저장
-const authStore = useAuthStore();
-
-import {useAuthStore} from "@/store.js";
-
-const token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0IiwiYXV0aCI6WyJ1c2VyIl0sImV4cCI6MTcyOTc3NDUwOH0.JGP4oFvPGgIgHFG0bR76JERyg388i5s_hcaOjLQMkDwXyL9Tkg5ro58VFLLjAj3HO7yWIZLKegztLMFE9n2GDQ';
-authStore.login(token);
+// authStore.login(token);
 
 // 임시 userSeq
-const userSeq = 4
 // ------------------------------------------------------
+const currentRoute = useRoute();
+
+const userSeq = ref(null);
 
 const userInfo = ref(null);
 
@@ -45,10 +44,12 @@ const followerInfo = ref(false);
 // 유저 프로필 정보 조회 API 호출
 const fetchUserInfo = async () => {
   try {
+    userSeq.value = currentRoute.params;
+
     const ResUserInfo = await axios
         .get(`http://localhost:8000/user/api/v1/user/${userSeq}`,{
               headers: {
-                Authorization: `Bearer ${authStore.accessToken}`
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
               }
         });
     userInfo.value = ResUserInfo.data['data2'];
@@ -99,15 +100,16 @@ const fetchUserInfo = async () => {
 // 5. 팔로우 등록/취소 버튼 클릭 시 (이벤트)
 const followChange = async () => {
   try {
-    const currentRoute = useRoute();
+    const followingUserSeq = localStorage.getItem('accessToken'); // 토큰에서 userSeq 빼오도록 수정해야함
+    const followedUserSeq = currentRoute.params;
 
     const ResFollow = await axios
         .post('http://localhost:8000/user/api/v1/follow', {
-          "followingUserSeq": localStorage.getItem('userSeq'),// 로그인 유저
-          "followedUserSeq": currentRoute.params  // 타 유저
+          "followingUserSeq": followingUserSeq, // 로그인 유저
+          "followedUserSeq": followedUserSeq  // 타 유저
         }, {
           headers: {
-            Authorization: `Bearer ${authStore.accessToken}`
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
         });
 
@@ -177,6 +179,7 @@ onMounted (() => {
         </section>
 
         <section class="follow-button">
+          <!-- followChange 이벤트 발생시킬 버튼 -->
           <button>follow</button>
         </section>
 
