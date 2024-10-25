@@ -18,6 +18,9 @@ const routes = [
             { path: "auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
             { path: "auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
             { path: "post/create", component: () => import("@/views/post/PostCreate.vue")},
+            { path: "post/:id/edit", component: () => import("@/views/post/PostEdit.vue") },
+            { path: "post", component: () => import("@/views/post/PostList.vue") },
+            { path: "post/:id", component: () => import("@/views/post/PostDetail.vue") },
             { path: "review", component: () => import("@/views/review/Review.vue") },
             { path: "review/detail", component: () => import("@/views/review/Detail.vue") },
             // 모든리스트 조회 라우팅
