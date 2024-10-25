@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import Logo from '@/components/common/Logo.vue';
 import { useAuthStore } from '@/components/stores/auth.js';
 import {useRouter} from "vue-router";
 
 const authStore = useAuthStore();
 const router = useRouter();
+const activeMenu = ref(null);
 
 function handleLogin() {
   router.push('/login');
@@ -14,17 +16,10 @@ function handleLogout() {
   authStore.logout();
 }
 
-const activeMenu = ref(null);
-
-function toggleMenu(component) {
-  activeMenu.value = activeMenu.value === component ? null : component;
-}
-
 function handleClickOutside(event) {
   const dropdowns = document.querySelectorAll('.dropdown');
-  const activeMenu = document.querySelector('.dropdown.active');
 
-  if (activeMenu) {
+  if (activeMenu.value) {
     const isClickInsideDropdown = Array.from(dropdowns).some(dropdown =>
         dropdown.contains(event.target)
     );
@@ -33,18 +28,31 @@ function handleClickOutside(event) {
       activeMenu.value = null; // 드롭다운 외부 클릭 시 숨김
     }
   }
-
-  function handleMenuItemClick() {
-    activeMenu.value = null; // 메뉴 항목 클릭 시 드롭다운 숨김
-  }
 }
 
+function handleMenuItemClick() {
+  activeMenu.value = null; // 메뉴 항목 클릭 시 드롭다운 숨김
+}
+
+// onMounted 와 onBeforeUnmount 훅 사용
 onMounted(() => {
   document.addEventListener('click', handleClickOutside); // 외부 클릭 리스너 추가
+
+  // 메뉴 항목 클릭 리스너 추가
+  const menuItems = document.querySelectorAll('.dropdown .menu-item');
+  menuItems.forEach(item => {
+    item.addEventListener('click', handleMenuItemClick);
+  });
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside); // 컴포넌트 언마운트 시 리스너 제거
+
+  // 메뉴 항목 클릭 리스너 제거
+  const menuItems = document.querySelectorAll('.dropdown .menu-item');
+  menuItems.forEach(item => {
+    item.removeEventListener('click', handleMenuItemClick);
+  });
 });
 
 </script>
