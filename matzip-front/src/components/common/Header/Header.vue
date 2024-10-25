@@ -1,9 +1,9 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import Logo from '@/components/common/Logo.vue';
-import PostMenu from "@/component/common/Header/element/PostMenu.vue";
-import ListMenu from "@/component/common/Header/element/ListMenu.vue";
-import UserMenu from "@/component/common/Header/element/UserMenu.vue";
+import PostMenu from "@/components/common/Header/element/PostMenu.vue";
+import ListMenu from "@/components/common/Header/element/ListMenu.vue";
+import UserMenu from "@/components/common/Header/element/UserMenu.vue";
 import { useAuthStore } from '@/components/stores/auth.js';
 import {useRouter} from "vue-router";
 

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
-import ReviewMap from '@/component/review/ReviewMap.vue';
+import ReviewMap from '@/components/review/ReviewMap.vue';
 import axios from "axios";
 
 const stateRestaurant = reactive({
