@@ -1,10 +1,11 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/home/HomeView.vue"
 import {useAuthStore} from "@/components/stores/auth.js";
 import UserSearch from "@/views/admin/admin-views/UserSearch.vue";
 import ActivityLevelSearch from "@/views/admin/admin-views/ActivityLevelSearch.vue";
 import AdminBaseView from "@/views/admin/AdminBaseView.vue";
 import UserBase from "@/views/user/UserBase.vue";
+import ListAll from "@/views/Lists/ListAll.vue";
 
 const routes = [
     { path: "/", component: HomeView },
@@ -19,6 +20,8 @@ const routes = [
             { path: "review", component: () => import("@/views/review/Review.vue") },
             { path: "review/detail", component: () => import("@/views/review/Detail.vue") },
             { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
+            // 모든리스트 조회 라우팅
+            { path: '/listAll', name: 'ListAll', component: ListAll },
         ]
     },
     // { path: "/auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
