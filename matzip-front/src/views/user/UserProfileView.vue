@@ -7,17 +7,6 @@ import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
 
 
 
-
-
-// import {useAuthStore} from "@/components/stores/auth.js";
-// const authStore = useAuthStore();
-// ---------------------test 를 위한 로직---------------------------------
-
-// 임시 토큰 저장
-// authStore.login(token);
-
-// 임시 userSeq
-// ------------------------------------------------------
 const currentRoute = useRoute();
 
 const userSeq = ref(null);
@@ -44,10 +33,10 @@ const followerInfo = ref(false);
 // 유저 프로필 정보 조회 API 호출
 const fetchUserInfo = async () => {
   try {
-    userSeq.value = currentRoute.params;
+    userSeq.value = currentRoute.params.userSeq;
 
     const ResUserInfo = await axios
-        .get(`http://localhost:8000/user/api/v1/user/${userSeq}`,{
+        .get(`http://localhost:8000/user/api/v1/user/${userSeq.value}`,{
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
               }
