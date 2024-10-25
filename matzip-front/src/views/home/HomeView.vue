@@ -107,7 +107,6 @@ onMounted(async () =>{
   flex-direction: column; /* 수직 정렬을 위해 열 방향으로 설정 */
   justify-content: center; /* 수평 가운데 정렬 */
   align-items: center; /* 수직 가운데 정렬 */
-  height: 100vh; /* 화면 전체 높이를 사용 */
 }
 
 .main-map {
