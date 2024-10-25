@@ -2,12 +2,18 @@
 import {ref, onMounted} from "vue";
 import axios from "axios";
 import { useRoute } from 'vue-router';
+import { useAuthStore } from "@/components/stores/auth.js";
 import ElementBox from "@/components/userprofile/ElementBox.vue";
 import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
+import UserReview from "@/components/userprofile/UserReview.vue";
+import UserProfile from "@/components/userprofile/UserProfile.vue";
 
 
 
 const currentRoute = useRoute();
+const authStore = useAuthStore();
+
+const isMyProfile = ref(true);
 
 const userSeq = ref(null);
 
@@ -27,26 +33,31 @@ const reviewCount = ref(null);
 const followingCount = ref(null);
 const followerCount = ref(null);
 const influencer = ref('N');
+const isInfluencer = ref(false);
+
+const followActive = ref(false);
 
 const followerInfo = ref(false);
 
 // 유저 프로필 정보 조회 API 호출
 const fetchUserInfo = async () => {
   try {
-    userSeq.value = currentRoute.params.userSeq;
+    infoUserSeq.value = currentRoute.params.userSeq;
 
     const ResUserInfo = await axios
-        .get(`http://localhost:8000/user/api/v1/user/${userSeq.value}`,{
+        .get(`http://localhost:8000/user/api/v1/user/${infoUserSeq.value}`,{
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
               }
         });
     userInfo.value = ResUserInfo.data['data2'];
 
-    // 1. 프로필 조회 대상 판단 (타인, 본인)
-    infoUserSeq.value = userInfo.value['userSeq'];
+    // 1. 프로필 조회 대상 판단 (타인, 본인) o
+    if (authStore.userSeq !== infoUserSeq.value) {
+      isMyProfile.value = !isMyProfile;
+    }
 
-    // 1. 등급 포인트 계산 o
+    // 1. 등급 포인트 계산 o -> 프로필 컴포넌트로 이동해야함
     activityInfo.value = userInfo.value['activityInfo'];
     activityPoint.value = activityInfo.value['activityPoint'];
     function remainCalc() {
@@ -75,11 +86,19 @@ const fetchUserInfo = async () => {
 
     // 4. 인플루언서 확인 뱃지 o
     influencer.value = activityInfo.value['influencerYn'];
+    console.log(influencer);
 
-    // 5. 내가 작성한 후기 목록(본인, 타인)
+    isInfluencer.value = () => {
+      if (influencer.value === 'Y') {
+        isInfluencer.value = !isInfluencer.value;
+      }
+      console.log(isInfluencer.value);
+    }
+    // 5. 유저가 작성한 후기 조회(본인, 타인) api -> OnMounted -> userSeq
+
+    // 6. 유저가 작성한 리스트 목록 조회(본인 타인) api -> OnMounted -> userSeq
 
 
-    // 6. 내가 작성한 리스트 서랍(본인, 타인)
   } catch (error) {
     // console.log('검색 중 오류 발생:', error);
     console.log('프로필 조회 중 에러가 발생했습니다.');
@@ -87,7 +106,7 @@ const fetchUserInfo = async () => {
 }
 
 // 5. 팔로우 등록/취소 버튼 클릭 시 (이벤트)
-const followChange = async () => {
+const handleFollowChange = async () => {
   try {
     const followingUserSeq = localStorage.getItem('accessToken'); // 토큰에서 userSeq 빼오도록 수정해야함
     const followedUserSeq = currentRoute.params;
@@ -103,7 +122,7 @@ const followChange = async () => {
         });
 
     if(ResFollow.data['code'] === 200) {
-
+      followActive.value = !followActive;
     }
 
   } catch (error) {
@@ -114,38 +133,32 @@ const followChange = async () => {
 
 function isVisibleFollowerInfo() {
   followerInfo.value = !followerInfo.value;
-
 }
 
 
 
+// 5. 내가 작성한 후기 목록(본인, 타인)
+
+// 6. 내가 작성한 리스트 서랍(본인, 타인)
 
 
-
-onMounted (() => {
-  fetchUserInfo()
-});
-
-
-
-// 마운트 전에 로그인 한 것인지 확인 -> BeforeMount / 맨 나중에
 
 // 1. 프로필 조회
 // 타인, 본인 회원 구분을 위한 본인인지 아닌지 확인 과정 필요 -> 화면 v-if로 구성
 
-// 2. 후기 조회
-// 유저가 작성한 후기 조회(본인, 타인) api -> OnMounted -> userSeq
+// 2. 팔로우 등록/취소 api -> 버튼 클릭 시(이벤트)
 
-// 3. 리스트 서랍 조회
-// 유저가 작성한 리스트 목록 조회(본인 타인) api -> OnMounted -> userSeq
+// 3. 후기 조회
+
+// 4. 리스트 서랍 조회
 // 본인 리스트 서랍 조회 -> 토큰의 userSeq / 타인 리스트 서랍 조회
 // -> 본인 (리스트 수정, 삭제 api) / 타인 (리스트 신고 api)
 
-// 4. 팔로우 등록/취소 api -> 버튼 클릭 시(이벤트)
-
 // 신고 생성 api
 
-
+// onMounted(() => {
+//   fetchUserInfo()
+// })
 
 </script>
 
@@ -153,6 +166,7 @@ onMounted (() => {
   <!-- 사이드 메뉴 -->
   <div class="profile-container">
     <aside class="side-bar">
+      <UserProfile/>
       <ElementBox id="profile-box" class="side-box">
 
         <section class="level">
@@ -163,13 +177,18 @@ onMounted (() => {
 
         <section class="user-nickname">
           <i>{{ activityLevelName }}</i><br>
+
           <h4> {{ userNickName }}</h4>
-          <span>{{ influencer }}</span>
+
+          <div v-if="isInfluencer" id="influencer-icon">
+            <i class="fa-solid fa-heart-circle-check"/>
+          </div>
+
         </section>
 
         <section class="follow-button">
           <!-- followChange 이벤트 발생시킬 버튼 -->
-          <button>follow</button>
+          <button @click="handleFollowChange">follow</button>
         </section>
 
         <section class="activity-info">
@@ -291,7 +310,7 @@ onMounted (() => {
 
 <style scoped>
 .profile-container {
-  margin-left: 30px;
+  margin-top: 30px;
   display: grid;
   grid-template-columns: 280px 1fr 1fr;
   grid-template-rows: 400px 400px;
