@@ -14,6 +14,10 @@
     content: {
       type: String,
       required: true,
+    },
+    commentCount: {
+      type: Number,
+      required: true,
     }
   });
 </script>
@@ -26,6 +30,10 @@
     </div>
     <h2>{{ title }}</h2>
     <p>{{ content }}</p>
+    <div class="countCmt">
+      <img src="../../assets/CommentMark.png"/>
+      <p>{{ commentCount }}</p>
+    </div>
   </div>
 </template>
 
@@ -41,5 +49,8 @@ h2 {
 }
 h3 {
   color: #555;
+}
+.countCmt{
+  display:flex;
 }
 </style>
