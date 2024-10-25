@@ -1,6 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router';
-import Header from "@/components/common/header/Header.vue";
+import Header from "@/components/common/Header/Header.vue";
 
 </script>
 
@@ -8,8 +8,10 @@ import Header from "@/components/common/header/Header.vue";
   <header>
     <Header/>
   </header>
-  <section>
-    <RouterView/>
+  <section class="flex-shrink-0">
+    <div class="container">
+      <RouterView/>
+    </div>
   </section>
 </template>
 
