@@ -1,117 +1,52 @@
 <script setup>
 import {ref, onMounted} from "vue";
 import axios from "axios";
-import { useRoute } from 'vue-router';
-import { useAuthStore } from "@/components/stores/auth.js";
+import {useRoute} from 'vue-router';
+// import { useAuthStore } from "@/components/stores/auth.js";
 import ElementBox from "@/components/userprofile/ElementBox.vue";
-import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
-import UserReview from "@/components/userprofile/UserReview.vue";
 import UserProfile from "@/components/userprofile/UserProfile.vue";
 
 
 
+
+const userData = ref(null);
 const currentRoute = useRoute();
-const authStore = useAuthStore();
 
-const isMyProfile = ref(true);
+onMounted(async () => {
 
-const userSeq = ref(null);
-
-const userInfo = ref(null);
-
-const activityInfo = ref(null);
-const activityPoint = ref(null);
-const remainingPoint = ref(null);
-const promotionPoint = ref([500, 300, 200, 150, 100, 50]);
-
-const infoUserSeq = ref(null);
-
-const activityLevelName = ref(null);
-const userNickName = ref(null);
-
-const reviewCount = ref(null);
-const followingCount = ref(null);
-const followerCount = ref(null);
-const influencer = ref('N');
-const isInfluencer = ref(false);
-
-const followActive = ref(false);
-
-const followerInfo = ref(false);
-
-// 유저 프로필 정보 조회 API 호출
-const fetchUserInfo = async () => {
   try {
-    infoUserSeq.value = currentRoute.params.userSeq;
+    // 1. 회원 상세 정보 조회 api 호출
+    const infoUserSeq = currentRoute.params.userSeq;
+    // console.log(infoUserSeq); // 로그 확인 용
+    const response = await axios.get(`http://localhost:8000/user/api/v1/user/${infoUserSeq}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
+    });
+    userData.value = await response.data.data2;
+    // console.log(userData);  // 로그 확인 용
 
-    const ResUserInfo = await axios
-        .get(`http://localhost:8000/user/api/v1/user/${infoUserSeq.value}`,{
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-              }
-        });
-    userInfo.value = ResUserInfo.data['data2'];
 
-    // 1. 프로필 조회 대상 판단 (타인, 본인) o
-    if (authStore.userSeq !== infoUserSeq.value) {
-      isMyProfile.value = !isMyProfile;
-    }
 
-    // 1. 등급 포인트 계산 o -> 프로필 컴포넌트로 이동해야함
-    activityInfo.value = userInfo.value['activityInfo'];
-    activityPoint.value = activityInfo.value['activityPoint'];
-    function remainCalc() {
-      for (let i = 0; i < promotionPoint.value.length; i++) {
-        if (activityPoint.value >= promotionPoint.value[i]) {
-          if (i - 1 < 0) {
-            remainingPoint.value = 0;
-            break;
-          }
-          remainingPoint.value = promotionPoint.value[i - 1] - activityPoint.value;
-          break;
-        }
-      }
-      remainingPoint.value = promotionPoint.value[promotionPoint.value.length - 1] - activityPoint.value;
-    }
-    remainCalc();
 
-    // 4. 등급, 닉네임 o
-    activityLevelName.value = activityInfo.value['activeLevelName'];
-    userNickName.value = userInfo.value['userNickname'];
-
-    // 3. 후기 및 팔로우,잉 count o
-    reviewCount.value = userInfo.value['reviewCount'];
-    followingCount.value = userInfo.value['followingCount'];
-    followerCount.value = userInfo.value['followerCount'];
-
-    // 4. 인플루언서 확인 뱃지 o
-    influencer.value = activityInfo.value['influencerYn'];
-    console.log(influencer);
-
-    isInfluencer.value = () => {
-      if (influencer.value === 'Y') {
-        isInfluencer.value = !isInfluencer.value;
-      }
-      console.log(isInfluencer.value);
-    }
     // 5. 유저가 작성한 후기 조회(본인, 타인) api -> OnMounted -> userSeq
 
     // 6. 유저가 작성한 리스트 목록 조회(본인 타인) api -> OnMounted -> userSeq
 
 
-  } catch (error) {
-    // console.log('검색 중 오류 발생:', error);
-    console.log('프로필 조회 중 에러가 발생했습니다.');
-  }
-}
 
-// 5. 팔로우 등록/취소 버튼 클릭 시 (이벤트)
-const handleFollowChange = async () => {
+
+  } catch (error) {
+    console.log("에러 발생: " + error);
+  }
+});
+
+// 5. 팔로우 등록/취소 버튼 클릭 시 (이벤트) -> 작동 확인 못함
+const followActive = ref(false);
+const followChange = async () => {
   try {
-    const followingUserSeq = localStorage.getItem('accessToken'); // 토큰에서 userSeq 빼오도록 수정해야함
+    const followingUserSeq = localStorage.getItem('userSeq');
     const followedUserSeq = currentRoute.params;
 
-    const ResFollow = await axios
+    const response = await axios
         .post('http://localhost:8000/user/api/v1/follow', {
           "followingUserSeq": followingUserSeq, // 로그인 유저
           "followedUserSeq": followedUserSeq  // 타 유저
@@ -121,18 +56,13 @@ const handleFollowChange = async () => {
           }
         });
 
-    if(ResFollow.data['code'] === 200) {
+    if(response.data.code === 200) {
       followActive.value = !followActive;
     }
 
   } catch (error) {
-    console.log('서버와의 통신이 불안정합니다.'); // 수정 예정
+    console.log('서버와의 통신이 불안정합니다.' + error); // 수정 예정
   }
-
-}
-
-function isVisibleFollowerInfo() {
-  followerInfo.value = !followerInfo.value;
 }
 
 
@@ -140,7 +70,6 @@ function isVisibleFollowerInfo() {
 // 5. 내가 작성한 후기 목록(본인, 타인)
 
 // 6. 내가 작성한 리스트 서랍(본인, 타인)
-
 
 
 // 1. 프로필 조회
@@ -156,9 +85,6 @@ function isVisibleFollowerInfo() {
 
 // 신고 생성 api
 
-// onMounted(() => {
-//   fetchUserInfo()
-// })
 
 </script>
 
@@ -166,77 +92,79 @@ function isVisibleFollowerInfo() {
   <!-- 사이드 메뉴 -->
   <div class="profile-container">
     <aside class="side-bar">
-      <UserProfile/>
-      <ElementBox id="profile-box" class="side-box">
+<!--      <div>{{userData}}</div>-->
+      <UserProfile :userData="userData" @follow-click="followChange"/>
 
-        <section class="level">
-          <span>포인트 : {{ activityPoint }}</span>
-          <br>
-          <span>다음 레벨까지 : {{ remainingPoint }}</span>
-        </section>
+      <!--      <ElementBox id="profile-box" class="side-box">-->
 
-        <section class="user-nickname">
-          <i>{{ activityLevelName }}</i><br>
+      <!--        <section class="level">-->
+      <!--          <span>포인트 : {{ activityPoint }}</span>-->
+      <!--          <br>-->
+      <!--          <span>다음 레벨까지 : {{ remainingPoint }}</span>-->
+      <!--        </section>-->
 
-          <h4> {{ userNickName }}</h4>
+      <!--        <section class="user-nickname">-->
+      <!--          <i>{{ activityLevelName }}</i><br>-->
 
-          <div v-if="isInfluencer" id="influencer-icon">
-            <i class="fa-solid fa-heart-circle-check"/>
-          </div>
+      <!--          <h4> {{ userNickName }}</h4>-->
 
-        </section>
+      <!--          <div v-if="isInfluencer" id="influencer-icon">-->
+      <!--            <i class="fa-solid fa-heart-circle-check"/>-->
+      <!--          </div>-->
 
-        <section class="follow-button">
-          <!-- followChange 이벤트 발생시킬 버튼 -->
-          <button @click="handleFollowChange">follow</button>
-        </section>
+      <!--        </section>-->
 
-        <section class="activity-info">
-          <div>
-            <div>
-              <span>후기</span>
-            </div>
+      <!--        <section class="follow-button">-->
+      <!--          &lt;!&ndash; followChange 이벤트 발생시킬 버튼 &ndash;&gt;-->
+      <!--          <button @click="handleFollowChange">follow</button>-->
+      <!--        </section>-->
 
-            <div>
-              <!--<span>{{ userInfo.value.listCount }}</span> -->
-              <span>{{ reviewCount }}</span>
-              <span>개</span>
-            </div>
-          </div>
+      <!--        <section class="activity-info">-->
+      <!--          <div>-->
+      <!--            <div>-->
+      <!--              <span>후기</span>-->
+      <!--            </div>-->
 
-          <div>
-            <div>
-              <span>팔로잉</span>
-            </div>
+      <!--            <div>-->
+      <!--              &lt;!&ndash;<span>{{ userInfo.value.listCount }}</span> &ndash;&gt;-->
+      <!--              <span>{{ reviewCount }}</span>-->
+      <!--              <span>개</span>-->
+      <!--            </div>-->
+      <!--          </div>-->
 
-            <div>
-              <div @click="isVisibleFollowerInfo" class="followerBtn">
-                <span>{{ followingCount }}</span>
-              </div>
-            </div>
+      <!--          <div>-->
+      <!--            <div>-->
+      <!--              <span>팔로잉</span>-->
+      <!--            </div>-->
 
-          </div>
-          <div>
-            <div>
-              <span>팔로워</span>
-            </div>
+      <!--            <div>-->
+      <!--              <div @click="isVisibleFollowerInfo" class="followerBtn">-->
+      <!--                <span>{{ followingCount }}</span>-->
+      <!--              </div>-->
+      <!--            </div>-->
 
-            <div>
-              <div @click="isVisibleFollowerInfo" class="followerBtn">
-                <span>{{ followerCount }}</span>
-              </div>
-            </div>
-          </div>
+      <!--          </div>-->
+      <!--          <div>-->
+      <!--            <div>-->
+      <!--              <span>팔로워</span>-->
+      <!--            </div>-->
 
-            <FollowerInfo v-if="followerInfo" id="followerInfoBox"/>
+      <!--            <div>-->
+      <!--              <div @click="isVisibleFollowerInfo" class="followerBtn">-->
+      <!--                <span>{{ followerCount }}</span>-->
+      <!--              </div>-->
+      <!--            </div>-->
+      <!--          </div>-->
+
+      <!--            <FollowerInfo v-if="followerInfo" id="followerInfoBox"/>-->
 
 
-        </section>
+      <!--        </section>-->
 
-        <section class="user-menu">
-            <i class="fa-solid fa-ellipsis"></i>
-        </section>
-      </ElementBox>
+      <!--        <section class="user-menu">-->
+      <!--            <i class="fa-solid fa-ellipsis"></i>-->
+      <!--        </section>-->
+      <!--      </ElementBox>-->
 
 
       <br>
@@ -283,7 +211,6 @@ function isVisibleFollowerInfo() {
       <br>
       <hr>
     </section>
-
 
 
     <!-- 회원 리스트 -->
