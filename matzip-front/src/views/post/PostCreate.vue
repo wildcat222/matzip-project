@@ -1,37 +1,3 @@
-<template>
-  <form @submit.prevent="submitPost" class="editor container">
-
-    <div class="form group">
-      <label for="boardCategory" class="form-label">게시판 카테고리</label>
-      <input type="number" id="boardCategory" v-model="formData.boardCategorySeq" class="form-control" required/>
-    </div>
-
-    <div class="form-group">
-      <label for="postTitle" class="form-label">게시글 제목</label>
-      <input type="text" id="postTitle" v-model="formData.postTitle" class="form-control" required/>
-    </div>
-
-    <div id="editor"></div>
-
-    <div class="form group">
-      <label for="list" class="form-label">리스트</label>
-      <input type="number" id="list" v-model="formData.listSeq" class="form-control"/>
-    </div>
-
-    <div class="form group">
-      <label for="restaurant" class="form-label">음식점</label>
-      <input type="number" id="restaurant" v-model="formData.restaurantSeq" class="form-control"/>
-    </div>
-
-    <div class="form group">
-      <label for="tag" class="form-label">태그</label>
-      <input type="text" id="tag" v-model="formData.tagName" class="form-control"/>
-    </div>
-
-    <button type="submit">Submit</button>
-  </form>
-</template>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
@@ -83,8 +49,8 @@ const uploadImage = async (blob) => {
 
 /* 게시글 제출 함수 */
 const submitPost = async () => {
-  const markdownContent = editor.value.getHTML();
-  formData.value.postContent = markdownContent; // 에디터 내용을 formData에 추가
+  const htmlContent = editor.value.getHTML();
+  formData.value.postContent = htmlContent; // 에디터 내용을 formData에 추가
 
   // tags는 단어를 쉼표로 나누고 공백 제거하여 배열로 변환
   formData.value.tagName = formData.value.tagName.split(',')
@@ -103,7 +69,7 @@ const submitPost = async () => {
         "Content-Type": "application/json",
       },
     });
-    router.push('/posts'); // 게시글 목록 페이지로 리다이렉트
+    router.push('/post'); // 게시글 목록 페이지로 리다이렉트
   } catch (error) {
     console.error('Post submission failed:', error);
   }
@@ -115,6 +81,43 @@ onMounted(() => {
 });
 
 </script>
+
+<template>
+  <form @submit.prevent="submitPost" class="editor container">
+
+    <div class="form group">
+      <label for="boardCategory" class="form-label">게시판 카테고리</label>
+      <input type="number" id="boardCategory" v-model="formData.boardCategorySeq" class="form-control" required/>
+    </div>
+
+    <div class="form-group">
+      <label for="postTitle" class="form-label">게시글 제목</label>
+      <input type="text" id="postTitle" v-model="formData.postTitle" class="form-control" required/>
+    </div>
+
+    <div class="form-group" id="editor">
+      <label for="postContent" class="form-label"></label>
+      <input type="text" id="editor" v-model="formData.postContent" class="form-control" required/>
+    </div>
+
+    <div class="form group">
+      <label for="list" class="form-label">리스트</label>
+      <input type="number" id="list" v-model="formData.listSeq" class="form-control"/>
+    </div>
+
+    <div class="form group">
+      <label for="restaurant" class="form-label">음식점</label>
+      <input type="number" id="restaurant" v-model="formData.restaurantSeq" class="form-control"/>
+    </div>
+
+    <div class="form group">
+      <label for="tag" class="form-label">태그</label>
+      <input type="text" id="tag" v-model="formData.tagName" class="form-control"/>
+    </div>
+
+    <button type="submit">글쓰기완료</button>
+  </form>
+</template>
 
 <style scoped>
 /* 스타일 추가 필요 시 작성 */
