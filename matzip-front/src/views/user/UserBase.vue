@@ -8,8 +8,10 @@ import Header from "@/component/common/Header/Header.vue";
   <header>
     <Header/>
   </header>
-  <section>
-    <RouterView/>
+  <section class="flex-shrink-0">
+    <div class="container">
+      <RouterView/>
+    </div>
   </section>
 </template>
 
