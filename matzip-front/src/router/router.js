@@ -1,5 +1,3 @@
-import HomeView from "@/views/home/HomeView.vue"
-
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/home/HomeView.vue"
 import {useAuthStore} from "@/components/stores/auth.js";
@@ -13,8 +11,7 @@ const routes = [
     { path: "/post/create", component: () => import("@/views/post/PostCreate.vue")},
     { path: "/review", component: () => import("@/views/review/Review.vue") },
     { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
-    { path: "/user/:userSeq", component: () => import("@/views/user/UserProfileView.vue")
-        , meta: { requiresAuth: true } },
+    { path: "/user/:userSeq", component: () => import("@/views/user/UserProfileView.vue"), meta: { requiresAuth: true } },
 
 ];
 

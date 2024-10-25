@@ -1,5 +1,4 @@
 <script setup>
-import {onBeforeUnmount, onMounted} from "vue";
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useAuthStore } from '@/components/stores/auth.js';
 import {useRouter} from "vue-router";
@@ -24,12 +23,15 @@ function toggleMenu(component) {
 function handleClickOutside(event) {
   const dropdowns = document.querySelectorAll('.dropdown');
   const activeMenu = document.querySelector('.dropdown.active');
-  const isClickInsideDropdown = Array.from(dropdowns).some(dropdown =>
-      dropdown.contains(event.target)
-  );
 
-  if (!isClickInsideDropdown) {
-    activeMenu.value = null; // 드롭다운 외부 클릭 시 숨김
+  if (activeMenu) {
+    const isClickInsideDropdown = Array.from(dropdowns).some(dropdown =>
+        dropdown.contains(event.target)
+    );
+
+    if (!isClickInsideDropdown) {
+      activeMenu.value = null; // 드롭다운 외부 클릭 시 숨김
+    }
   }
 
   function handleMenuItemClick() {
