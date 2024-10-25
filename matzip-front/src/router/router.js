@@ -9,17 +9,19 @@ import ListAll from "@/views/Lists/ListAll.vue";
 
 const routes = [
     { path: "/", component: HomeView },
+    { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
     {
         path: "/user",
         component: UserBase,
         children: [
+            { path: "auth/register", component: () => import("@/views/auth/Register.vue") },
+            { path: "register-success", component: () => import("@/views/auth/RegisterSuccess.vue") },
             { path: "auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
             { path: "auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
             { path: "auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
             { path: "post/create", component: () => import("@/views/post/PostCreate.vue")},
             { path: "review", component: () => import("@/views/review/Review.vue") },
             { path: "review/detail", component: () => import("@/views/review/Detail.vue") },
-            { path: "login", component: () => import("@/views/auth/LoginForm.vue") },
             // 모든리스트 조회 라우팅
             { path: 'listAll', name: 'ListAll', component: ListAll },
             { path: ":userSeq", component: () => import("@/views/user/UserProfileView.vue") },
@@ -62,11 +64,11 @@ router.beforeEach((to, from, next) => { //라우팅 하려고하는곳, 하기�
         next({path: '/login'}); // 로그인 페이지로 리다이렉션
     }
     // 이미 로그인한 상태에서 로그인, 회원가입 페이지에 접근할 때
-    else if (authStore.accessToken && (to.path === '/login' || to.path === '/auth/register')) {
+    else if (authStore.accessToken && (to.path === '/login' || to.path === 'user/auth/register')) {
         const userSeq = authStore.userSeq; // authStore에서 userSeq 값을 가져옴
         next({path: `/user/${userSeq}`}); // 마이페이지로 리디렉션
-    // } else if(to.path === '/auth/reset-password') {
-    //     next({path: '/login'});
+    } else if(to.path === 'user/auth/reset-password') {
+        next({path: '/login'});
     } else {
         next(); // 나머지 경우는 계속 진행
     }
