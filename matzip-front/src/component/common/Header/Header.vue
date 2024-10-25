@@ -86,7 +86,7 @@ onBeforeUnmount(() => {
         <li class="menu-item">
           <b-dropdown id="dropdown-menu" variant="light" offset="25" text="List" class="m-2" no-caret="">
             <b-dropdown-item>
-              <a href="">전체 리스트</a>
+              <a href="http://localhost:5173/user/listAll">전체 리스트</a>
             </b-dropdown-item>
             <b-dropdown-item>
               <a href="">나의 리스트</a>
