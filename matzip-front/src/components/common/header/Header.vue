@@ -10,10 +10,14 @@ const router = useRouter();
 function checkUserRole() {
   if (authStore.userRole !== 'admin') router.push('/admin');
   else if (authStore.userRole !== 'user') router.push(`/user/${authStore.userSeq}`);
+  else {
+    router.push('/login');
+  }
+
 }
 
 function handleLogin() {
-  router.push('/user/login');
+  router.push('/login');
 }
 
 function handleLogout() {
