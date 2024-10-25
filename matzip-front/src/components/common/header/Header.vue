@@ -112,9 +112,6 @@ onBeforeUnmount(() => {
     <div id="best-tag">1. 인기 태그</div>
 
     <b-dropdown text="" variant="link" no-caret="">
-      <template>
-        <b-icon icon="person"></b-icon>
-      </template>
       <b-dropdown-item>액션 1</b-dropdown-item>
       <b-dropdown-item>액션 2</b-dropdown-item>
     </b-dropdown>
