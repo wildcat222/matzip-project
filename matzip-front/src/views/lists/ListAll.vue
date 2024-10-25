@@ -9,7 +9,7 @@ const size = ref(5);
 //데이터 불러오기 ex
 const fetchData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/back/api/v1/listbox', {
+    const response = await axios.get('https:///matzipapi.huichan.kr/back/api/v1/listbox', {
       params: {
         page: page.value,
         size: size.value,
@@ -32,7 +32,7 @@ onMounted(fetchData);
 <template>
   <div class="Container">
     <div class="header">
-      <img src="../../asserts/ListText.png" alt="리스트 텍스트" class="listText">
+      <img src="../../assets/ListText.png" alt="리스트 텍스트" class="listText">
     </div>
     <div class="listContent">
       <list-all-content v-if="!errorMessage" :lists="lists"/>
