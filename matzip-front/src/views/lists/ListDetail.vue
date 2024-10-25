@@ -37,10 +37,8 @@ const fetchData = async () => {
 
     //댓글 가져오기
     const commentsResponse = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/list/${listSeq}/listCmt`);
-      console.log('댓글 데이터:', commentsResponse.data);
     if(commentsResponse.data && Array.isArray(commentsResponse.data)){
       comments.value = commentsResponse.data; // 댓글 데이터 저장
-      console.log(comments.value);
     }else{
       comments.value = []; // 댓글 데이터가 없을 경우 빈 배열
     }
@@ -66,7 +64,9 @@ onMounted(fetchData);
             :nickname="listData.userNickname"
             :title="listData.listTitle"
             :content="listData.listContent"
+            :commentCount="comments.length"
         />
+
         <ListDetailCmt
             v-if="comments.length > 0"
             :comments="comments"
