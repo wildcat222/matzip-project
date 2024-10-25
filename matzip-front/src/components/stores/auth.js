@@ -28,7 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
     function logout() {
         accessToken.value = null;
         userRole.value = null;
-        userSeq.value = payload.seq;
+        userSeq.value = null;
         localStorage.removeItem('accessToken'); // localStorage에서 토큰 제거
     }
 

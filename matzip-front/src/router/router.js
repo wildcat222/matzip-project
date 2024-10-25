@@ -9,6 +9,7 @@ import ListAll from "@/views/Lists/ListAll.vue";
 
 const routes = [
     { path: "/", component: HomeView },
+    { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
     {
         path: "/user",
         component: UserBase,
@@ -19,7 +20,6 @@ const routes = [
             { path: "post/create", component: () => import("@/views/post/PostCreate.vue")},
             { path: "review", component: () => import("@/views/review/Review.vue") },
             { path: "review/detail", component: () => import("@/views/review/Detail.vue") },
-            { path: "login", component: () => import("@/views/auth/LoginForm.vue") },
             // 모든리스트 조회 라우팅
             { path: 'listAll', name: 'ListAll', component: ListAll },
             { path: ":userSeq", component: () => import("@/views/user/UserProfileView.vue") },
