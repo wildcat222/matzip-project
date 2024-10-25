@@ -66,20 +66,38 @@ const loadKakaoMap = (container, restaurants) => {
         });
 
         var overlay = new window.kakao.maps.CustomOverlay({
-          yAnchor: 3,
+          // yAnchor: 3,
           position: marker.getPosition()
         });
 
-        var content = document.createElement('div');
-        content.innerHTML = data.content;
-        content.style.cssText = 'background: white; border: 1px solid black';
+        // var content = document.createElement('div');
+        // content.innerHTML = data.content;
+        // content.style.cssText = 'background: white; border: 1px solid black';
 
-        var closeBtn = document.createElement('button');
-        closeBtn.innerHTML = 'exit';
-        closeBtn.onclick = function () {
-          overlay.setMap(null);
-        };
-        content.appendChild(closeBtn);
+        // var closeBtn = document.createElement('button');
+        // closeBtn.innerHTML = 'exit';
+        // closeBtn.onclick = function () {
+        //   overlay.setMap(null);
+        // };
+        // content.appendChild(closeBtn);
+        var content = '<div class="wrap">' + 
+            '    <div class="info">' + 
+            '        <div class="title">' + 
+              data.content + 
+            '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
+            '        </div>' + 
+            '        <div class="body">' + 
+            '            <div class="img">' +
+            '                <img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png" width="73" height="70">' +
+            '           </div>' + 
+            '            <div class="desc">' + 
+            '                <div class="ellipsis">제주특별자치도 제주시 첨단로 242</div>' + 
+            '                <div class="jibun ellipsis">(우) 63309 (지번) 영평동 2181</div>' + 
+            '                <div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
+            '            </div>' + 
+            '        </div>' + 
+            '    </div>' +    
+            '</div>'
         overlay.setContent(content);
 
         kakao.maps.event.addListener(marker, 'click', function() {
@@ -98,4 +116,5 @@ const loadKakaoMap = (container, restaurants) => {
 </template>
 
 <style scoped>
+
 </style>
