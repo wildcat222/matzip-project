@@ -1,9 +1,9 @@
 <script setup>
 import {ref, watch} from 'vue';
 import axios from 'axios';
-import InputField from '@/components/auth/InputField.vue';  // 인풋 필드 컴포넌트
+import InputField from '@/components/auth/InputField.vue';
 import Button from '@/components/auth/Button.vue';
-import {useRouter} from "vue-router";  // 버튼 컴포넌트
+import {useRouter} from "vue-router";
 
 const router = useRouter();
 
@@ -52,7 +52,7 @@ const sendVerificationCode = async () => {
         return;
       }
 
-      const response = await axios.post('http://localhost:8000/user/api/v1/auth/mail-verification', {
+      const response = await axios.post('https://matzipapi.huichan.kr/user/api/v1/auth/mail-verification', {
         userEmail: formData.value.userEmail,
         userName: formData.value.userName,
       });
@@ -89,7 +89,7 @@ const verifyEmailCode = async () => {
       return;
     }
 
-    const response = await axios.post('http://localhost:8000/user/api/v1/auth/chkEmailCode', {
+    const response = await axios.post('https://matzipapi.huichan.kr/user/api/v1/auth/chkEmailCode', {
       userEmail: formData.value.userEmail,
       verificationCode: verificationCode.value,
     });
@@ -120,7 +120,7 @@ const verifyEmailCode = async () => {
 // 닉네임 중복 확인
 const checkNickname = async () => {
   try {
-    const response = await axios.post('http://localhost:8000/user/api/v1/user/check-nickname-duplicate', {
+    const response = await axios.post('https://matzipapi.huichan.kr/user/api/v1/user/check-nickname-duplicate', {
       userNickname: formData.value.userNickname,
     });
 
@@ -152,7 +152,7 @@ const checkPhoneNumber = async () => {
     }
 
     const formattedPhone = formatPhoneForServer(formData.value.userPhone);
-    const response = await axios.post('http://localhost:8000/user/api/v1/user/check-phone-duplicate', {
+    const response = await axios.post('https://matzipapi.huichan.kr/user/api/v1/user/check-phone-duplicate', {
       userPhone: formattedPhone,
     });
     console.log(response);
@@ -224,7 +224,7 @@ const signup = async () => {
     try {
       const formattedPhone = formatPhoneForServer(formData.value.userPhone);
 
-      const response = await axios.post('http://localhost:8000/user/api/v1/auth/register', {
+      const response = await axios.post('https://matzipapi.huichan.kr/user/api/v1/auth/register', {
         userName: formData.value.userName,
         userEmail: formData.value.userEmail,
         userPassword: formData.value.userPassword,
@@ -273,8 +273,18 @@ const signup = async () => {
         <p v-if="divErrorMessage" class="error-message">{{ divErrorMessage }}</p>
       </div>
 
-      <InputField label="비밀번호" type="password" v-model="formData.userPassword" style="width: 400px"  placeholder="비밀번호를 입력해주세요" required />
-      <InputField label="비밀번호 확인" type="password" v-model="formData.confirmPassword" style="width: 400px"  placeholder="비밀번호를 다시 입력해주세요" required />
+      <InputField label="비밀번호"
+                  type="password"
+                  v-model="formData.userPassword"
+                  style="width: 400px"
+                  placeholder="비밀번호를 입력해주세요"
+                  required />
+      <InputField label="비밀번호 확인"
+                  type="password"
+                  v-model="formData.confirmPassword"
+                  style="width: 400px"
+                  placeholder="비밀번호를 다시 입력해주세요"
+                  required />
 
       <div class="input-div">
         <InputField label="휴대폰 번호" v-model="formData.userPhone" style="width: 400px"  placeholder="010-0000-0000" required />
@@ -282,7 +292,10 @@ const signup = async () => {
       </div>
 
       <div class="input-div">
-        <InputField label="닉네임 (선택)" v-model="formData.userNickname" style="width: 400px"  placeholder="원하시는 닉네임이 있다면 입력해주세요" />
+        <InputField label="닉네임 (선택)"
+                    v-model="formData.userNickname"
+                    style="width: 400px"
+                    placeholder="원하시는 닉네임이 있다면 입력해주세요" />
         <Button label="중복확인" @click="checkNickname" />
       </div>
 
