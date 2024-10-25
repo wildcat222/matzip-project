@@ -164,19 +164,10 @@ a {
   color: grey;
 }
 
-#menu-user {
-  margin-left: 70px;
-  margin-right: 20px;
-  cursor: pointer;
-}
-
 #dropdown-menu {
   color: #ff6f20;
 }
 
-.button-content:hover {
-  color: #ff6f20;
-}
 
 
 
