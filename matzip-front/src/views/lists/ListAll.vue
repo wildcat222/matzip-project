@@ -9,19 +9,19 @@ const size = ref(5);
 //데이터 불러오기 ex
 const fetchData = async () => {
   try {
-    const response = await axios.get('https:///matzipapi.huichan.kr/back/api/v1/listbox', {
+    const response = await axios.get('https://matzipapi.huichan.kr/back/api/v1/listbox', {
       params: {
         page: page.value,
         size: size.value,
       }
     });
-    if(response.data && response.data.data2 && response.data.data2.listSearchAllDTOs){
+    if (response.data && response.data.data2 && response.data.data2.listSearchAllDTOs) {
       lists.value = response.data.data2.listSearchAllDTOs;
-    }else{
+    } else {
       lists.value = []; // 데이터 없을때 빈 배열 호출
-      errorMessage.value='리스트가 없습니다.'
+      errorMessage.value = '리스트가 없습니다.'
     }
-  } catch(error){
+  } catch (error) {
     console.error('데이터 로딩 중 오류 발생:', error);
     errorMessage.value = error.response ? error.response.data.message : error.message; // 에러메세지 저장
   }
@@ -32,7 +32,7 @@ onMounted(fetchData);
 <template>
   <div class="Container">
     <div class="header">
-      <img src="../../assets/ListText.png" alt="리스트 텍스트" class="listText">
+      <img src="../../asserts/ListText.png" alt="리스트 텍스트" class="listText">
     </div>
     <div class="listContent">
       <list-all-content v-if="!errorMessage" :lists="lists"/>
@@ -42,7 +42,7 @@ onMounted(fetchData);
 </template>
 
 <style scoped>
-.listText{
+.listText {
   margin: 20px 0 0 0;
   width: 60px;
 }
