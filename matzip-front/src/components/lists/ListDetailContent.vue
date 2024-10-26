@@ -39,4 +39,16 @@ h2 {
 h3 {
   color: #555;
 }
+
+img{
+  width: 35px;
+  height: 32px;
+  margin-right:20px;
+
+}
+
+.header{
+  display: flex;
+  margin-top:20px;
+}
 </style>
