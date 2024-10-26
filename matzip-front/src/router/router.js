@@ -13,6 +13,9 @@ const routes = [
         component: UserBase,
         children: [
             { path: "/", component: () => import("@/views/home/HomeView.vue")},
+            { path: "auth/register", component: () => import("@/views/auth/Register.vue") },
+            { path: "auth/registerTOS", component: () => import("@/views/auth/RegisterTOS.vue") },
+            { path: "register-success", component: () => import("@/views/auth/RegisterSuccess.vue") },
             { path: "auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
             { path: "auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
             { path: "auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
@@ -64,11 +67,15 @@ router.beforeEach((to, from, next) => { //라우팅 하려고하는곳, 하기�
         next({path: '/login'}); // 로그인 페이지로 리다이렉션
     }
     // 이미 로그인한 상태에서 로그인, 회원가입 페이지에 접근할 때
-    else if (authStore.accessToken && (to.path === '/login' || to.path === '/auth/register')) {
+    else if (authStore.accessToken && (to.path === '/login' || to.path === 'user/auth/register')) {
         const userSeq = authStore.userSeq; // authStore에서 userSeq 값을 가져옴
         next({path: `/user/${userSeq}`}); // 마이페이지로 리디렉션
-    // } else if(to.path === '/auth/reset-password') {
-    //     next({path: '/login'});
+        // 비밀번호 재설정 페이지에 접근할 때
+    } else if(to.path === 'user/auth/reset-password') {
+        next({path: '/login'});
+        // 약관 동의 없이 회원가입 페이지로 직접 접근할 때
+    } else if((to.path === '/user/auth/register' && !authStore.isTermsAccepted)) {
+        next({ path: '/user/auth/registerTOS' }); // 약관 동의 페이지로 리디렉션
     } else {
         next(); // 나머지 경우는 계속 진행
     }
