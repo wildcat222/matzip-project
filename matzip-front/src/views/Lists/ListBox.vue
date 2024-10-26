@@ -78,7 +78,6 @@ const fetchMyList = async (page, size) => {
 
 const fetchOtherList = async (listUserSeq, page, size) => {
   try {
-    // const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/${listUserSeq}`, {
     const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/${listUserSeq}`, {
       params: {
         listUserSeq,

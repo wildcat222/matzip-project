@@ -16,7 +16,7 @@
               :key="postIndex"
               class="post-item"
               @click="onPostClick(post)">
-            - {{post.seq}}숫자{{ post.title }} by {{ post.userNickname }}
+            - {{ post.title }} by {{ post.userNickname }}
           </li>
         </ul>
       </div>
