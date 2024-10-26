@@ -106,10 +106,19 @@ onMounted(() => {
         <p>주소: {{ restaurant.restaurantAddress }}</p>
         <p>전화번호: {{ restaurant.restaurantPhone }}</p>
         <p>별점: {{ restaurant.restaurantStar }}</p>
-        <img src="../../assets/LikeMark.png"/>
-        <p>{{ restaurant.likeCount }}</p>
+        <div class="like">
+          <img src="../../assets/LikeMark.png"/>
+          <div class="liketext">
+            <p>{{ restaurant.likeCount }}</p>
+
+          </div>
+        </div>
         <!-- 모달 열기 버튼 추가 -->
-        <button @click="openModal(restaurant)">리스트에 추가</button>
+        <button @click="openModal(restaurant)">
+          <div class="buttontext">
+            리스트에 추가
+          </div>
+        </button>
       </li>
     </ul>
     <p v-if="restaurants.length === 0">등록된 맛집이 없습니다.</p>
@@ -146,12 +155,24 @@ ul {
   list-style: none;
   padding: 0;
 }
+img{
+  width: 35px;
+  height: 32px;
+}
+.like{
+  display: flex;
+}
+.liketext{
+  font-size: 22px;
+
+  padding-left: 10px;
+}
 
 li {
   margin-bottom: 15px;
   padding: 10px;
-  border: 1px solid #eee;
-  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-radius: 13px;
 }
 
 .modal-overlay {
@@ -165,7 +186,17 @@ li {
   align-items: center;
   justify-content: center;
 }
+button{
+  background-color: #FF7315;
+  border: 1px solid #FF7315;
+  border-radius: 13px;
+}
 
+.buttontext{
+  color: #f0f0f0;
+  font-weight: bold;
+  font-size: 14px;
+}
 .modal-content {
   background: white;
   padding: 20px;
@@ -187,4 +218,6 @@ li {
   display: block;
   margin: 5px 0;
 }
+
+
 </style>
