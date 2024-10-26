@@ -22,7 +22,11 @@ const routes = [
             { path: "review/detail", component: () => import("@/views/review/Detail.vue") },
             // 모든리스트 조회 라우팅
             { path: 'listAll', name: 'ListAll', component: ListAll },
+            // 유저 마이페이지 조회
             { path: ":userSeq", component: () => import("@/views/user/UserProfileView.vue") },
+            // 리스트 다른 사람 서랍 조회
+            { path: 'listbox/:listUserSeq', component: () => import("@/views/Lists/ListBox.vue")},
+
 
         ]
     },
