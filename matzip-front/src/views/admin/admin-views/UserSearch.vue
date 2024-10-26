@@ -79,7 +79,7 @@ const search = async () => {
 
   <div class="col p-0 m-0">
     <div class="bg-primary-subtle ps-4">
-      <span>사용자 관리 > 회원 조회</span>
+      <span>사용자 관리 > 회원 > 회원 조회</span>
     </div>
     <div class="container my-4">
       <h1 class="mb-4">회원 조회</h1>
