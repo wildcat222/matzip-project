@@ -1,22 +1,57 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/home/HomeView.vue"
 import {useAuthStore} from "@/components/stores/auth.js";
-import ListAll from "@/views/lists/ListAll.vue";
+import UserSearch from "@/views/admin/admin-views/UserSearch.vue";
+import ActivityLevelSearch from "@/views/admin/admin-views/ActivityLevelSearch.vue";
+import AdminBaseView from "@/views/admin/AdminBaseView.vue";
+import UserBase from "@/views/user/UserBase.vue";
+import ListAll from "@/views/Lists/ListAll.vue";
 
 const routes = [
-    { path: "/", component: HomeView },
     { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
-    { path: "/auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
-    { path: "/auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
-    { path: "/auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
-    { path: "/post/create", component: () => import("@/views/post/PostCreate.vue")},
-    { path: "/review", component: () => import("@/views/review/Review.vue") },
-    { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
-    // 모든리스트 조회 라우팅
-    { path: '/listAll', name: 'ListAll', component: ListAll },
-    // 리스트 상세 조회 라우팅
-    { path: "/list/detail/:listSeq", component: () => import("@/views/lists/ListDetail.vue") },
+    {
+        path: "/user",
+        component: UserBase,
+        children: [
+            { path: "/", component: () => import("@/views/home/HomeView.vue")},
+            { path: "auth/register", component: () => import("@/views/auth/Register.vue") },
+            { path: "auth/registerTOS", component: () => import("@/views/auth/RegisterTOS.vue") },
+            { path: "register-success", component: () => import("@/views/auth/RegisterSuccess.vue") },
+            { path: "auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
+            { path: "auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
+            { path: "auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
+            { path: "post/create", component: () => import("@/views/post/PostCreate.vue")},
+            { path: "post/:id/edit", component: () => import("@/views/post/PostEdit.vue") },
+            { path: "post", component: () => import("@/views/post/PostList.vue") },
+            { path: "post/:id", component: () => import("@/views/post/PostDetail.vue") },
+            { path: "review", component: () => import("@/views/review/Review.vue") },
+            { path: "review/detail", component: () => import("@/views/review/Detail.vue") },
+            // 모든리스트 조회 라우팅
+            { path: 'listAll', name: 'ListAll', component: ListAll },
+            { path: ":userSeq", component: () => import("@/views/user/UserProfileView.vue") },
 
+        ]
+    },
+    // { path: "/auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
+    // { path: "/auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
+    // { path: "/auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
+    // { path: "/post/create", component: () => import("@/views/post/PostCreate.vue")},
+    // { path: "/review", component: () => import("@/views/review/Review.vue") },
+    // { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
+    {
+        path: "/admin",
+        component: AdminBaseView,
+        children: [
+            {
+                path: "users",
+                component: UserSearch
+            },
+            {
+                path: "active-level",
+                component: ActivityLevelSearch
+            },
+        ]
+    }
 ];
 
 const router = createRouter({
