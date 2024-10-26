@@ -36,7 +36,7 @@ const fetchUserInfo = async () => {
     userSeq.value = currentRoute.params.userSeq;
 
     const ResUserInfo = await axios
-        .get(`http://localhost:8000/user/api/v1/user/${userSeq.value}`,{
+        .get(`https://matzipapi.huichan.kr/user/api/v1/user/${userSeq.value}`,{
               headers: {
                 Authorization: `Bearer ${localStorage.getItem('accessToken')}`
               }
@@ -93,7 +93,7 @@ const followChange = async () => {
     const followedUserSeq = currentRoute.params;
 
     const ResFollow = await axios
-        .post('http://localhost:8000/user/api/v1/follow', {
+        .post('https://matzipapi.huichan.kr/user/api/v1/follow', {
           "followingUserSeq": followingUserSeq, // 로그인 유저
           "followedUserSeq": followedUserSeq  // 타 유저
         }, {

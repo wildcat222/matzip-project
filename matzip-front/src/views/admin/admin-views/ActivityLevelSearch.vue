@@ -18,7 +18,7 @@ function handleEdit(level) {
 const updateActiveLevel = async () => {
 
   try {
-    const response = await axios.get(`http://localhost:8000/user/api/v1/active-l`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/user/api/v1/active-l`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -56,7 +56,7 @@ const goToMinPage = () => {
 const search = async (page) => {
 
   try {
-    const response = await axios.get(`http://localhost:8000/user/api/v1/active-level?page=${page}`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/user/api/v1/active-level?page=${page}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -72,7 +72,7 @@ const search = async (page) => {
 const getAllPages = async () => {
 
   try {
-    const response = await axios.get("http://localhost:8000/user/api/v1/active-level-count", {
+    const response = await axios.get("https://matzipapi.huichan.kr/user/api/v1/active-level-count", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }

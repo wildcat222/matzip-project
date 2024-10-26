@@ -71,7 +71,7 @@ const search = async () => {
 
 
   try {
-    const response = await axios.get(`http://localhost:8000/user/api/v1/users${endPoint}`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/user/api/v1/users${endPoint}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
