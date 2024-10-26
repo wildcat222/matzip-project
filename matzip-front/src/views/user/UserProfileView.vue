@@ -19,7 +19,7 @@ onMounted(async () => {
     const infoUserSeq = currentRoute.params.userSeq;
     // 1. 회원 상세 정보 조회 api 호출
     // console.log(infoUserSeq); // 로그 확인 용
-    const resUserInfo = await axios.get(`http://localhost:8000/user/api/v1/user/${infoUserSeq}`, {
+    const resUserInfo = await axios.get(`https://matzipapi.huichan.kr/user/api/v1/user/${infoUserSeq}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
     });
     userData.value = await resUserInfo.data.data2;
@@ -32,7 +32,7 @@ onMounted(async () => {
 
     // 3. 특정 유저가 작성한 리스트 목록 조회 api -> null 값 반환..?
     const listBoxItems = ref(null);
-    const resListItems = await axios.get(`http://localhost:8000/back/api/v1/listbox/${infoUserSeq}`, {
+    const resListItems = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/${infoUserSeq}`, {
       "page": 1,
       "size": 10
     }, { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
@@ -57,7 +57,7 @@ const followChange = async () => {
     const followedUserSeq = currentRoute.params;
 
     const response = await axios
-        .post('http://localhost:8000/user/api/v1/follow', {
+        .post('https://matzipapi.huichan.kr/user/api/v1/follow', {
           "followingUserSeq": followingUserSeq, // 로그인 유저
           "followedUserSeq": followedUserSeq  // 타 유저
         }, {
