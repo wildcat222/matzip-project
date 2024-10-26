@@ -1,7 +1,7 @@
 <template>
   <div class="col p-0 m-0">
     <div class="bg-primary-subtle ps-4">
-      <span>사용자 관리 > 신고 조회</span>
+      <span>사용자 관리 > 신고 > 신고 조회</span>
     </div>
     <div class="p-3">
       <h1>신고 정보 목록</h1>
