@@ -18,12 +18,31 @@
       </li>
     </ul>
     <p v-else></p>
+
+    <!-- 리스트 만들기 버튼 -->
+    <div v-if="isOwner">
+      <button class="create-list-button" @click="showModal = true">리스트 만들기</button>
+    </div>
+
+    <!-- 모달 -->
+    <div v-if="showModal" class="modal-overlay">
+      <div class="modal">
+        <h3>리스트 만들기</h3>
+        <input v-model="newListTitle" id="listTitle" name="listTitle" placeholder="리스트 제목" class="modal-input" />
+        <textarea v-model="newListContent" id="listContent" name="listContent" placeholder="리스트 내용" class="modal-textarea"></textarea>
+        <button class="modal-submit" @click="createList">생성</button>
+        <button class="modal-close" @click="closeModal">닫기</button>
+      </div>
+    </div>
+
+    <p v-if="successMessage">{{ successMessage }}</p>
   </div>
 </template>
 
 <script setup>
-import {defineProps, watch} from "vue";
-import {useRouter} from 'vue-router'; // useRouter 임포트
+import { defineProps, ref, computed } from "vue";
+import { useRouter, useRoute } from 'vue-router';
+import axios from 'axios'; // axios import 추가
 
 const props = defineProps({
   lists: {
@@ -34,22 +53,58 @@ const props = defineProps({
 
 // 뒤로가기 함수
 const router = useRouter();
+const route = useRoute();
+
 const goBack = () => {
-  router.go(-1); // 이전 페이지로 이동
+  router.go(-1);
 };
 
-// props.lists의 변화를 감지하여 콘솔에 출력
-watch(() => props.lists, (newLists) => {
-  console.log('Updated lists:', newLists);
-}, {immediate: true}); // immediate: true로 초기값도 로그에 출력
+const token = localStorage.getItem('accessToken');
+const parsedToken = token ? JSON.parse(atob(token.split('.')[1])) : {};
+const userSeqFromToken = parsedToken.sub;
+const listUserSeqFromUrl = route.params.listUserSeq;
+
+// 소유자 확인
+const isOwner = computed(() => listUserSeqFromUrl === userSeqFromToken);
+const showModal = ref(false);
+const newListTitle = ref('');
+const newListContent = ref('');
+const successMessage = ref('');
+
+const closeModal = () => {
+  showModal.value = false;
+  newListTitle.value = ''; // 폼 리셋
+  newListContent.value = ''; // 폼 리셋
+};
+
+const createList = async () => {
+  try {
+    const response = await axios.post('https://matzipapi.huichan.kr/back/api/v1/list', {
+      listTitle: newListTitle.value,
+      listContent: newListContent.value
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 201) {
+      successMessage.value = '성공적으로 리스트가 생성되었습니다.';
+    }
+  } catch (error) {
+    console.error('리스트 생성 중 오류:', error);
+    successMessage.value = '리스트 생성 중 오류가 발생했습니다.';
+  } finally {
+    closeModal(); // 모달 닫기 및 폼 리셋
+  }
+};
 
 </script>
 
 <style scoped>
+/* CSS 내용은 기존 코드 그대로 유지 */
 .container {
-  display: flex;
-  justify-content: flex-start; /* 요소를 왼쪽에 정렬 */
-  align-items: flex-start; /* 요소를 세로 방향으로 상단에 정렬 */
+
 }
 
 .list-detail-matzip {
@@ -58,10 +113,9 @@ watch(() => props.lists, (newLists) => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 16px;
   margin: 16px;
-  max-width: 600px; /* 최대 가로폭 설정 */
-  /* 좌우 마진 제거하여 왼쪽 정렬 유지 */
-  margin-left: 0; /* 왼쪽 정렬을 위해 수정 */
-  margin-right: auto; /* 오른쪽 자동 마진 설정 */
+  max-width: 600px;
+  margin-left: 0;
+  margin-right: auto;
 }
 
 .nickname {
@@ -78,11 +132,11 @@ watch(() => props.lists, (newLists) => {
 }
 
 .list-item {
-  border: 1px solid transparent; /* 선 색은 없어도 되므로 투명 설정 */
+  border: 1px solid transparent;
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 8px;
-  background-color: #f9f9f9; /* 박스 배경 색상 */
+  background-color: #f9f9f9;
 }
 
 .list-title {
@@ -90,10 +144,9 @@ watch(() => props.lists, (newLists) => {
   font-size: 1.2rem;
 }
 
-/* 링크 스타일 */
 .list-title-link {
-  text-decoration: none; /* 밑줄 없애기 */
-  color: inherit; /* 부모 요소의 색상 그대로 사용 */
+  text-decoration: none;
+  color: inherit;
 }
 
 .list-content {
@@ -102,27 +155,97 @@ watch(() => props.lists, (newLists) => {
 }
 
 .back-button-container {
-  margin: 20px; /* 버튼 주위 여백 설정 */
+  margin: 20px;
 }
 
 .back-button {
-  background-color: #FF7315; /* 배경 색상 */
-  color: white; /* 글씨 색상 */
-  font-weight: bold; /* 글씨 볼드 */
-  border: none; /* 기본 테두리 제거 */
-  padding: 10px 15px; /* 버튼 내부 여백 설정 */
-  border-radius: 5px; /* 모서리 둥글게 */
-  cursor: pointer; /* 마우스 커서 포인터로 변경 */
-  transition: all 0.3s ease; /* 부드러운 전환 효과 */
+  background-color: #FF7315;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .back-button:hover {
-  background-color: #e65c13; /* 호버 시 색상 변화 */
+  background-color: #e65c13;
 }
 
 .back-button:active {
-  border: 2px solid #FF7315; /* 눌렀을 때 테두리 색상 */
-  color: black; /* 눌렀을 때 글씨 색상 */
-  background-color: white; /* 눌렀을 때 배경 색상 */
+  border: 2px solid #FF7315;
+  color: black;
+  background-color: white;
+}
+
+.create-list-button {
+  background-color: #FF7315;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.create-list-button:hover {
+  background-color: #e65c13;
+  transform: scale(1.05);
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  z-index: 1000; /* 모달의 z-index 추가 */
+  position: relative; /* position relative 추가 */
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.modal-textarea {
+  min-height: 100px;
+}
+
+.modal-submit {
+  background-color: #FF7315;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+}
+
+.modal-close {
+  background-color: #ccc;
+  color: black;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
 }
 </style>
