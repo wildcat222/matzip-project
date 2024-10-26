@@ -95,7 +95,7 @@ const fetchItemReports = async ({ category, sequence }) => {
   reports.value = []; // 이전 데이터 초기화
 
   try {
-    const response = await axios.get(`http://localhost:8000/back/api/v1/report?category=${category}&sequence=${sequence}`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/report?category=${category}&sequence=${sequence}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }

@@ -20,7 +20,7 @@ const totalPages = computed(() => Math.ceil(members.value.length / itemsPerPage)
 // 데이터 조회 함수
 const fetchMembers = async () => {
   try {
-    const response = await axios.get(`http://localhost:8000/user/api/v1/users${props.endPoint}&page=${currentPage.value}`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/user/api/v1/users${props.endPoint}&page=${currentPage.value}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }

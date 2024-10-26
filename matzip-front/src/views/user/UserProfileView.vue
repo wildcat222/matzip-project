@@ -43,7 +43,7 @@ onMounted(async () => {
     if (listBoxItems.value === null) {
       console.log('리스트가 존재하지 않습니다.');
     }
-    
+
   } catch (error) {
     console.log("데이터 로드 실패 : " + error);
   }
