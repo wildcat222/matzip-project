@@ -51,7 +51,7 @@ onMounted(async () =>{
     }
 
     // 인기 리스트 가져오기
-    const listResponse = await axios.get('https://matzipapi.huichan.kr/back/api/v1/listBox/top')
+    const listResponse = await axios.get('https://matzipapi.huichan.kr/back/api/v1/listbox/popular')
     if(listResponse.data && listResponse.data.data){
       hotListItem.value = listResponse.data.data;
 
@@ -111,10 +111,11 @@ onMounted(async () =>{
 
 .main-map {
   display: flex;
+  width: 100%;
 }
 
 .space-text {
-  /* 원하는 스타일 추가 */
+  margin: 20px;
 }
 
 h1{
