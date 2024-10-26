@@ -57,12 +57,16 @@ const routes = [
                 path: 'report-search',
                 component: () => import('@/views/admin/admin-views/ReportSearch.vue')
             },
-            // {
-            //     path: '',
-            //     name: 'ReportHandling',
-            //     component: () => import('@/views/admin/admin-views/')
-            //
-            // }
+            {
+                path: 'report-reason',
+                component: () => import('@/views/admin/admin-views/ReportReason.vue')
+
+            },
+            {
+                path: 'penalty',
+                name: 'ReportHandling',
+                component: () => import('@/views/admin/admin-views/PeanltyDetail.vue')
+            }
         ]
     }
 ];

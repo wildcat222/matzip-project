@@ -23,7 +23,7 @@ const state = reactive({
 // 게시판 카테고리 조회 API 호출
 const fetchBoards = async () => {
   try {
-    const response = await axios.get(`http://localhost:8000/back/api/v1/board`);
+    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/board`);
     state.boards = response.data.data;  // 게시판 데이터 저장
   } catch (error) {
     console.log('게시판 목록을 불러오는 중 에러가 발생했습니다: ', error);
@@ -33,7 +33,7 @@ const fetchBoards = async () => {
 // 게시판 별 게시글 목록 조회 API 호출
 const fetchPostsByBoard = async (boardSeq) => {
   try {
-    const response = await axios.get(`http://localhost:8000/back/api/v1/boards/${boardSeq}/posts`);
+    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/boards/${boardSeq}/posts`);
     state.posts = response.data.data2.posts;
     state.currentPage = response.data.data2.currentPage;
     state.totalPages = response.data.data2.totalPages;
@@ -46,7 +46,7 @@ const fetchPostsByBoard = async (boardSeq) => {
 // 검색 조건이 변경될 때마다 API 호출 함수
 const fetchPosts = async (page = 1) => {
   try {
-    const response = await axios.get(`http://localhost:8000/back/api/v1/posts`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/posts`, {
       params: {
         page,
         postTitle: state.postTitle || null,
