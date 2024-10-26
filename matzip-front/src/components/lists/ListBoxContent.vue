@@ -2,7 +2,7 @@
   <div class="list-detail-matzip">
     <h4 class="nickname">
       <div class="nickname-text">
-        {{ lists.length > 0 ? lists[0]?.userNickname : '등록된 리스트가 없습니다.' }}님의 리스트
+        {{ lists.length > 0 ? lists[0]?.userNickname + '님의 리스트' : '등록된 리스트가 없습니다.' }}
       </div>
       <div class="back-button-container">
         <button class="back-button" @click="goBack"><</button>
@@ -16,14 +16,14 @@
         </router-link>
         <p class="list-content">{{ list.listContent || '내용 없음' }}</p>
       </li>
+      <!-- 소유자가 아닐 경우 리스트 만들기 버튼을 보여주지 않음 -->
+      <!-- 모달 열기 버튼 -->
+      <div v-if="isOwner">
+        <button class="create-list-button" @click="showModal = true">리스트 만들기</button>
+      </div>
     </ul>
     <p v-else></p>
 
-    <!-- 소유자가 아닐 경우 리스트 만들기 버튼을 보여주지 않음 -->
-    <!-- 모달 열기 버튼 -->
-    <div v-if="isOwner">
-      <button class="create-list-button" @click="showModal = true">리스트 만들기</button>
-    </div>
 
     <!-- 리스트 만들기 모달 -->
     <div v-if="showModal" class="modal-overlay">
@@ -154,6 +154,7 @@ const createList = async () => {
   background-color: #f9f9f9;
 }
 
+
 .list-title {
   font-weight: bold;
   font-size: 1.2rem;
@@ -204,6 +205,7 @@ const createList = async () => {
   margin-top: 20px;
   font-size: 16px;
   transition: background-color 0.3s, transform 0.2s;
+
 }
 
 .create-list-button:hover {
