@@ -16,10 +16,10 @@ export const useAuthStore = defineStore('auth', () => {
             const payload = JSON.parse(atob(token.split('.')[1])); // JWT 토큰의 페이로드 추출
             userRole.value = payload.auth;
             userSeq.value = payload.sub;
-
         }
         if (termsAccepted === 'true') {
             isTermsAccepted.value = true;
+
         }
     });
 
