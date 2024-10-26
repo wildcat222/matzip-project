@@ -13,7 +13,7 @@ const isModalOpen = ref(false);
 async function sendPasswordEmail() {
   if (email.value && phone.value) {
     try {
-      const response = await axios.post('https://matzipapi.huichan.kr/user/api/v1/auth/send-pw-reset-url', {
+      const response = await axios.post('http://localhost:8000/user/api/v1/auth/send-pw-reset-url', {
         userEmail: email.value,
         userPhone: phone.value
       });
@@ -50,19 +50,13 @@ async function sendPasswordEmail() {
       <h1>이메일/비밀번호 찾기</h1>
       <div class="content-wrapper">
         <nav class="tab-menu">
-          <router-link to="/user/auth/find-email">이메일 찾기</router-link>
-          <router-link to="/user/auth/find-password" class="active">비밀번호 찾기</router-link>
+          <router-link to="/auth/find-email">이메일 찾기</router-link>
+          <router-link to="/auth/find-password" class="active">비밀번호 찾기</router-link>
         </nav>
 
         <div class="find-form">
-          <InputField label="이메일"
-                      placeholder="가입한 이메일을 입력하세요."
-                      @keyup.enter="sendPasswordEmail"
-                      v-model="email" />
-          <InputField label="휴대폰 번호"
-                      placeholder="휴대폰 번호를 입력하세요."
-                      @keyup.enter="sendPasswordEmail"
-                      v-model="phone" />
+          <InputField label="이메일" placeholder="가입한 이메일을 입력하세요." v-model="email" />
+          <InputField label="휴대폰 번호" placeholder="휴대폰 번호를 입력하세요." v-model="phone" />
 
           <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 

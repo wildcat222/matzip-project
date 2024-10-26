@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
-import ReviewMap from '@/components/review/ReviewMap.vue';
+import ReviewMap from '@/component/review/ReviewMap.vue';
 import axios from "axios";
 
 const stateRestaurant = reactive({
@@ -12,7 +12,7 @@ const stateRestaurant = reactive({
 
 const fetchRestaurant = async () => {
   try {
-    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/restaurant`, {
+    const response = await axios.get(`http://localhost:8000/back/api/v1/restaurant`, {
       params: {
         page: 1,
         size: 100
@@ -33,9 +33,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <br>
-  <h1>Review</h1>
-  <br>
+  <h1>Review - View</h1>
   <div>
     <ReviewMap :restaurants="stateRestaurant.restaurants"/>
   </div>

@@ -11,10 +11,6 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  inputStyle: {
-    type: Object,
-    default: () => ({}),
-  },
 });
 </script>
 <template>
@@ -27,7 +23,6 @@ const props = defineProps({
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         class="form-control"
-        :style="inputStyle"
     />
   </div>
 </template>
