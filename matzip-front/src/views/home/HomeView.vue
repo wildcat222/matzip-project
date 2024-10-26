@@ -76,6 +76,7 @@ onMounted(async () =>{
         // 게시판이 존재하는 경우에만 데이터 추가
         if (postResponse.data.data2 && postResponse.data.data2.posts) {
           const recentPosts = postResponse.data.data2.posts.map(post => ({
+            seq : post.postSeq,
             title: post.postTitle,
             userNickname: post.userNickname,
             boardCategoryName: post.boardCategoryName
