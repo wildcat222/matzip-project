@@ -42,7 +42,7 @@ const boards = ref([]);
 onMounted(async () =>{
   try{
     // 인기 태그 가져오기
-    const tagResponse = await axios.get('http://localhost:8000/back/api/v1/posts/top-10-tags');
+    const tagResponse = await axios.get('https://matzipapi.huichan.kr/back/api/v1/posts/top-10-tags');
     if(tagResponse.data && tagResponse.data.data2 && tagResponse.data.data2.tags){
       tags.value = tagResponse.data.data2.tags;
     }else{
@@ -51,7 +51,7 @@ onMounted(async () =>{
     }
 
     // 인기 리스트 가져오기
-    const listResponse = await axios.get('http://localhost:8000/back/api/v1/listBox/top')
+    const listResponse = await axios.get('https://matzipapi.huichan.kr/back/api/v1/listBox/top')
     if(listResponse.data && listResponse.data.data){
       hotListItem.value = listResponse.data.data;
 
@@ -69,7 +69,7 @@ onMounted(async () =>{
 
     for (let boardSeq = 1; boardSeq <= maxBoardSeq; boardSeq++){
       try{
-        const postResponse = await axios.get(`http://localhost:8000/back/api/v1/boards/${boardSeq}/posts`, {
+        const postResponse = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/boards/${boardSeq}/posts`, {
           params: { page, size }
         });
 
@@ -111,6 +111,7 @@ onMounted(async () =>{
 
 .main-map {
   display: flex;
+  width: 100%;
 }
 
 .space-text {
