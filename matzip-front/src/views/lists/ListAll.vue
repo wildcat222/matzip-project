@@ -39,6 +39,8 @@ onMounted(fetchData);
       <p v-else>{{ errorMessage }}</p> <!-- 에러 메시지 출력 -->
     </div>
   </div>
+
+
 </template>
 
 <style scoped>
