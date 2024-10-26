@@ -100,15 +100,12 @@ const followClick = () => {
 };
 
 // 팔로잉, 팔로워 목록 호출하는 기능 -> 팔로워 팔로잉 목록 조회 api
-const loadFollow = ref(null);
-function toggleFollowerInfo(leadFollow) {
-  if (loadFollow.value === 'follower') {
-
-  } else if (leadFollow.value === 'following') {
-
-  }
-
+const followInfo = ref(false);
+const isVisibleFollow = () => {
+  followInfo.value = !followInfo.value;
 }
+
+
 
 
 
@@ -162,7 +159,7 @@ function toggleFollowerInfo(leadFollow) {
         </div>
 
         <div>
-          <div @click="isVisibleFollowerInfo" class="followerBtn">
+          <div @click="isVisibleFollow" class="followerBtn">
             <span>{{ followingCount }}</span>
           </div>
         </div>
@@ -174,13 +171,13 @@ function toggleFollowerInfo(leadFollow) {
         </div>
 
         <div>
-          <div @click="isVisibleFollowerInfo" class="followerBtn">
+          <div @click="isVisibleFollow" class="followerBtn">
             <span>{{ followerCount }}</span>
           </div>
         </div>
       </div>
 
-      <FollowerInfo v-if="followerInfo" id="followerInfoBox"/>
+      <FollowerInfo v-if="followInfo" id="followerInfoBox"/>
 
 
     </section>
@@ -196,6 +193,7 @@ function toggleFollowerInfo(leadFollow) {
   display: grid;
   grid-template-columns: 180px 2fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
+  margin-top: 30px;
 }
 
 .level {
@@ -220,5 +218,17 @@ function toggleFollowerInfo(leadFollow) {
 
 .user-menu {
   grid-area: 1/3/4/4;
+}
+
+.followerBtn {
+  cursor: pointer;
+}
+
+#followerInfoBox {
+  position: absolute;
+  top: 110px;
+  left: 400px;
+  z-index: 10;
+
 }
 </style>
