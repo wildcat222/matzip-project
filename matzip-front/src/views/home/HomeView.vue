@@ -111,6 +111,7 @@ onMounted(async () =>{
 
 .main-map {
   display: flex;
+  width: 100%;
 }
 
 .space-text {
