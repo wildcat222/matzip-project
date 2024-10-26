@@ -57,9 +57,15 @@ const routes = [
                 path: "user/:userSeq",
                 component: () => import('@/views/admin/admin-views/UserDetail.vue')
             },
+            {
+                path: 'report-search',
+                component: () => import('@/views/admin/admin-views/ReportSearch.vue')
+            },
             // {
-            //     path: 'report-search',
-            //     component: () => import('@/views/admin/admin-views/ReportSearch.vue')
+            //     path: '',
+            //     name: 'ReportHandling',
+            //     component: () => import('@/views/admin/admin-views/')
+            //
             // }
         ]
     }
