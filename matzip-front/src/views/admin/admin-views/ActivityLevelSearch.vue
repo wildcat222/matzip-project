@@ -99,7 +99,7 @@ onMounted(() => {
   <div class="col p-0 m-0">
 
     <div class="bg-primary-subtle ps-4">
-      <span>사용자 관리 > 회원 조회</span>
+      <span>사용자 관리 > 회원 > 활동 등급 관리 </span>
     </div>
     <div class="col my-4 ms-4">
       <h2 class="mb-4">활동 등급 관리</h2>
