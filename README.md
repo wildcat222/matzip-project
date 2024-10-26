@@ -26,7 +26,14 @@
 기본적으로 백엔드 서비스를 그대로 구동하고 백엔드의 Spring Cloud Gateway와 API로 통신하여 클라이언트 사이드 랜더링으로 프론트엔드를 구현하였습니다.
 
 ## 3. 산출물
+<details>
+<summary><strong>메인 화면 및 로그인</strong></summary>
+</details>
+<div markdown="1">
 
+![Main](./img/user.png)
+![Login](./img/user.png)
+</div>
 
 ## 4. 회고
 
