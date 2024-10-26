@@ -97,7 +97,11 @@ onMounted(fetchData);
           />
           <div class="comment-section">
             <input v-model="userComment" placeholder="댓글을 입력하세요..."/>
-            <button @click="addComment">댓글 등록</button> <!-- 댓글 등록 버튼 추가 -->
+            <button @click="addComment">
+              <div class="Cmttext">
+                댓글 등록
+                   </div>
+            </button> <!-- 댓글 등록 버튼 추가 -->
           </div>
         </div>
       </div>
@@ -120,6 +124,18 @@ onMounted(fetchData);
 .app {
   display: flex;
 }
+
+.list-detail-content{
+  background: #fff;
+  padding: 0.1px 20px 0.1px 20px;
+  border-radius: 13px;
+}
+
+.list-detail-matzip{
+  background: #fff;
+  border-radius: 13px;
+}
+
 .detail-content {
   display: flex;
   gap: 20px;
@@ -129,11 +145,28 @@ onMounted(fetchData);
 }
 .map {
   background-color: #333333;
-  height: 800px;
-  width: 1100px;
+  height: 1200px;
+  width:2000px;
   position: absolute;
   top: 0;
   left: 0;
   z-index: -5;
+}
+
+input{
+
+  border: 1px solid #FF7315;
+  border-radius: 13px;
+}
+
+button{
+  background-color: #FF7315;
+  border: 1px solid #FF7315;
+  border-radius: 13px;
+}
+i
+.Cmttext{
+  color: #f0f0f0;
+
 }
 </style>
