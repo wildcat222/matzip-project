@@ -14,7 +14,8 @@ const props = defineProps({
     <h3>댓글</h3>
     <ul>
       <li v-for="(comment, index) in comments" :key="index">
-        <p><strong>{{ comment.userNickname }}</strong>: {{ comment.listCommentContent }}</p>
+        <p>{{ comment.userNickname }}</p>
+         <p>{{ comment.listCommentContent }}</p>
         <p>업데이트: {{ comment.listCommentUpdatedTime }}</p>
         <p>좋아요수: {{ comment.likeCount }}</p>
       </li>
@@ -27,7 +28,7 @@ const props = defineProps({
 .list-detail-cmt {
   padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 13px;
 }
 h3 {
   margin-bottom: 10px;
@@ -39,8 +40,8 @@ ul {
 li {
   margin-bottom: 15px;
   padding: 10px;
-  border: 1px solid #eee;
-  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-radius: 13px;
 }
 h4 {
   margin: 0;
