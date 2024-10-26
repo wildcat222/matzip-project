@@ -44,6 +44,7 @@ function handleMenuItemClick() {
 
 // onMounted 와 onBeforeUnmount 훅 사용
 onMounted(() => {
+  console.log(localStorage.getItem('accessToken'));
   document.addEventListener('click', handleClickOutside); // 외부 클릭 리스너 추가
 
   // 메뉴 항목 클릭 리스너 추가
@@ -62,7 +63,7 @@ onBeforeUnmount(() => {
     item.removeEventListener('click', handleMenuItemClick);
   });
 });
-
+console.log(localStorage.getItem('accessToken'));
 </script>
 
 <template>
@@ -109,7 +110,7 @@ onBeforeUnmount(() => {
         <li class="menu-item">
           <b-dropdown id="dropdown-menu" variant="light" offset="25" text="Place" class="m-2" no-caret="">
             <b-dropdown-item>
-              <a href="">프로필</a>
+              <a href="/user/review">프로필</a>
             </b-dropdown-item>
             <b-dropdown-item>
               <a href="" @click="checkUserRole">마이페이지</a>

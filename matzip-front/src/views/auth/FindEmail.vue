@@ -52,13 +52,19 @@ const token = localStorage.getItem('token');
       <h1>이메일/비밀번호 찾기</h1>
       <div class="content-wrapper">
         <nav class="tab-menu">
-          <router-link to="/auth/find-email" class="active">이메일 찾기</router-link>
-          <router-link to="/auth/find-password">비밀번호 찾기</router-link>
+          <router-link to="/user/auth/find-email" class="active">이메일 찾기</router-link>
+          <router-link to="/user/auth/find-password">비밀번호 찾기</router-link>
         </nav>
 
         <div class="find-form">
-          <InputField label="이름" placeholder="이름을 입력하세요." v-model="name" />
-          <InputField label="휴대폰 번호" placeholder="휴대폰 번호를 입력하세요." v-model="phone" />
+          <InputField label="이름"
+                      placeholder="이름을 입력하세요."
+                      @keyup.enter="findEmail"
+                      v-model="name" />
+          <InputField label="휴대폰 번호"
+                      placeholder="휴대폰 번호를 입력하세요."
+                      @keyup.enter="findEmail"
+                      v-model="phone" />
 
           <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 
