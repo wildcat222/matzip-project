@@ -44,10 +44,11 @@ const goToListPage = (listSeq) => {
 }
 
 .hot-list-title {
+  margin: 20px;
   font-size: 30px;
   font-weight: bold;
-  margin-bottom: 60px;
-  text-align: left;
+  margin-bottom: 40px;
+  text-align: center;
 }
 
 .hot-list-items {
