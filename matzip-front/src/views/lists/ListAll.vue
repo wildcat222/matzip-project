@@ -15,13 +15,13 @@ const fetchData = async () => {
         size: size.value,
       }
     });
-    if (response.data && response.data.data2 && response.data.data2.listSearchAllDTOs) {
+    if(response.data && response.data.data2 && response.data.data2.listSearchAllDTOs){
       lists.value = response.data.data2.listSearchAllDTOs;
-    } else {
+    }else{
       lists.value = []; // 데이터 없을때 빈 배열 호출
-      errorMessage.value = '리스트가 없습니다.'
+      errorMessage.value='리스트가 없습니다.'
     }
-  } catch (error) {
+  } catch(error){
     console.error('데이터 로딩 중 오류 발생:', error);
     errorMessage.value = error.response ? error.response.data.message : error.message; // 에러메세지 저장
   }
@@ -42,7 +42,7 @@ onMounted(fetchData);
 </template>
 
 <style scoped>
-.listText {
+.listText{
   margin: 20px 0 0 0;
   width: 60px;
 }
