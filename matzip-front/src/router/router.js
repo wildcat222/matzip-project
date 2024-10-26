@@ -5,6 +5,7 @@ import ActivityLevelSearch from "@/views/admin/admin-views/ActivityLevelSearch.v
 import AdminBaseView from "@/views/admin/AdminBaseView.vue";
 import UserBase from "@/views/user/UserBase.vue";
 import ListAll from "@/views/Lists/ListAll.vue";
+import ListDetail from "@/views/Lists/ListDetail.vue";
 
 const routes = [
     { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
@@ -28,6 +29,7 @@ const routes = [
             // 모든리스트 조회 라우팅
             { path: 'listAll', name: 'ListAll', component: ListAll },
             { path: ":userSeq", component: () => import("@/views/user/UserProfileView.vue") },
+            { path: "list/detail/:listSeq", component: () =>import("@/views/Lists/ListDetail.vue") },
 
         ]
     },
