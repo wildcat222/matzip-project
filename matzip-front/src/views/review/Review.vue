@@ -33,7 +33,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>Review - View</h1>
+  <br>
+  <h1>Review</h1>
+  <br>
   <div>
     <ReviewMap :restaurants="stateRestaurant.restaurants"/>
   </div>
