@@ -29,7 +29,10 @@ const goToUserDetail = () => {
     <td>{{ post.boardCategoryName }}</td>
     <td @click.stop="goToPostDetail" class="post-title">{{ post.postTitle }}</td>
     <td @click.stop="goToUserDetail" class="user-nickname">{{ post.userNickname }}</td>
-    <td>{{ post.postCreatedTime }}</td>
+    <td>{{  new Date(post.postCreatedTime)
+        .toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit'}) }}
+    </td>
+
   </tr>
 </template>
 

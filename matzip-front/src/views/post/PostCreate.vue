@@ -7,6 +7,7 @@ import axios from "axios";
 
 const router = useRouter();
 const editor = ref(null);
+const currentUserSeq = ref(null);
 
 const formData = ref({
   boardCategorySeq: 1,
@@ -66,10 +67,11 @@ const submitPost = async () => {
   try {
     await axios.post('https://matzipapi.huichan.kr/back/api/v1/posts', dataToSend,{
       headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // localStorage에서 토큰 읽기
         "Content-Type": "application/json",
       },
     });
-    router.push('/post'); // 게시글 목록 페이지로 리다이렉트
+    router.push('/user/post'); // 게시글 목록 페이지로 리다이렉트
   } catch (error) {
     console.error('Post submission failed:', error);
   }
@@ -78,6 +80,12 @@ const submitPost = async () => {
 /* 컴포넌트 마운트 시 에디터 초기화 */
 onMounted(() => {
   initializeEditor();
+
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    const payload = JSON.parse(atob(token.split('.')[1]));  // JWT 토큰의 페이로드 추출
+    currentUserSeq.value = payload.sub; // 사용자 ID 저장
+  }
 });
 
 </script>

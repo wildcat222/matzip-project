@@ -69,7 +69,9 @@ const search = async () => {
     }
     endPoint.value += `orderBy=${searchParams.orderBy}`;
   }
+
   console.log(endPoint.value);
+
 };
 
 </script>
