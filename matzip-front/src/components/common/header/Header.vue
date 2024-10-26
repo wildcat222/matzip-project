@@ -67,85 +67,32 @@ console.log(localStorage.getItem('accessToken'));
 </script>
 
 <template>
-  <nav id="matzip-header" class="navbar">
-    <!-- 아이콘 및 WebName -->
-<!--    <div id="web-main">-->
-<!--      <img id="matzip-logo" src="@/assets/matzip-logo.png"/>-->
-<!--      <a id="navbar-web-name" href="http://localhost:5173/">-->
-<!--        MatZip-->
-<!--      </a>-->
-<!--    </div>-->
-    <Logo/>
-
-
-    <div id="menu-catalog">
-
-      <ul id="menu" class="menu-items">
-
-        <li class="menu-item">
-          <b-dropdown id="dropdown-menu" variant="light" offset="25" text="Post" class="m-2" no-caret="">
-            <b-dropdown-item>
-              <a href="">1번 게시판</a>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <a href="">2번 게시판</a>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <a href="">3번 게시판</a>
-            </b-dropdown-item>
-          </b-dropdown>
-        </li>
-
-        <li class="menu-item">
-          <b-dropdown id="dropdown-menu" variant="light" offset="25" text="List" class="m-2" no-caret="">
-            <b-dropdown-item>
-              <a href="http://localhost:5173/user/listAll">전체 리스트</a>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <a href="">나의 리스트</a>
-            </b-dropdown-item>
-          </b-dropdown>
-        </li>
-
-        <li class="menu-item">
-          <b-dropdown id="dropdown-menu" variant="light" offset="25" text="Place" class="m-2" no-caret="">
-            <b-dropdown-item>
-              <a href="/user/review">프로필</a>
-            </b-dropdown-item>
-            <b-dropdown-item>
-              <a href="" @click="checkUserRole">마이페이지</a>
-            </b-dropdown-item>
-          </b-dropdown>
-        </li>
-
-      </ul>
-
-
-    </div>
-
-
-    <!-- 인기 태그 노출 -->
-    <div id="best-tag">1. 인기 태그</div>
-
-    <b-dropdown text="" variant="link" no-caret="">
-      <b-dropdown-item>액션 1</b-dropdown-item>
-      <b-dropdown-item>액션 2</b-dropdown-item>
-    </b-dropdown>
-
-      <div>
-        <button v-if="!authStore.accessToken" @click="handleLogin">로그인</button>
-        <button v-if="authStore.accessToken" @click="handleLogout">로그아웃</button>
+  <b-navbar id="matzip-header" class="navbar navbar-expand-lg">
+    <b-navbar-brand href="#">
+      <Logo />
+    </b-navbar-brand>
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-collapse id="nav-collapse" is-nav>
+      <div class="d-flex justify-content-between w-100">
+        <b-navbar-nav>
+          <b-nav-item href="/user/post">Post</b-nav-item>
+          <b-nav-item-dropdown text="List">
+            <b-dropdown-item href="/user/listAll">전체 리스트</b-dropdown-item>
+            <b-dropdown-item href="#" disabled>나의 리스트</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item href="/user/review">Review</b-nav-item>
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item id="best-tag">1. 인기 태그</b-nav-item>
+          <button class="customButton" v-if="!authStore.accessToken" @click="handleLogin">로그인</button>
+          <button class="customButton" v-if="authStore.accessToken" @click="handleLogout">로그아웃</button>
+        </b-navbar-nav>
       </div>
-
-  </nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <style scoped>
-
-a {
-  text-decoration: none;
-  color: black;
-}
 
 .navbar {
   display: flex;
@@ -156,53 +103,32 @@ a {
   background-color: #f8f9fa;   /* 배경색 (선택) */
 }
 
-/*#web-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.d-flex {
+  margin-left: 20px;
 }
 
-#matzip-logo {
-  width: 50px;
-  height: 50px;
-}
-
-#navbar-web-name {
-  font-size: 25px;
+.nav-item {
+  font-size: large;
   font-weight: bold;
-  color: #ff6f20;
-}*/
-
-
-#menu-catalog {
-  margin-left: 30px;
-}
-
-.menu-items {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  display: flex;
-  align-items: center;
-}
-
-.menu-items > li {
-  font-size: 20px;
-  cursor: pointer;
-
+  min-width: 75px;
 }
 
 #best-tag {
-  display: flex;
-  margin-left: auto;
-  color: grey;
+  font-weight: lighter;
 }
 
-#dropdown-menu {
-  color: #ff6f20;
+.customButton {
+  background-color: #ff6f20; 
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-left: 30px;
+  margin-right: 10px;
+  min-width: 75px;
 }
-
-
-
+.customButton:hover {
+  background-color: #e65a00; 
+}
 
 </style>

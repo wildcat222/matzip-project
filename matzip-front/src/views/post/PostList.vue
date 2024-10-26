@@ -73,7 +73,7 @@ const onSearch = (searchParams) => {
 
 // 상품 등록 페이지 route
 const goToPostCreate = () => {
-  router.push(`/post/create`);
+  router.push(`/user/post/create`);
 };
 
 // 컴포넌트 마운트 시 제품 목록 로드
@@ -123,7 +123,7 @@ button:hover {
 }
 
 div {
-  text-align: right;
+  text-align: center;
   margin-bottom: 10px;
 }
 </style>

@@ -14,7 +14,7 @@ const router = useRouter();
 
 // 게시글 상세 페이지로 이동하는 함수
 const goToPostDetail = (postSeq) => {
-  router.push(`/post/${postSeq}`); // 게시글 ID로 상세 페이지로 이동
+  router.push(`/user/post/${postSeq}`); // 게시글 ID로 상세 페이지로 이동
 };
 
 // 사용자 페이지로 이동하는 함수
@@ -42,7 +42,7 @@ const goToUserDetail = (userSeq) => {
               :key="post.postSeq"
               :post="post"
               @post-click="goToPostDetail"
-              @nickname-click="gotoUserDetail"
+              @nickname-click="goToUserDetail"
           />
         </tbody>
       </table>
