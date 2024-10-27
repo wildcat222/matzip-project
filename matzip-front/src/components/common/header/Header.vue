@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { onMounted } from 'vue';
 import Logo from '@/components/common/Logo.vue';
 import { useAuthStore } from '@/components/stores/auth.js';
 import {useRouter} from "vue-router";
@@ -8,7 +8,6 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 function checkUserRole() {
-  console.log(authStore.userRole);
   if (authStore.userRole.includes('admin')) router.push('/admin');
   else if (authStore.userRole.includes('user')) router.push(`/user/${authStore.userSeq}`);
   else {
@@ -25,46 +24,10 @@ function handleLogout() {
   authStore.logout();
 }
 
-function handleClickOutside(event) {
-  const dropdowns = document.querySelectorAll('.dropdown');
-
-  if (activeMenu.value) {
-    const isClickInsideDropdown = Array.from(dropdowns).some(dropdown =>
-        dropdown.contains(event.target)
-    );
-
-    if (!isClickInsideDropdown) {
-      activeMenu.value = null; // 드롭다운 외부 클릭 시 숨김
-    }
-  }
-}
-
-function handleMenuItemClick() {
-  activeMenu.value = null; // 메뉴 항목 클릭 시 드롭다운 숨김
-}
-
-// onMounted 와 onBeforeUnmount 훅 사용
 onMounted(() => {
-  console.log(localStorage.getItem('accessToken'));
-  document.addEventListener('click', handleClickOutside); // 외부 클릭 리스너 추가
 
-  // 메뉴 항목 클릭 리스너 추가
-  const menuItems = document.querySelectorAll('.dropdown .menu-item');
-  menuItems.forEach(item => {
-    item.addEventListener('click', handleMenuItemClick);
-  });
 });
 
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside); // 컴포넌트 언마운트 시 리스너 제거
-
-  // 메뉴 항목 클릭 리스너 제거
-  const menuItems = document.querySelectorAll('.dropdown .menu-item');
-  menuItems.forEach(item => {
-    item.removeEventListener('click', handleMenuItemClick);
-  });
-});
-console.log(localStorage.getItem('accessToken'));
 </script>
 
 <template>
