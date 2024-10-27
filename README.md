@@ -13,6 +13,8 @@
   - [2. 프로젝트 주요 기능](#2-프로젝트-주요-기능)
     - [2-0. 백엔드 연동](#2-0-백엔드-연동)
   - [3. 산출물](#3-산출물)
+    - [3-1. 화면 설계서 (Figma)](#3-1-화면-설계서-figma)
+    - [3-2. 테스트 결과 보고서](#3-2-테스트-결과-보고서)
   - [4. 회고](#4-회고)
 
 ## 1. 프로젝트 개요
@@ -26,6 +28,12 @@
 기본적으로 백엔드 서비스를 그대로 구동하고 백엔드의 Spring Cloud Gateway와 API로 통신하여 클라이언트 사이드 랜더링으로 프론트엔드를 구현하였습니다.
 
 ## 3. 산출물
+
+### 3-1. 화면 설계서 (Figma)
+
+[화면 설계서 (Figma)](https://www.figma.com/design/RRkdSm2kuC2M1eGboUZl5M/MAT.ZIP?node-id=0-1&node-type=canvas&t=A4BxdscJTxuUAjuZ-0)
+
+### 3-2. 테스트 결과 보고서
 
 <details>
   <summary><strong> 로그인 </strong></summary>
@@ -79,6 +87,23 @@
   <h4> - 전체 리스트 -> 리스트 상세조회 </h4>
   
   ![ListAll-ListDetail.gif](assets/gifs/list/ListAll-ListDetail.gif)
+
+</details>
+
+<details>
+<summary><strong>리뷰</strong></summary>
+
+  <h4> - 리뷰 맵 조회 </h4>
+
+  ![ListCreate.gif](assets/gifs/review/review_playmap.gif)
+
+  <h4> - 리뷰 조회 </h4>
+
+  ![List-Comment.gif](assets/gifs/review/review_restaurant_review.gif)
+
+  <h4> - 리뷰 작성 </h4>
+  
+  ![List-GetMatzip.gif](assets/gifs/review/review_review_write.gif)
 
 </details>
 
