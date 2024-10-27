@@ -130,7 +130,7 @@ const saveChanges = async () => {
     // console.error('회원 정보 수정 실패:', error);
     if (error.response.status === 409) {
       // 서버에서 HttpStatus.CONFLICT를 반환한 경우
-      alert('같은 정보로는 수정할수 없습니다.');
+      alert('이미 사용 중인 닉네임입니다. 다른 닉네임을 선택해주세요.');
     } else if (error.response.status === 400) {
       // 서버에서 HttpStatus.BAD_REQUEST 반환한 경우
       alert('닉네임은 2자 이상 16자 이하여야합니다.');
