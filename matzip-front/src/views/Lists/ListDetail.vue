@@ -86,6 +86,7 @@ onMounted(fetchData);
         <div class="list-detail-content">
           <ListDetailContent
               v-if="listData"
+              :userSeq="listData.listUserSeq"
               :nickname="listData.userNickname"
               :title="listData.listTitle"
               :content="listData.listContent"
@@ -166,13 +167,13 @@ onMounted(fetchData);
 }
 
 .map {
-  background-color: #333333;
-  height: 1200px;
-  width: 2000px;
-  position: absolute;
+  background: linear-gradient(to bottom, #f0f0f0, #ffffff); /* 그라데이션 설정 */
+  height: 100vh; /* 화면 전체 높이 설정 */
+  width: 100vw; /* 화면 전체 너비 설정 */
+  position: absolute; /* 절대 위치 설정 */
   top: 0;
   left: 0;
-  z-index: -5;
+  z-index: -1; /* 맵이 콘텐츠 뒤에 있도록 설정 */
 }
 
 input {
