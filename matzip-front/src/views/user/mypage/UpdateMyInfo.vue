@@ -146,8 +146,7 @@ const changePassword = async () => {
   }
 
   try {
-    // await axios.put(`https://matzipapi.huichan.kr/user/api/v1/user/change-password/${userSeq.value}`, {
-    await axios.put(`http://localhost:8000/user/api/v1/user/change-password/${userSeq.value}`, {
+    await axios.put(`https://matzipapi.huichan.kr/user/api/v1/user/change-password/${userSeq.value}`, {
       userPassword: userPassword.value,
     }, {
       headers: {
