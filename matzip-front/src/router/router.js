@@ -40,9 +40,9 @@ const routes = [
                 component: () => import("@/views/user/UserProfileView.vue") },
             { path: ":userSeq/update", meta: { requiresAuth: true },
                 component: () => import("@/views/user/mypage/UpdateMyInfo.vue") },
-            { path: ":userSeq/withdraw", meta: { requiresAuth: true },
+            { path: ":userSeq/withdraw",
                 component: () => import("@/views/user/mypage/DeleteMyInfo.vue") },
-            { path: ":userSeq/withdrawSuccess", meta: { requiresAuth: true },
+            { path: ":userSeq/withdrawSuccess",
                 component: () => import("@/views/user/mypage/DeleteInfoSuccess.vue") },
 
         ]

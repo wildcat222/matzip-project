@@ -128,7 +128,13 @@ const saveChanges = async () => {
     Object.assign(originalData, formData); // 원본 데이터 갱신
   } catch (error) {
     // console.error('회원 정보 수정 실패:', error);
-    alert('회원 정보 수정에 실패했습니다.');
+    if (error.response.status === 409) {
+      // 서버에서 HttpStatus.CONFLICT를 반환한 경우
+      alert('같은 정보로는 수정할수 없습니다.');
+    } else if (error.response.status === 400) {
+      // 서버에서 HttpStatus.BAD_REQUEST 반환한 경우
+      alert('닉네임은 2자 이상 16자 이하여야합니다.');
+    }
   }
 };
 
@@ -140,7 +146,8 @@ const changePassword = async () => {
   }
 
   try {
-    await axios.put(`https://matzipapi.huichan.kr/user/api/v1/user/change-password/${userSeq.value}`, {
+    // await axios.put(`https://matzipapi.huichan.kr/user/api/v1/user/change-password/${userSeq.value}`, {
+    await axios.put(`http://localhost:8000/user/api/v1/user/change-password/${userSeq.value}`, {
       userPassword: userPassword.value,
     }, {
       headers: {
@@ -156,9 +163,14 @@ const changePassword = async () => {
     // console.log(confirmPassword.value)
   } catch (error) {
     // console.error('비밀번호 변경 실패:', error);
-    // console.error('비밀번호 변경 실패:', error.response ? error.response.data : error.message);
+    if (error.response.status === 409) {
+      // 서버에서 HttpStatus.CONFLICT를 반환한 경우
+      alert('같은 비밀번호로는 수정할수 없습니다.');
+    } else if (error.response.status === 400) {
+      // 서버에서 HttpStatus.BAD_REQUEST 반환한 경우
+      alert('비밀번호는 영문, 숫자, 특수문자(!@#$%^&*.,? 사용가능)를 모두 포함해 8자리 이상이어야 합니다.');
+    }
 
-    alert('비밀번호 변경에 실패했습니다.');
     // console.log(userPassword.value)
     // console.log(confirmPassword.value)
   }

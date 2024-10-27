@@ -29,7 +29,8 @@ const submitWithdrawal = async () => {
       }
     });
       alert('회원 탈퇴가 완료되었습니다.');
-      await router.push(`/${userSeq.value}/withdrawSuccess`);
+    authStore.logout();
+      await router.push(`/user/${userSeq.value}/withdrawSuccess`);
   } catch (error) {
     // console.error('회원 탈퇴 실패:', error);
     alert('회원 탈퇴에 실패했습니다. 다시 시도해 주세요.');
