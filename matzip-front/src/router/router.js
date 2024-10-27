@@ -99,6 +99,9 @@ router.beforeEach((to, from, next) => { //라우팅 하려고하는곳, 하기�
         // 약관 동의 없이 회원가입 페이지로 직접 접근할 때
     } else if((to.path === '/user/auth/register' && !authStore.isTermsAccepted)) {
         next({ path: '/user/auth/registerTOS' }); // 약관 동의 페이지로
+        // 회원이 관리자페이지 접근할때
+    } else if((to.path.includes('/admin') && authStore.isTermsAccepted)) {
+        next({ path: `/user/${userSeq}` }); // 약관 동의 페이지로
         // 비회원이 마이페이지 관련 페이지에 접근할 때
     } else {
         next(); // 나머지 경우는 계속 진행
