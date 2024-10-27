@@ -41,7 +41,6 @@ const verificationRequested = ref(false);
 
 // 이메일 인증 코드 전송
 const sendVerificationCode = async () => {
-  if (formData.value.userEmail && formData.value.userName) {
     try {
       if (formData.value.userEmail === '' || formData.value.userEmail == null) {
         errorMessage.value = '이메일을 입력해 주세요';
@@ -77,9 +76,6 @@ const sendVerificationCode = async () => {
         console.error('알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
       }
     }
-  } else {
-    errorMessage.value = '이름과 이메일을 모두 입력해 주세요.';
-  }
 };
 
 // 이메일 인증 코드 확인
