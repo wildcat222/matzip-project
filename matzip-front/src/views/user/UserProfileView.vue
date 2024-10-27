@@ -2,28 +2,32 @@
 import {ref, onMounted} from "vue";
 import axios from "axios";
 import {useRoute} from 'vue-router';
-// import { useAuthStore } from "@/components/stores/auth.js";
+import { useAuthStore } from "@/components/stores/auth.js";
 import ElementBox from "@/components/userprofile/ElementBox.vue";
 import UserProfile from "@/components/userprofile/UserProfile.vue";
 import UserList from "@/components/userprofile/UserList.vue";
 
+const authStore = useAuthStore();
 
 
-
-const userData = ref(null);
+const errorMessage = ref(null);
 const currentRoute = useRoute();
+const userData = ref({});
+const ListItem = ref([]);
+
 
 onMounted(async () => {
 
   try {
     const infoUserSeq = currentRoute.params.userSeq;
     // 1. 회원 상세 정보 조회 api 호출
-    // console.log(infoUserSeq); // 로그 확인 용
+    console.log(infoUserSeq); // 로그 확인 용
     const resUserInfo = await axios.get(`https://matzipapi.huichan.kr/user/api/v1/user/${infoUserSeq}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
     });
     userData.value = await resUserInfo.data.data2;
-    // console.log(userData);  // 로그 확인 용
+    console.log(userData);  // 로그 확인 용
+    console.log(userData.userSeq);
 
 
     // 2. 유저가 작성한 후기 조회(본인, 타인) api -> OnMounted -> userSeq
@@ -31,17 +35,20 @@ onMounted(async () => {
 
 
     // 3. 특정 유저가 작성한 리스트 목록 조회 api -> null 값 반환..?
-    const listBoxItems = ref(null);
-    const resListItems = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/${infoUserSeq}`, {
-      "page": 1,
-      "size": 10
-    }, { headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
-    });
-    listBoxItems.value = resListItems.data.data;
-    // console.log(listBoxItems); // 로그 확인 용
 
-    if (listBoxItems.value === null) {
-      console.log('리스트가 존재하지 않습니다.');
+    const listResponse = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/${infoUserSeq}`, {
+      params: {
+        "page": 1,
+        "size": 10
+      },
+      headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
+    });
+    if(listResponse.data && listResponse.data.data){
+      ListItem.value = Response.data.data;
+    }else{
+      ListItem.value = [];
+      errorMessage.value='리스트가 없습니다.'
+      console.log(ListItem.value);
     }
 
   } catch (error) {
@@ -129,7 +136,7 @@ const followChange = async () => {
 
     <!-- 회원 리스트 -->
     <section class="user-list">
-      <UserList :listBoxItems="listBoxItems"/>
+      <UserList :ListItem="ListItem"/>
     </section>
 
   </div>
