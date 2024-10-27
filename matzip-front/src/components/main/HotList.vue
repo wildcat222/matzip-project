@@ -69,7 +69,7 @@ const getRandomPastelColor = () => {
 .hot-list-item {
   flex-basis: 18%;
   flex-grow: 1;
-  min-width: 240px;
+  min-width: 20px;
   min-height: 280px;
   border: 1px solid #ddd;
   border-radius: 4px;
