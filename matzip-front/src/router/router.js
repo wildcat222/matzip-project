@@ -5,6 +5,7 @@ import ActivityLevelSearch from "@/views/admin/admin-views/ActivityLevelSearch.v
 import AdminBaseView from "@/views/admin/AdminBaseView.vue";
 import UserBase from "@/views/user/UserBase.vue";
 import ListAll from "@/views/Lists/ListAll.vue";
+import ListDetail from "@/views/Lists/ListDetail.vue";
 
 const routes = [
     { path: "/login", component: () => import("@/views/auth/LoginForm.vue") },
@@ -29,8 +30,12 @@ const routes = [
             { path: 'listAll', name: 'ListAll', component: ListAll },
             // 유저 마이페이지 조회
             { path: ":userSeq", component: () => import("@/views/user/UserProfileView.vue") },
+            // 리스트 g
+            { path: "list/detail/:listSeq", component: () =>import("@/views/Lists/ListDetail.vue") },
+
             // 리스트 다른 사람 서랍 조회
             { path: 'listbox/:listUserSeq', component: () => import("@/views/Lists/ListBox.vue")},
+
 
 
         ]
@@ -61,12 +66,20 @@ const routes = [
                 path: 'report-search',
                 component: () => import('@/views/admin/admin-views/ReportSearch.vue')
             },
-            // {
-            //     path: '',
-            //     name: 'ReportHandling',
-            //     component: () => import('@/views/admin/admin-views/')
-            //
-            // }
+            {
+                path: 'report-reason',
+                component: () => import('@/views/admin/admin-views/ReportReason.vue')
+
+            },
+            {
+                path: 'penalty',
+                name: 'ReportHandling',
+                component: () => import('@/views/admin/admin-views/PenaltyDetail.vue')
+            },
+            {
+                path: 'penalty-search',
+                component: () => import('@/views/admin/admin-views/PenaltySearch.vue')
+            }
         ]
     }
 ];

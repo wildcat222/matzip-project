@@ -9,7 +9,7 @@ const user = ref({}); // 사용자 정보를 저장할 ref
 const fetchUserDetail = async () => {
   const userSeq = route.params.userSeq; // URL에서 userSeq 가져오기
   try {
-    const response = await axios.get(`http://localhost:8000/user/api/v1/user/${userSeq}`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/user/api/v1/user/${userSeq}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }

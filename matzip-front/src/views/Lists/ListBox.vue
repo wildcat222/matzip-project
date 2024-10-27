@@ -45,7 +45,7 @@ onMounted(() => {
 const fetchMyList = async (page, size) => {
   try {
     const token = localStorage.getItem('accessToken');
-    const response = await axios.get(`http://localhost:8000/back/api/v1/listbox/listUserSeq`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/listUserSeq`, {
       headers: {
         Authorization: `Bearer ${token}` // 헤더에 Authorization 추가
       },
@@ -78,8 +78,7 @@ const fetchMyList = async (page, size) => {
 
 const fetchOtherList = async (listUserSeq, page, size) => {
   try {
-    // const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/${listUserSeq}`, {
-    const response = await axios.get(`http://localhost:8000/back/api/v1/listbox/${listUserSeq}`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/listbox/${listUserSeq}`, {
       params: {
         listUserSeq,
         page,

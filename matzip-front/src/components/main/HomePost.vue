@@ -2,11 +2,21 @@
   <div class="home-post-container">
     <div class="board-list">
       <div class="board-item" v-for="(board, index) in boards" :key="index">
-        <h3 class="board-name" @click="onBoardClick(board.name)">{{ board.name }}</h3>
-        <div class="divider"></div> <!-- 주황색 줄 추가 -->
+        <!-- 게시판 이름 클릭 시 이동 -->
+        <h3 class="board-name" @click="onBoardClick(board.seq)">
+          {{ board.name }}
+        </h3>
+
+        <!-- 주황색 줄 추가 -->
+        <div class="divider"></div>
+
+        <!-- 게시판의 게시물 목록 -->
         <ul class="recent-posts">
-          <li v-for="(post, postIndex) in board.recentPosts" :key="postIndex" class="post-item" @click="onPostClick(post.title)">
-            - {{ post.title }} by {{ post.userNickname }} <!-- 게시물 제목과 작성자 표시 -->
+          <li v-for="(post, postIndex) in board.recentPosts"
+              :key="postIndex"
+              class="post-item"
+              @click="onPostClick(post)">
+            - {{ post.title }} by {{ post.userNickname }}
           </li>
         </ul>
       </div>
@@ -16,6 +26,9 @@
 
 <script setup>
 import {defineProps} from 'vue';
+import {useRouter} from 'vue-router';
+
+const router = useRouter();
 
 // props로 데이터 받기
 const props = defineProps({
@@ -25,13 +38,23 @@ const props = defineProps({
   }
 });
 
-// 클릭 이벤트 핸들러
-const onBoardClick = (name) => {
-  console.log(`게시판 ${name} 클릭!`); // 테스트용 코드 지우고 다른 기능 넣을 예정
+// 게시판 이름 클릭 이벤트 핸들러
+const onBoardClick = (boardSeq) => {
+  const page = 1; // 페이지 번호
+  const size = 5; // 한 페이지당 항목 수
+  // 쿼리 파라미터를 사용하여 게시판으로 이동
+  router.push({
+    path: '/user/post', // 사용자 게시물 페이지 경로
+    query: {boardSeq, page, size} // 쿼리 파라미터 설정
+  });
 };
 
+// 게시물 클릭 이벤트 핸들러
 const onPostClick = (post) => {
-  console.log(`게시물 ${post.title} 클릭!`); // 테스트용 코드 지우고 다른 기능 넣을 예정
+  // 게시물 ID만 쿼리 파라미터로 전달
+  router.push({
+    path: `/user/post/${post.seq}`,
+  });
 };
 </script>
 
