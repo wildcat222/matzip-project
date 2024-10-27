@@ -83,9 +83,11 @@
     <div v-if="isModalVisible" class="modal">
       <div class="modal-content">
         <h4>더보기</h4>
-        <button @click="editPostHandler">게시글 수정</button>
-        <button @click="deletePostHandler">게시글 삭제</button>
-        <button @click="closeModal">닫기</button>
+        <div class="button-container">
+          <button class="modal-button edit-button" @click="editPostHandler">게시글 수정</button>
+          <button class="modal-button delete-button" @click="deletePostHandler">게시글 삭제</button>
+          <button class="modal-button close-button" @click="closeModal">닫기</button>
+        </div>
       </div>
     </div>
 
@@ -189,6 +191,32 @@ const submitComment = async () => {
   width: 300px;
   max-width: 80%;
   height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-button {
+  background-color: #ff6f20;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 18px;
+  width: 200px;
+}
+
+.modal-button:hover {
+  background-color: #e65c15;
 }
 
 .boardCategory {
