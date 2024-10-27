@@ -71,12 +71,10 @@ const onSearch = (searchParams) => {
   fetchPosts(1);  // 페이지를 1로 초기화하고 다시 호출
 };
 
-// 상품 등록 페이지 route
 const goToPostCreate = () => {
   router.push(`/user/post/create`);
 };
 
-// 컴포넌트 마운트 시 제품 목록 로드
 onMounted(() =>{
   fetchBoards(); // 게시판 카테고리 조회
   fetchPosts();  // 게시글 목록 조회
@@ -105,7 +103,7 @@ onMounted(() =>{
 .button-container {
   display: flex;
   justify-content: flex-start; /* 왼쪽 정렬 */
-  margin-bottom: 10px; /* 아래쪽 여백 */
+  margin-bottom: 10px;
 }
 
 button {
@@ -115,11 +113,11 @@ button {
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 13px; /* 모서리 둥글게 */
+  border-radius: 13px;
 }
 
 button:hover {
-  background-color: #e65c15; /* 호버 시 색상 변경 */
+  background-color: #e65c15;
 }
 
 div {

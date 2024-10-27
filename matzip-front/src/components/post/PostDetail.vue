@@ -2,14 +2,14 @@
 
   <div class="post-detail">
     <div class="boardCategory">
-      <h1>{{ post.boardCategoryName }}  <!-- 게시판 카테고리 이름 --></h1>
+      <h1>{{ post.boardCategoryName }}</h1>
     </div>
 
     <div class="ArticleContentBox">
 
       <div class="article_header">
         <div class="ArticleTitle">
-          <h2 class="title_text">{{ post.postTitle }}</h2>   <!-- 게시글 제목 -->
+          <h2 class="title_text">{{ post.postTitle }}</h2>
           <div class="ArticleTool">
             <div>{{ post.likeCount }}</div>
             <div v-if="isUserPostOwner" @click="toggleMenu" class="menu-toggle">
@@ -31,28 +31,29 @@
         </div>
       </div>
 
-
-      <div class="article_container">
+      <div class="article_container" style="margin: 0 20px;">
         <div class="article_container" style="display: flex; justify-content: center;">
-          <div class="restaurant-info" v-if="post.restaurant" style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 300px;">
+          <div class="restaurant-info" v-if="post.restaurant"
+               style="border: 1px solid #ccc; padding: 15px; border-radius: 8px; width: 300px; margin-bottom: 30px">
             <h4 style="color: orange; font-weight: bold; text-align: center">🍖 오늘의 맛집 🍹</h4>
-            <p>{{ post.restaurant.restaurantTitle }}</p>    <!-- 음식점 이름 -->
-            <p>{{ post.restaurant.restaurantAddress }}</p>  <!-- 음식점 주소 -->
-            <p>{{ post.restaurant.restaurantPhone }}</p>    <!-- 음식점 전화번호 -->
+            <p>{{ post.restaurant.restaurantTitle }}</p>
+            <p>{{ post.restaurant.restaurantAddress }}</p>
+            <p>{{ post.restaurant.restaurantPhone }}</p>
           </div>
         </div>
 
-        <div v-html="post.postContent"></div>  <!-- 게시글 내용(HTML로 렌더링) -->
+        <div v-html="post.postContent"></div>
 
         <div class="tags" v-if="post.tags.length">
           <ul class="tags-list">
-            <li v-for="tag in post.tags" :key="tag.postTagSeq"># {{ tag.tagName }}</li>  <!-- 태그 목록 -->
+            <li v-for="tag in post.tags" :key="tag.postTagSeq"># {{ tag.tagName }}</li>
           </ul>
         </div>
       </div>
+
     </div>
 
-    <hr class="orange-line" /> <!-- 주황색 줄 추가 -->
+    <hr class="orange-line" />
 
     <div class="commentBox" style="display: block">
       <h4 class="comment">댓글</h4>
@@ -82,9 +83,11 @@
     <div v-if="isModalVisible" class="modal">
       <div class="modal-content">
         <h4>더보기</h4>
-        <button @click="editPost">게시글 수정</button>
-        <button @click="deletePostHandler">게시글 삭제</button>
-        <button @click="closeModal">닫기</button>
+        <div class="button-container">
+          <button class="modal-button edit-button" @click="editPostHandler">게시글 수정</button>
+          <button class="modal-button delete-button" @click="deletePostHandler">게시글 삭제</button>
+          <button class="modal-button close-button" @click="closeModal">닫기</button>
+        </div>
       </div>
     </div>
 
@@ -102,7 +105,7 @@ const props = defineProps({
     required: true,
   },
   postId: {
-    type: Number,
+    type: String,
     required: true,
   },
   isUserPostOwner: {
@@ -111,9 +114,9 @@ const props = defineProps({
   }
 });
 
-const newComment = ref(''); // 댓글 입력값을 위한 상태
+const newComment = ref('');         // 댓글 입력값을 위한 상태
 const emit = defineEmits(['comment-submitted', 'delete-post']);
-const isModalVisible = ref(false); // 모달 가시성 상태
+const isModalVisible = ref(false);  // 모달 가시성 상태
 
 // 모달
 const toggleMenu = () => {
@@ -127,8 +130,14 @@ const closeModal = () => {
 
 // 게시글 삭제 클릭시
 const deletePostHandler = () => {
-  closeModal(); // 모달 닫기
-  emit('delete-post'); // 부모에게 delete-post 이벤트 emit
+  closeModal();
+  emit('delete-post');
+};
+
+// 게시글 수정 클릭시
+const editPostHandler = () => {
+  closeModal();
+  emit('edit-post');
 };
 
 // 댓글 필터링 (반환된 댓글 배열 length가 1인데 실제로는 댓글이 없는 경우를 걸러내기 위함)
@@ -152,20 +161,15 @@ const submitComment = async () => {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
     });
-    newComment.value = ''; // 댓글 입력창 비우기
-    // 댓글 등록 후 부모 컴포넌트에 이벤트를 통해 게시글 상세 정보 다시 요청
+    newComment.value = '';  // 댓글 입력창 비우기
     emit('comment-submitted');
   } catch (error) {
     console.error('댓글 등록 중 오류가 발생했습니다:', error);
   }
 };
-
-
-
 </script>
 
 <style scoped>
-
 .modal {
   display: flex;
   justify-content: center;
@@ -184,9 +188,35 @@ const submitComment = async () => {
   padding: 20px;
   border-radius: 5px;
   text-align: center;
-  width: 300px; /* 너비를 설정 */
-  max-width: 80%; /* 반응형을 위해 최대 너비를 설정 */
-  height: auto; /* 높이는 자동으로 조절 */
+  width: 300px;
+  max-width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.modal-button {
+  background-color: #ff6f20;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 18px;
+  width: 200px;
+}
+
+.modal-button:hover {
+  background-color: #e65c15;
 }
 
 .boardCategory {
@@ -194,12 +224,12 @@ const submitComment = async () => {
   background-color: #FD9976;
   color: white;
   font-style: italic;
-  padding: 10px; /* 여백 추가 */
+  padding: 10px;
 }
 
 .article_header {
-  display: flex; /* flexbox 사용 */
-  flex-direction: column; /* 세로 방향으로 정렬 */
+  display: flex;
+  flex-direction: column;
   border-bottom: 3px red;
   margin-bottom: 20px;
   padding-bottom: 20px;
@@ -207,30 +237,30 @@ const submitComment = async () => {
 
 .ArticleTitle {
   display: flex;
-  justify-content: space-between; /* 제목과 더보기 메뉴를 양쪽 끝으로 배치 */
+  justify-content: space-between;
   align-items: center;
   margin-top: 20px;
 }
 
 .ArticleTool {
   display: flex;
-  justify-content: space-between; /* 양쪽 끝으로 배치 */
-  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: space-between;
+  align-items: center;
 }
 
 .WriterInfo {
-  display: flex;        /* 닉네임과 날짜를 가로로 배치 */
-  align-items: center;  /* 수직 중앙 정렬 */
+  display: flex;
+  align-items: center;
   margin-top: 5px;
 }
 
 .WriterInfo .date {
-  margin-left: 15px;    /* 닉네임과 날짜 사이 여백 추가 */
+  margin-left: 15px;
 }
 
 .nickname {
   color: #000;
-  cursor: pointer;        /* 마우스 커서를 손가락 모양으로 변경 */
+  cursor: pointer;
 }
 
 .ArticleContentBox .article_header {
@@ -242,7 +272,7 @@ const submitComment = async () => {
 
 .menu-toggle {
   cursor: pointer;
-  margin-left: 15px; /* 버튼과 좋아요 카운트 사이의 간격 추가 */
+  margin-left: 15px;
   margin-right: 30px;
 }
 
