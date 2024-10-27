@@ -102,15 +102,12 @@ onMounted(() => {
     <ul>
       <li v-for="restaurant in restaurants" :key="restaurant.restaurantSeq">
         <h4>{{ restaurant.restaurantTitle }}</h4>
-        <p>{{ restaurant.listMatzipComment }}</p>
-        <p>주소: {{ restaurant.restaurantAddress }}</p>
-        <p>전화번호: {{ restaurant.restaurantPhone }}</p>
-        <p>별점: {{ restaurant.restaurantStar }}</p>
-        <div class="like">
-          <img src="../../assets/LikeMark.png"/>
-          <div class="liketext">
-            <p>{{ restaurant.likeCount }}</p>
-
+        <div class="info-container">
+          <p class="address">{{ restaurant.restaurantAddress }}</p>
+          <p class="comment">{{ restaurant.listMatzipComment }}</p>
+          <p class="star">⭐️ {{ restaurant.restaurantStar }}</p>
+          <div class="like">
+            <p>Like: {{ restaurant.likeCount }}</p>
           </div>
         </div>
         <!-- 모달 열기 버튼 추가 -->
@@ -142,8 +139,11 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
+<<style scoped>
 
+h4{
+  font-weight: bold;
+}
 
 .list-detail-matzip {
   padding: 20px;
@@ -157,17 +157,17 @@ ul {
   list-style: none;
   padding: 0;
 }
-img{
-  width: 35px;
-  height: 32px;
-}
-.like{
-  display: flex;
-}
-.liketext{
-  font-size: 22px;
 
-  padding-left: 10px;
+.like {
+  display: flex;
+  justify-content: flex-end; /* 좋아요 항목을 오른쪽으로 정렬 */
+}
+
+.restaurant-info {
+  display: flex;
+  flex-direction: column; /* 항목들을 수직 정렬 */
+  gap: 5px; /* 항목 간격 조절 */
+  margin-bottom: 10px; /* 리스트 항목과의 간격 조정 */
 }
 
 li {
@@ -188,17 +188,19 @@ li {
   align-items: center;
   justify-content: center;
 }
-button{
+
+button {
   background-color: #FF7315;
   border: 1px solid #FF7315;
   border-radius: 13px;
 }
 
-.buttontext{
+.buttontext {
   color: #f0f0f0;
   font-weight: bold;
   font-size: 14px;
 }
+
 .modal-content {
   background: white;
   padding: 20px;
@@ -220,6 +222,5 @@ button{
   display: block;
   margin: 5px 0;
 }
-
-
 </style>
+
