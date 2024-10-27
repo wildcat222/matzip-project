@@ -7,10 +7,12 @@
            :key="index"
            :style="{ backgroundColor: getRandomPastelColor() }"
            @click="goToListPage(item.listSeq)">
-        <div class="item-name">{{ item.listTitle }}</div>
-        <p>{{ item.userName }}</p>
-        <p>{{ item.listContent }}</p>
-        <p>좋아요: {{ item.listLike }}</p>
+        <div class="item-title">{{ item.listTitle }}</div>
+        <p class="user-nickname">{{ item.userNickname }}</p>
+        <p class="list-content">{{ item.listContent }}</p>
+        <div class="like-container">
+          <p class="list-like">Like: {{ item.listLike }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -73,13 +75,38 @@ const getRandomPastelColor = () => {
   border-radius: 4px;
   padding: 10px;
   text-align: left;
+  position: relative; /* 자식 요소를 위해 위치를 설정 */
 }
 
-.item-name {
+.item-title {
   font-weight: bold;
+  font-size: 25px;
 }
 
-.hot-list-items{
+.user-nickname {
+  margin: 0 0 20px 0;
+}
+
+.list-content {
+  display: -webkit-box; /* 기본 display 설정 */
+  -webkit-box-orient: vertical; /* 세로 방향으로 배치 */
+  -webkit-line-clamp: 5; /* 5줄로 제한 */
+  overflow: hidden; /* 넘치는 글자 숨기기 */
+  text-overflow: ellipsis; /* 넘칠 경우 ...으로 표시 */
+  margin: 0 0 10px 0; /* 아래쪽 여백 추가 */
+}
+
+.like-container {
+  position: absolute; /* 좋아요 컨테이너를 절대 위치로 설정 */
+  bottom: 10px; /* 아래쪽 여백 */
+  right: 10px; /* 오른쪽 여백 */
+}
+
+.list-like {
+  margin: 0; /* 기본 여백 제거 */
+}
+
+.hot-list-items {
   display: flex;
   width: 100%;
   border: 1px solid #ccc; /* 회색 테두리 추가 */
