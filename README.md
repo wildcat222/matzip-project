@@ -39,11 +39,11 @@
   <summary><strong> 로그인 </strong></summary>
   <h4> - 로그인 </h4>
 
-  ![login](assets/gifs/auth/Login2.gif)
+  ![login](assets/gifs/auth/login2.gif)
 
   <h4> - 로그아웃 </h4>
 
-  ![logout](assets/gifs/auth/Logout2.gif)
+  ![logout](assets/gifs/auth/logout2.gif)
 
   <h4> - 이메일 찾기 </h4>
 
