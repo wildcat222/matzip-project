@@ -3,10 +3,10 @@
     <div class="bg-primary-subtle ps-4">
       <span>사용자 관리 > 신고 > 신고 조회</span>
     </div>
-    <div class="p-3">
+    <div class="container p-3">
       <h1>신고 정보 목록</h1>
       <div class="search-bar">
-        <select v-model="category">
+        <select v-model="category" class="search-select">
           <option value="">카테고리</option>
           <option value="message">message</option>
           <option value="review">review</option>
@@ -14,16 +14,16 @@
           <option value="list">list</option>
           <option value="list_comment">list_comment</option>
         </select>
-        <input v-model="sequence" placeholder="일련번호" />
-        <input v-model="reporter" placeholder="신고자" />
-        <input v-model="reported" placeholder="피신고자" />
-        <select v-model="reportStatus">
+        <input v-model="sequence" placeholder="일련번호" class="search-input" />
+        <input v-model="reporter" placeholder="신고자" class="search-input" />
+        <input v-model="reported" placeholder="피신고자" class="search-input" />
+        <select v-model="reportStatus" class="search-select">
           <option value="">처리여부</option>
           <option value="wait">wait</option>
           <option value="penalty">penalty</option>
           <option value="none">none</option>
         </select>
-        <button @click="searchReports">조회</button>
+        <button @click="searchReports" class="search-button">조회</button>
       </div>
       <ReportTable
           :reports="reports"
@@ -71,7 +71,7 @@ const generateEndPoint = () => {
 // 보고서 조회 함수
 const fetchReports = async () => {
   try {
-    const response = await axios.get(`http://localhost:8000${generateEndPoint()}`, {
+    const response = await axios.get(`https://matzipapi.huichan.kr${generateEndPoint()}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
@@ -95,7 +95,7 @@ const fetchItemReports = async ({ category, sequence }) => {
   reports.value = []; // 이전 데이터 초기화
 
   try {
-    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/report?category=${category}&sequence=${sequence}`, {
+    const response = await axios.get(`${category}&sequence=${sequence}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
@@ -116,12 +116,84 @@ const changePage = (newPage) => {
 // 신고 처리 버튼 클릭 시 라우팅 처리
 const handleReportAction = (report) => {
   // 선택된 보고서 정보를 라우팅할 경로에 전달
-  router.push({ name: 'ReportHandling', params: { reportId: report.id } }); // ReportHandling 페이지로 라우팅
+  router.push({ name: 'ReportHandling', params: { reportId: report.id } });// ReportHandling 페이지로 라우팅
 };
 </script>
 
 <style scoped>
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .search-bar {
   margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.search-select,
+.search-input,
+.search-button {
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-select, .search-input {
+  flex: 1; /* 입력 필드가 가능한 공간을 차지하도록 설정 */
+}
+
+.search-button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.pagination-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #0056b3;
 }
 </style>

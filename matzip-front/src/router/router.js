@@ -72,7 +72,7 @@ const routes = [
 
             },
             {
-                path: 'penalty',
+                path: 'penalty-detail/:id',
                 name: 'ReportHandling',
                 component: () => import('@/views/admin/admin-views/PenaltyDetail.vue')
             },

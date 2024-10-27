@@ -3,10 +3,10 @@
     <div class="bg-primary-subtle ps-4">
       <span>사용자 관리 > 신고 > 신고 사유 목록</span>
     </div>
-    <div class="p-3">
+    <div class="container p-3">
       <h1>신고 사유 목록</h1>
-      <button @click="addReportReason">사유 추가</button>
-      <table>
+      <button @click="addReportReason" class="add-button">사유 추가</button>
+      <table class="report-table">
         <thead>
         <tr>
           <th>순서</th>
@@ -21,26 +21,29 @@
           <td>{{ reportReason.reasonOrder }}</td>
           <td>
             <span v-if="!reportReason.isEditing">{{ reportReason.reasonName }}</span>
-            <input v-else v-model="reportReason.newReasonName" />
+            <input v-else v-model="reportReason.newReasonName" class="edit-input" />
           </td>
           <td>
-            <button @click="changeOrder(reportReason, 'up')">▲</button>
-            <button @click="changeOrder(reportReason, 'down')">▼</button>
+            <button @click="changeOrder(reportReason, 'up')" class="order-button">▲</button>
+            <button @click="changeOrder(reportReason, 'down')" class="order-button">▼</button>
           </td>
           <td>
-            <button @click="toggleEdit(reportReason)">{{ reportReason.isEditing ? '완료' : '수정' }}</button>
+            <button @click="toggleEdit(reportReason)" class="edit-button">
+              {{ reportReason.isEditing ? '완료' : '수정' }}
+            </button>
           </td>
           <td>
-            <button @click="deleteReportReason(reportReason)">삭제</button>
+            <button @click="deleteReportReason(reportReason)" class="delete-button">삭제</button>
           </td>
         </tr>
         <tr v-if="newReportReason.isVisible">
           <td></td>
-          <td>{{ nextOrder }}</td>
-          <td><input v-model="newReportReason.name" /></td>
+          <td>
+            <input v-model="newReportReason.name" class="new-input" placeholder="신고 사유 입력" />
+          </td>
           <td></td>
           <td>
-            <button @click="saveNewReportReason">완료</button>
+            <button @click="saveNewReportReason" class="save-button">완료</button>
           </td>
           <td></td>
         </tr>
@@ -55,7 +58,6 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const reportReasons = ref([]);
-const selectAll = ref(false);
 const newReportReason = ref({ isVisible: false, name: '' });
 const nextOrder = ref(1); // 다음 순서 번호
 
@@ -85,12 +87,6 @@ const fetchReportReasons = async () => {
 
 const updateNextOrder = () => {
   nextOrder.value = reportReasons.value.length > 0 ? Math.max(...reportReasons.value.map(r => r.reasonOrder)) + 1 : 1; // 다음 순서 업데이트
-};
-
-const toggleSelectAll = () => {
-  reportReasons.value.forEach(reason => {
-    reason.selected = selectAll.value;
-  });
 };
 
 const addReportReason = () => {
@@ -169,13 +165,6 @@ const deleteReportReason = async (reason) => {
   }
 };
 
-const deleteSelected = async () => {
-  const selectedReasons = reportReasons.value.filter(reason => reason.selected);
-  for (const reason of selectedReasons) {
-    await deleteReportReason(reason); // 각 선택된 신고 사유 삭제
-  }
-};
-
 const saveNewReportReason = async () => {
   try {
     const response = await axios.post('https://matzipapi.huichan.kr/back/api/v1/report/reason', {
@@ -205,18 +194,94 @@ const saveNewReportReason = async () => {
 </script>
 
 <style scoped>
-table {
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-button {
+  margin-bottom: 20px;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+.report-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
   text-align: center;
 }
 
 th {
   background-color: #f2f2f2;
+}
+
+.edit-input,
+.new-input {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.order-button,
+.edit-button,
+.delete-button,
+.save-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.order-button {
+  background-color: #ffc107;
+  color: black;
+}
+
+.order-button:hover {
+  background-color: #e0a800;
+}
+
+.edit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.save-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
 }
 </style>
