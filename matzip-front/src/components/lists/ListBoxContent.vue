@@ -1,4 +1,7 @@
 <template class="container">
+  <div class="box">
+
+
   <div class="list-detail-matzip">
     <h4 class="nickname">
       <div class="nickname-text">
@@ -51,6 +54,7 @@
     </div>
 
     <p v-if="successMessage">{{ successMessage }}</p>
+  </div>
   </div>
 </template>
 
@@ -119,18 +123,28 @@ const createList = async () => {
 </script>
 
 <style scoped>
+
+.box{
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
 .container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+  background-color: #f0f0f0; /* Optional: Background color for better visibility */
 }
 
 .list-detail-matzip {
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 13px; /* Update to 13px */
+  border: 1px solid #ccc; /* Add border */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2); /* Update shadow for more depth */
   padding: 16px;
   margin: 16px;
   max-width: 600px;
-  margin-left: 0;
-  margin-right: auto;
 }
 
 .nickname {
@@ -141,7 +155,7 @@ const createList = async () => {
 }
 
 .nickname-text {
-  padding: 25px 0 0 0;
+  padding: 25px 0 0 35px;
   font-size: 32px;
   font-weight: bold;
 }
