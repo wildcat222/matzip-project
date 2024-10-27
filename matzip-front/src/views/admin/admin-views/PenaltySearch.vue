@@ -3,18 +3,18 @@
     <div class="bg-primary-subtle ps-4">
       <span>사용자 관리 > 패널티 > 패널티 관리 </span>
     </div>
-    <div class="p-3">
+    <div class="container p-3">
       <h1>패널티 정보 목록</h1>
       <div class="filters">
-        <select v-model="filter.type">
+        <select v-model="filter.type" class="filter-select">
           <option value="">패널티 타입</option>
           <option value="ban">ban</option>
           <option value="permanent">permanent</option>
         </select>
-        <input v-model="filter.reason" placeholder="패널티 사유" />
-        <button @click="fetchData">조회</button>
+        <input v-model="filter.reason" placeholder="패널티 사유" class="filter-input" />
+        <button @click="fetchData" class="submit-button">조회</button>
       </div>
-      <table>
+      <table class="data-table">
         <thead>
         <tr>
           <th>패널티 번호</th>
@@ -34,34 +34,33 @@
           <td>{{ item.penaltyReasonContent }}</td>
           <td>{{ item.penaltyStartDate }}</td>
           <td>{{ item.penaltyEndDate }}</td>
-          <td><button @click="viewDetails(item.penaltySeq)">조회</button></td>
+          <td><button @click="viewDetails(item.penaltySeq)" class="detail-button">조회</button></td>
         </tr>
         </tbody>
       </table>
       <div class="pagination">
-        <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1">이전</button>
+        <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" class="pagination-button">이전</button>
         <span>{{ currentPage }} / {{ totalPages }}</span>
-        <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">다음</button>
+        <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages" class="pagination-button">다음</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import {ref, computed, onMounted} from 'vue';
+import {useRouter} from 'vue-router';
 import axios from 'axios';
 
+const router = useRouter();
 const data = ref([]);
 const currentPage = ref(1);
 const itemsPerPage = 10;
 const totalPages = ref(1);
-const filter = ref({ state: '', type: '', reason: '' }); // 패널티 사유로 필터 추가
+const filter = ref({state: '', type: '', reason: ''});
 
 const fetchData = async () => {
-  // 기본 엔드포인트
   let endpoint = 'https://matzipapi.huichan.kr/back/api/v1/penalty?';
-
-  // 조건에 따라 쿼리 파라미터 추가
   const params = [];
   if (filter.value.state) {
     params.push(`penaltyStatus=${filter.value.state}`);
@@ -69,36 +68,30 @@ const fetchData = async () => {
   if (filter.value.type) {
     params.push(`penaltyType=${filter.value.type}`);
   }
-  if (filter.value.reason) { // 패널티 사유로 검색
+  if (filter.value.reason) {
     params.push(`penaltyReasonContent=${filter.value.reason}`);
   }
-
-  // 페이지 및 사이즈 추가
   params.push(`page=${currentPage.value}`);
   params.push(`size=${itemsPerPage}`);
 
-  // 쿼리 파라미터를 URL에 추가
   endpoint += params.join('&');
-
-  // URL 로그
   console.log('Request URL:', endpoint);
 
   try {
     const response = await axios.get(endpoint, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 인증 토큰 추가
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
       }
     });
-    data.value = response.data.penalties; // 서버에서 받은 데이터
-    totalPages.value = Math.ceil(response.data.totalPenalties / itemsPerPage); // 총 페이지 수 계산
+    data.value = response.data.penalties;
+    totalPages.value = Math.ceil(response.data.totalPenalties / itemsPerPage);
   } catch (error) {
     console.error('데이터 로드 중 오류 발생:', error);
   }
 };
 
 const viewDetails = (id) => {
-  // 상세 조회 로직
-  console.log('상세 조회 ID:', id);
+  router.push(`/admin/penalty-detail/${id}`);
 };
 
 const changePage = (page) => {
@@ -107,16 +100,14 @@ const changePage = (page) => {
   fetchData();
 };
 
-// 계산된 속성: 현재 페이지의 데이터
 const paginatedData = computed(() => {
   if (!data.value || data.value.length === 0) {
-    return []; // 데이터가 없을 경우 빈 배열 반환
+    return [];
   }
   const start = (currentPage.value - 1) * itemsPerPage;
   return data.value.slice(start, start + itemsPerPage);
 });
 
-// 컴포넌트가 mounted될 때 기본 조회
 onMounted(() => {
   fetchData();
 });
@@ -125,24 +116,84 @@ onMounted(() => {
 <style scoped>
 .container {
   padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .filters {
   margin-bottom: 20px;
 }
 
-table {
+.filter-select,
+.filter-input,
+.submit-button {
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+.data-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
   text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
 }
 
 .pagination {
   margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination-button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.pagination-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.detail-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.detail-button:hover {
+  background-color: #218838;
 }
 </style>
