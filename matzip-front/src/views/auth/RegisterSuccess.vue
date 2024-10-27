@@ -1,6 +1,13 @@
 <script setup>
 import Logo from '@/components/common/Logo.vue';
 import Button from '@/components/auth/Button.vue';
+import {useRouter} from "vue-router";
+
+const router = useRouter();
+
+const goToLogin = () => {
+  router.push('/login');
+};
 </script>
 
 <template>
@@ -10,7 +17,7 @@ import Button from '@/components/auth/Button.vue';
     <h1>환영합니다!</h1>
     <p>다양한 맛집 소식을 만들어주세요.</p>
 
-    <Button label="로그인" width="150px" height="45px" />
+    <Button label="로그인" width="150px" height="45px" @click="goToLogin"/>
   </div>
 </template>
 
