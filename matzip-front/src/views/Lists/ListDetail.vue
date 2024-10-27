@@ -5,6 +5,7 @@ import axios from 'axios';
 import ListDetailContent from '@/components/lists/ListDetailContent.vue';
 import ListDetailMatzip from '@/components/lists/ListDetailMatzip.vue';
 import ListDetailCmt from '@/components/lists/ListDetailCmt.vue';
+import ListDetailMap from "@/components/lists/ListDetailMap.vue";
 
 const route = useRoute();
 const listData = ref(null);
@@ -117,26 +118,27 @@ onMounted(fetchData);
       <p v-if="errorMessage">{{ errorMessage }}</p>
       <p v-if="!listData && !errorMessage">데이터를 불러오는 중입니다...</p>
     </div>
-    <div class="map"></div>
+    <div class="map">
+      <ListDetailMap
+        v-if="listData"
+        :restaurants="listData.restaurants"
+      />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.app {
-  display: flex;
-}
-
 .detail-content {
+  justify-content: space-between;
   display: flex;
   gap: 20px;
   /* 화면 왼쪽에 위치시키기 위해 flex-direction을 column으로 설정 */
 }
 
 .left-sideBox, .right-sideBox {
-  flex: 1; /* 두 박스가 동일한 너비를 가지도록 설정 */
   margin: 20px 0 30px 0;
   min-width: 300px; /* 최소 너비 설정 */
-  max-width: 440px; /* 최대 너비 설정 (필요에 따라 조정 가능) */
+  max-width: 400px; /* 최대 너비 설정 (필요에 따라 조정 가능) */
   overflow: hidden; /* 넘치는 내용 숨기기 */
   text-overflow: ellipsis; /* 넘치는 내용에 대해 ... 표시 */
   white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 설정 */
@@ -153,6 +155,8 @@ onMounted(fetchData);
   background: #fff;
   padding: 0.1px 20px 0.1px 20px;
   border-radius: 13px;
+  max-height: 75vh;
+  overflow: auto;
 }
 
 .list-detail-matzip {
@@ -168,8 +172,8 @@ onMounted(fetchData);
 
 .map {
   background: linear-gradient(to bottom, #f0f0f0, #ffffff); /* 그라데이션 설정 */
-  height: 100vh; /* 화면 전체 높이 설정 */
-  width: 100vw; /* 화면 전체 너비 설정 */
+  height: 100%; /* 화면 전체 높이 설정 */
+  width: 100%; /* 화면 전체 너비 설정 */
   position: absolute; /* 절대 위치 설정 */
   top: 0;
   left: 0;
