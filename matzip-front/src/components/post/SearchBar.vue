@@ -42,7 +42,6 @@ const emitSearch = () => {
             placeholder="닉네임을 입력하세요"
         />
 
-
         <button class="search-button" @click="emitSearch">
           🔍
         </button>
@@ -56,20 +55,20 @@ const emitSearch = () => {
 .search-container {
   display: flex;
   justify-content: center; /* 중앙 정렬 */
-  margin-top: 50px; /* 위쪽 여백 */
+  margin-top: 50px;
 }
 
 .search-bar {
   display: flex;
-  border: 1px solid #ccc; /* 전체 사각형 테두리 */
-  border-radius: 5px; /* 둥글게 */
+  border: 1px solid #ccc;
+  border-radius: 5px;
   overflow: hidden; /* 자식 요소가 넘치지 않도록 */
-  max-width: 450px; /* 최대 너비를 400px로 설정 */
-  width: 100%; /* 너비를 100%로 설정하여 반응형으로 */
+  max-width: 450px;
+  width: 100%;
 }
 
 select {
-  border: none; /* 기본 테두리 없애기 */
+  border: none;
   padding: 10px 25px;
   font-size: 16px;
 }
@@ -77,14 +76,14 @@ select {
 .input-container {
   display: flex;
   align-items: center;
-  border-left: 1px solid #ccc; /* 회색 줄 */
+  border-left: 1px solid #ccc;
   flex-grow: 1; /* 입력 필드가 가능한 만큼 길어짐 */
 }
 
 input {
-  flex-grow: 1; /* 입력 필드가 가능한 만큼 길어짐 */
+  flex-grow: 1;
   padding: 10px;
-  border: none; /* 기본 테두리 없애기 */
+  border: none;
   font-size: 16px;
 }
 
@@ -93,15 +92,15 @@ input:focus {
 }
 
 .search-button {
-  background-color: transparent; /* 투명 배경 */
-  border: none; /* 기본 테두리 없애기 */
+  background-color: transparent;
+  border: none;
   cursor: pointer;
-  padding: 10px; /* 버튼 여백 */
-  font-size: 18px; /* 버튼 크기 */
+  padding: 10px;
+  font-size: 18px;
 }
 
 .search-button:hover {
-  color: #ff6f20; /* 호버 시 색상 변경 */
+  color: #ff6f20;
 }
 
 </style>

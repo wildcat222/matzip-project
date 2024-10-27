@@ -73,7 +73,7 @@ const isUserPostOwner = computed(() => Number(userSeq) === Number(post.postUserS
 
 // 게시글 수정 페이지로 이동
 const editPost = () => {
-  router.push(`/user/${postId}/edit`);
+  router.push(`/user/post/${postId}/edit`);
 }
 
 // 게시글 삭제
@@ -119,8 +119,6 @@ onMounted(async () => {
   const images = document.querySelectorAll('.article_container img');
   console.log('Images:', images); // 이미지 확인
 });
-
-
 </script>
 
 <template>
@@ -131,11 +129,9 @@ onMounted(async () => {
         :isUserPostOwner="isUserPostOwner"
         @comment-submitted="fetchPostDetail"
         @delete-post="deletePost"
+        @edit-post="editPost"
     />
   </div>
 
 </template>
 
-<style scoped>
-
-</style>

@@ -6,7 +6,7 @@
 
     <!--     맵 & 인기태그-->
     <div class="main-map">
-      <current-map />
+      <current-map :restaurants="stateRestaurant.restaurants"/>
       <hot-tag :tags="tags" />
     </div>
 
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import axios from 'axios';
 import HotTag from '@/components/main/HotTag.vue';
 import CurrentMap from '@/components/main/CurrentMap.vue';
@@ -37,6 +37,24 @@ const errorMessage = ref(null);
 const hotListItem = ref([]);
 //게시판 배열 선언
 const boards = ref([]);
+
+const stateRestaurant = reactive({
+  restaurants: []
+})
+
+const fetchRestaurant = async () => {
+  try {
+    const response = await axios.get(`https://matzipapi.huichan.kr/back/api/v1/restaurant`, {
+      params: {
+        page: 1,
+        size: 100
+      }
+    });
+    stateRestaurant.restaurants = response.data.restaurants;
+  } catch (error) {
+    console.error(`음식점 목록 불러오기 실패!`, error);
+  }
+}
 
 
 // 인기 태그 마운트 될때 데이터 가져오기
@@ -98,8 +116,10 @@ onMounted(async () =>{
     console.error('데이터 가져오기 실패:', error);
     errorMessage.value = error.response ? error.response.data.message : error.message; // 에러메세지 저장
   }
-});
 
+  fetchRestaurant();
+
+});
 
 </script>
 

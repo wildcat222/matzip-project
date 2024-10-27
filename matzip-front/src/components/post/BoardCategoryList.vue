@@ -9,7 +9,6 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 
-// props로 데이터 받기
 const props = defineProps({
   boards: {
     type: Array,

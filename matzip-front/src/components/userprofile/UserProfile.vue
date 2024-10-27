@@ -1,7 +1,7 @@
 <script setup>
 import ElementBox from "@/components/userprofile/ElementBox.vue";
 import FollowerInfo from "@/components/userprofile/FollowerInfo.vue";
-import {computed, ref} from 'vue';
+import {computed, ref, watch} from 'vue';
 import {defineProps} from 'vue';
 import {useAuthStore} from "@/components/stores/auth.js";
 import followerInfo from "@/components/userprofile/FollowerInfo.vue";
@@ -28,9 +28,10 @@ const navigateTo = (route) => {
 };
 
 // view 로 부터 정보 받아옴
-const userInfo = defineProps({
+const props = defineProps({
   userData: {
     type: Object,
+    default: () => ({}),
     required: true,
   },
 });
@@ -39,29 +40,35 @@ const userInfo = defineProps({
 
 // Props 로 전달받은 데이터에서 속성 값 추출
 const infoUserSeq = computed(() => {
-  return userInfo.userData ? userInfo.userData.userSeq : null;
+  return props.userData ? props.userData.userSeq : null;
 });
 
 // true 일 경우 본인 프로필
 const isMyProfile = ref(false);
 // 현재 authStore 가 계속 null?
-if (authStore.userSeq === infoUserSeq.value) {
+if (authStore.userSeq === infoUserSeq) {
   isMyProfile.value = !isMyProfile.value;
 }
 
 // 회원 닉네임
-const userNickName = computed(() => {
-  return userInfo.userData ? userInfo.userData.userNickname : null;
-});
+// const userNickName = computed(() => {
+//   return userInfo.userData ? userInfo.userData.userNickname : null;
+// });
 
 // 데이터 확인용 코드
-const activityInfo = computed(() => {
-  return userInfo.userData ? userInfo.userData.activityInfo : null;
-});
+// const activityInfo = computed(() => {
+//   return userInfo.userData ? userInfo.userData.activityInfo : null;
+// });
 
 // 활동 포인트
+// const activityPoint = computed(() => {
+//   return userInfo.userData && userInfo.userData.activityInfo
+//       ? userInfo.userData.activityInfo.activityPoint
+//       : null;
+// });
+
 const activityPoint = computed(() => {
-  return userInfo.userData ? userInfo.userData.activityInfo.activityPoint : null;
+  return props.userData ? props.userData.activityInfo.activityPoint : null;
 });
 
 // 등급 포인트 계산
@@ -84,13 +91,13 @@ function remainCalc() {
 remainCalc()
 
 // 등급 이름
-const activeLevelName = computed(() => {
-  return userInfo.userData ? userInfo.userData.activityInfo.activeLevelName : null;
-});
+// const activeLevelName = computed(() => {
+//   return userInfo.userData ? userInfo.userData.activityInfo.activeLevelName : null;
+// });
 
 // 인기 회원 확인
 const influencerYn = computed(() => {
-  return userInfo.userData ? userInfo.userData.activityInfo.influencerYn : null;
+  return props.userData ? props.userData.activityInfo.influencerYn : null;
 });
 
 const isInfluencer = ref(false);
@@ -99,17 +106,17 @@ if (influencerYn.value === 'Y') {
 }
 
 // 리뷰, 팔로잉, 팔로워 Count
-const reviewCount =  computed(() => {
-  return userInfo.userData ? userInfo.userData.reviewCount : null;
-});
+// const reviewCount =  computed(() => {
+//   return userInfo.userData ? userInfo.userData.reviewCount : null;
+// });
 
-const followingCount =  computed(() => {
-  return userInfo.userData ? userInfo.userData.followingCount : null;
-});
+// const followingCount =  computed(() => {
+//   return userInfo.userData ? userInfo.userData.followingCount : null;
+// });
 
-const followerCount =  computed(() => {
-  return userInfo.userData ? userInfo.userData.followerCount : null;
-});
+// const followerCount =  computed(() => {
+//   return userInfo.userData ? userInfo.userData.followerCount : null;
+// });
 
 // 팔로우 버튼 클릭 시 이벤트 발생 -> 부모 컴포넌트로 이벤트 전달
 const emit = defineEmits();
@@ -152,16 +159,17 @@ const isVisibleFollow = () => {
     </div>
 
     <section class="level">
-      <br>
-      <span>포인트 : {{ activityPoint }}</span>
+
+      <span>포인트 : {{ userData.activityInfo.activityPoint }}</span>
+
       <br>
       <span>다음 레벨까지 : {{ remainingPoint }}</span>
     </section>
 
     <section class="user-nickname">
-      <i>{{ activeLevelName }}</i><br>
+      <i>{{ userData.activityInfo.activeLevelName }}</i><br>
 
-      <div>{{ userNickName }}</div>
+      <div>{{ userData.userNickName }}</div>
 
       <!-- 아이콘 미정 -->
       <div v-if="!isInfluencer" id="influencer-icon">
@@ -184,7 +192,7 @@ const isVisibleFollow = () => {
 
         <div>
           <!--<span>{{ userInfo.value.listCount }}</span> -->
-          <span>{{ reviewCount }}</span>
+          <span>{{ userData.reviewCount }}</span>
           <span>개</span>
         </div>
       </div>
@@ -196,7 +204,7 @@ const isVisibleFollow = () => {
 
         <div>
           <div @click="isVisibleFollow" class="followerBtn">
-            <span>{{ followingCount }}</span>
+            <span>{{ userData.followingCount }}</span>
           </div>
         </div>
 
@@ -208,7 +216,7 @@ const isVisibleFollow = () => {
 
         <div>
           <div @click="isVisibleFollow" class="followerBtn">
-            <span>{{ followerCount }}</span>
+            <span>{{ userData.followerCount }}</span>
           </div>
         </div>
       </div>
