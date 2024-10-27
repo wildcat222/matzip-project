@@ -8,8 +8,9 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 function checkUserRole() {
-  if (authStore.userRole !== 'admin') router.push('/admin');
-  else if (authStore.userRole !== 'user') router.push(`/user/${authStore.userSeq}`);
+  console.log(authStore.userRole);
+  if (authStore.userRole.includes('admin')) router.push('/admin');
+  else if (authStore.userRole.includes('user')) router.push(`/user/${authStore.userSeq}`);
   else {
     router.push('/login');
   }

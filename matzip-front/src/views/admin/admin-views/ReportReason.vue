@@ -116,7 +116,7 @@ const changeOrder = async (reason, direction) => {
 
   // 순서 변경 시 서버에 PUT 요청
   try {
-    await axios.put(`${reason.reasonSeq}/order`, {
+    await axios.put(`https://matzipapi.huichan.kr/back/api/v1/report/reason/${reason.reasonSeq}/order`, {
       reasonOrder: reason.reasonOrder // 새로운 순서를 요청 본문에 담아 전송
     }, {
       headers: {
@@ -132,7 +132,7 @@ const changeOrder = async (reason, direction) => {
 const toggleEdit = async (reason) => {
   if (reason.isEditing) {
     try {
-      const response = await axios.put(`${reason.reasonSeq}/name`, {
+      const response = await axios.put(`https://matzipapi.huichan.kr/back/api/v1/report/reason/${reason.reasonSeq}/name`, {
         reasonName: reason.newReasonName // 수정할 이름을 요청 본문에 담아 전송
       }, {
         headers: {
@@ -152,7 +152,7 @@ const toggleEdit = async (reason) => {
 const deleteReportReason = async (reason) => {
   const index = reportReasons.value.indexOf(reason);
   try {
-    await axios.delete(`${reason.reasonSeq}`, {
+    await axios.delete(`https://matzipapi.huichan.kr/back/api/v1/report/reason/${reason.reasonSeq}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('accessToken')}` // 인증 헤더 추가
       }
