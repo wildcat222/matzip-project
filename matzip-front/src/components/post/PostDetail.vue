@@ -12,7 +12,7 @@
           <h2 class="title_text">{{ post.postTitle }}</h2>   <!-- 게시글 제목 -->
           <div class="ArticleTool">
             <div>{{ post.likeCount }}</div>
-            <div @click="toggleMenu" class="menu-toggle">
+            <div v-if="isUserPostOwner" @click="toggleMenu" class="menu-toggle">
               <i class="fas fa-ellipsis-v"></i>
             </div>
           </div>
@@ -79,6 +79,15 @@
       </div>
     </div>
 
+    <div v-if="isModalVisible" class="modal">
+      <div class="modal-content">
+        <h4>더보기</h4>
+        <button @click="editPost">게시글 수정</button>
+        <button @click="deletePostHandler">게시글 삭제</button>
+        <button @click="closeModal">닫기</button>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -103,7 +112,24 @@ const props = defineProps({
 });
 
 const newComment = ref(''); // 댓글 입력값을 위한 상태
-const emit = defineEmits(['comment-submitted']);
+const emit = defineEmits(['comment-submitted', 'delete-post']);
+const isModalVisible = ref(false); // 모달 가시성 상태
+
+// 모달
+const toggleMenu = () => {
+  isModalVisible.value = !isModalVisible.value;
+};
+
+// 모달 닫기
+const closeModal = () => {
+  isModalVisible.value = false;
+};
+
+// 게시글 삭제 클릭시
+const deletePostHandler = () => {
+  closeModal(); // 모달 닫기
+  emit('delete-post'); // 부모에게 delete-post 이벤트 emit
+};
 
 // 댓글 필터링 (반환된 댓글 배열 length가 1인데 실제로는 댓글이 없는 경우를 걸러내기 위함)
 const filteredComments = computed(() => {
@@ -133,9 +159,36 @@ const submitComment = async () => {
     console.error('댓글 등록 중 오류가 발생했습니다:', error);
   }
 };
+
+
+
 </script>
 
 <style scoped>
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  width: 300px; /* 너비를 설정 */
+  max-width: 80%; /* 반응형을 위해 최대 너비를 설정 */
+  height: auto; /* 높이는 자동으로 조절 */
+}
+
 .boardCategory {
   margin-top: 50px;
   background-color: #FD9976;

@@ -1,11 +1,12 @@
 <script setup>
 import { reactive, onMounted, nextTick, computed } from "vue";
 import axios from "axios";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import PostDetail from "@/components/post/PostDetail.vue";
 
 // 상태 관리
 const route = useRoute();
+const router = useRouter();
 const post = reactive({
   boardCategoryName: '',
   postUserSeq: null,
@@ -68,7 +69,7 @@ const fetchPostDetail = async () => {
 };
 
 const userSeq = getUserSeqFromToken();
-const isUserPostOwner = computed(() => userSeq === post.postUserSeq);
+const isUserPostOwner = computed(() => Number(userSeq) === Number(post.postUserSeq));
 
 // 게시글 수정 페이지로 이동
 const editPost = () => {
@@ -79,11 +80,11 @@ const editPost = () => {
 const deletePost = async () => {
   if (confirm('정말로 게시글을 삭제하시겠습니까?')) {
     try {
-      await axios.delete(`https://matzipapi.huichan.kr/back/api/v1/posts/${postId}`), {
+      await axios.delete(`https://matzipapi.huichan.kr/back/api/v1/posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
-      };
+      });
       alert('게시글이 삭제되었습니다.');
       router.push('/user/post');
     } catch (error) {
@@ -112,8 +113,9 @@ const reportPost = async () => {
 };
 
 // 페이지가 로드될 때 API 호출
-onMounted(() => {
-  fetchPostDetail();
+onMounted(async () => {
+  await fetchPostDetail(); // 데이터 로드 후 대기
+  console.log('게시글작성자인지확인: ', post.postUserSeq, isUserPostOwner.value); // 계산된 값 출력
   const images = document.querySelectorAll('.article_container img');
   console.log('Images:', images); // 이미지 확인
 });
@@ -128,6 +130,7 @@ onMounted(() => {
         :postId="postId"
         :isUserPostOwner="isUserPostOwner"
         @comment-submitted="fetchPostDetail"
+        @delete-post="deletePost"
     />
   </div>
 
