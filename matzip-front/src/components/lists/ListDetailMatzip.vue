@@ -147,8 +147,10 @@ onMounted(() => {
 
 .list-detail-matzip {
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #ddd;
+  border-radius: 13px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 ul {
