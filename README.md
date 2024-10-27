@@ -39,7 +39,7 @@
   
   <h4> - 메인화면 -> 전체 리스트 </h4>
 
-  ![MainHome-List.gif](assets/gifs/main/MainHome-List.gif)
+  ![MainHome-ListAll.gif](assets/gifs/main/MainHome-ListAll.gif)
 
   <h4> - 메인화면 -> 게시판 </h4>
 
