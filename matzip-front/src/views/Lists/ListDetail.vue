@@ -96,11 +96,11 @@ onMounted(fetchData);
               :comments="comments"
           />
           <div class="comment-section">
-            <input v-model="userComment" placeholder="댓글을 입력하세요..."/>
+            <input v-model="userComment" placeholder=" 댓글을 입력하세요..."/>
             <button @click="addComment">
               <div class="Cmttext">
-                댓글 등록
-                   </div>
+                 댓글 등록
+              </div>
             </button> <!-- 댓글 등록 버튼 추가 -->
           </div>
         </div>
@@ -125,48 +125,68 @@ onMounted(fetchData);
   display: flex;
 }
 
-.list-detail-content{
+.detail-content {
+  display: flex;
+  gap: 20px;
+  /* 화면 왼쪽에 위치시키기 위해 flex-direction을 column으로 설정 */
+}
+
+.left-sideBox, .right-sideBox {
+  flex: 1; /* 두 박스가 동일한 너비를 가지도록 설정 */
+  margin: 20px 0 30px 0;
+  min-width: 300px; /* 최소 너비 설정 */
+  max-width: 440px; /* 최대 너비 설정 (필요에 따라 조정 가능) */
+  overflow: hidden; /* 넘치는 내용 숨기기 */
+  text-overflow: ellipsis; /* 넘치는 내용에 대해 ... 표시 */
+  white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 설정 */
+}
+
+.left-sideBox{
+  border: 1px solid #ddd;
+  border-radius: 13px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.list-detail-content {
   background: #fff;
   padding: 0.1px 20px 0.1px 20px;
   border-radius: 13px;
 }
 
-.list-detail-matzip{
+.list-detail-matzip {
   background: #fff;
   border-radius: 13px;
 }
 
-.detail-content {
-  display: flex;
-  gap: 20px;
-}
 .comment-section {
-  margin-top: 20px; /* 댓글 입력 영역에 여백 추가 */
+  margin: 20px 0 20px 0; /* 댓글 입력 영역에 여백 추가 */
+  display: flex;
+  justify-content: center;
 }
+
 .map {
   background-color: #333333;
   height: 1200px;
-  width:2000px;
+  width: 2000px;
   position: absolute;
   top: 0;
   left: 0;
   z-index: -5;
 }
 
-input{
-
+input {
   border: 1px solid #FF7315;
   border-radius: 13px;
 }
 
-button{
+button {
   background-color: #FF7315;
   border: 1px solid #FF7315;
   border-radius: 13px;
 }
-i
-.Cmttext{
-  color: #f0f0f0;
 
+.Cmttext {
+  color: #f0f0f0;
 }
 </style>
