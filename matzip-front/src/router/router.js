@@ -30,7 +30,7 @@ const routes = [
             // 모든리스트 조회 라우팅
             { path: 'listAll', name: 'ListAll', component: ListAll },
             // 리스트 g
-            { path: "list/detail/:listSeq",  meta: { requiresAuth: true }
+            { path: "list/detail/:listSeq"
                 , component: () =>import("@/views/Lists/ListDetail.vue") },
             // 리스트 다른 사람 서랍 조회
             { path: 'listbox/:listUserSeq', component: () => import("@/views/Lists/ListBox.vue")},
@@ -47,12 +47,6 @@ const routes = [
 
         ]
     },
-    // { path: "/auth/find-email", component: () => import("@/views/auth/FindEmail.vue") },
-    // { path: "/auth/find-password", component: () => import("@/views/auth/FindPassword.vue") },
-    // { path: "/auth/reset-password", component: () => import("@/views/auth/ResetPassword.vue") },
-    // { path: "/post/create", component: () => import("@/views/post/PostCreate.vue")},
-    // { path: "/review", component: () => import("@/views/review/Review.vue") },
-    // { path: "/review/detail", component: () => import("@/views/review/Detail.vue") },
     {
         path: "/admin",
         component: AdminBaseView,
@@ -79,10 +73,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => { //라우팅 하려고하는곳, 하기전, 한후
     const authStore = useAuthStore();
     const userSeq = authStore.userSeq; // authStore에서 userSeq 값을 가져옴
-    // console.log(userSeq);
-    // console.log(authStore)
-    // console.log(authStore.accessToken)
-    // console.log(!authStore.accessToken)
 
     // 인증이 필요한 페이지에 접근할 때
     if (to.meta.requiresAuth && !authStore.accessToken) {
